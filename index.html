@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cafferium • Cafetería de Especialidad & Panadería Artesanal | Mazatlán</title>
+  
+  <!-- SEO & Social Meta Tags -->
+  <meta name="description" content="Cafetería de especialidad y panadería de masa madre en Mazatlán, Sinaloa. Café mexicano de altura, repostería artesanal, libros y un refugio cultural en Centro Histórico y Torre Central.">
+  <meta name="keywords" content="Cafferium, cafe de especialidad, Mazatlan, panaderia artesanal, masa madre, Centro Historico Mazatlan, Torre Central, brunch Mazatlan, specialty coffee">
+  <meta name="author" content="Cafferium Mazatlán">
+  <meta property="og:title" content="Cafferium • Cafetería de Especialidad & Panadería Artesanal | Mazatlán">
+  <meta property="og:description" content="Café de especialidad de origen mexicano, panadería horneada a diario con masa madre y un santuario cultural fresco en Mazatlán.">
+  <meta property="og:image" content="https://lh3.googleusercontent.com/aida-public/AB6AXuDnimzW5-Vl9z-JwuwNiVGagqek2Mc2_Oq2EqswWJz6b9KpXipzNAYnrlIDUzkxR02lSDwUZ9WgPzKsJYAH_LE8Mc3LVvmFAiqkYrcZab8qFcYS7IiRpQMZq6vJ52YUH8eef-JN-LGERzTxDya-GVA0mcFy0mN9t4Pp_WAEfxy0DIzCpP5CSdpfjONxVlo8foHF76AkojIiJJHZ2Kmu7sUGvPkZlDSj5ylYGQPbJCdCT4DLhInttBN2">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       HEADER & TOP ANNOUNCEMENT
+       ========================================================================= -->
+  <header class="site-header" id="siteHeader">
+    <div class="top-bar">
+      <span class="dot"></span>
+      <span>☕ <strong>4.7★</strong> en más de 669 reseñas en Google • Centro Histórico & Torre Central</span>
+    </div>
+
+    <div class="container nav-container">
+      <!-- Brand Logo -->
+      <a href="#" class="brand-logo-link" aria-label="Cafferium Inicio">
+        <img 
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA2zNKUDj0zruH5BoL0iuZB9VQyJoKKj-vtMAaFRKph8yo-4MlGWyBPkhYZPeYms8pIExYxF5Dkf8tKz61IRf2nAAXRXHD5DG2MTtcjSh6Fb94ugo80JTlgpmoUDinpmg9u1xT4n2A6taWXTfHaiYLCLGWu2R0k6r53-EQ3-ssuqcQVYFGMnRynmKzBQDal-aNgKH7QqZ4gKYfPhiCktTOhR4ADi8ujPjUc-e6mzT9LykhQYYlkOCaZCbeZ7tsyaKXfQ" 
+          alt="Cafferium Sello Poseidón y Laurel" 
+          class="brand-logo-img"
+          width="44"
+          height="44"
+        >
+        <div>
+          <span class="brand-title">CAFFERIUM</span>
+          <span class="brand-subtitle block">Cafetería • Panadería • Arte</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="desktop-nav" aria-label="Navegación Principal">
+        <a href="#esencia" class="nav-link">Nuestra Esencia</a>
+        <a href="#menu-destacado" class="nav-link">Menú de Especialidad</a>
+        <a href="#resenas" class="nav-link">Reseñas</a>
+        <a href="#sucursales" class="nav-link">Sucursales</a>
+      </nav>
+
+      <!-- Nav Actions (Call & Menu Toggle) -->
+      <div class="nav-actions">
+        <a href="tel:6691054810" class="icon-btn" aria-label="Llamar a Cafferium">
+          <span class="material-symbols-outlined">call</span>
+        </a>
+        <a href="#menu-destacado" class="icon-btn" aria-label="Ver menú">
+          <span class="material-symbols-outlined">restaurant_menu</span>
+        </a>
+        <button type="button" class="icon-btn mobile-menu-toggle" id="mobileMenuToggle" aria-label="Abrir menú" aria-expanded="false">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Overlay & Menu -->
+  <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" aria-label="Menú móvil">
+    <div class="drawer-header">
+      <div class="brand-logo-link">
+        <img 
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA2zNKUDj0zruH5BoL0iuZB9VQyJoKKj-vtMAaFRKph8yo-4MlGWyBPkhYZPeYms8pIExYxF5Dkf8tKz61IRf2nAAXRXHD5DG2MTtcjSh6Fb94ugo80JTlgpmoUDinpmg9u1xT4n2A6taWXTfHaiYLCLGWu2R0k6r53-EQ3-ssuqcQVYFGMnRynmKzBQDal-aNgKH7QqZ4gKYfPhiCktTOhR4ADi8ujPjUc-e6mzT9LykhQYYlkOCaZCbeZ7tsyaKXfQ" 
+          alt="Logo" 
+          class="brand-logo-img"
+          width="36" 
+          height="36"
+        >
+        <span class="brand-title" style="font-size: 1.1rem;">CAFFERIUM</span>
+      </div>
+      <button type="button" class="icon-btn" id="mobileDrawerClose" aria-label="Cerrar menú">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <nav class="drawer-links">
+      <a href="#esencia" class="drawer-link">
+        <span class="material-symbols-outlined" style="color: var(--color-primary);">history_edu</span>
+        Nuestra Esencia
+      </a>
+      <a href="#menu-destacado" class="drawer-link">
+        <span class="material-symbols-outlined" style="color: var(--color-primary);">menu_book</span>
+        Menú de Especialidad
+      </a>
+      <a href="#resenas" class="drawer-link">
+        <span class="material-symbols-outlined" style="color: var(--color-primary);">star</span>
+        Reseñas Google (4.7★)
+      </a>
+      <a href="#sucursales" class="drawer-link">
+        <span class="material-symbols-outlined" style="color: var(--color-primary);">location_on</span>
+        Sucursales & Horarios
+      </a>
+    </nav>
+
+    <div class="drawer-footer">
+      <a href="https://wa.me/526691054810" target="_blank" rel="noopener noreferrer" class="btn-primary" style="width: 100%; justify-content: center; gap: 0.6rem;">
+        <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29"/></svg>
+        Escribir por WhatsApp
+      </a>
+      <p style="font-size: 0.75rem; color: var(--color-on-surface-muted); text-align: center; margin-top: 1rem;">
+        Belisario Domínguez 2006 • Torre Central
+      </p>
+    </div>
+  </aside>
+
+  <main>
+    <!-- =========================================================================
+         1. HERO SECTION
+         ========================================================================= -->
+    <section class="hero-section" id="inicio">
+      <!-- LCP Image with high fetch priority -->
+      <img 
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnimzW5-Vl9z-JwuwNiVGagqek2Mc2_Oq2EqswWJz6b9KpXipzNAYnrlIDUzkxR02lSDwUZ9WgPzKsJYAH_LE8Mc3LVvmFAiqkYrcZab8qFcYS7IiRpQMZq6vJ52YUH8eef-JN-LGERzTxDya-GVA0mcFy0mN9t4Pp_WAEfxy0DIzCpP5CSdpfjONxVlo8foHF76AkojIiJJHZ2Kmu7sUGvPkZlDSj5ylYGQPbJCdCT4DLhInttBN2" 
+        alt="Atardecer dramático en el malecón de Mazatlán sobre el Océano Pacífico con el sello dorado de Poseidón y Cafferium" 
+        class="hero-bg-img"
+        fetchpriority="high"
+        width="1920"
+        height="1080"
+      >
+      <div class="hero-scrim-gradient"></div>
+      <div class="hero-scrim-radial"></div>
+
+      <div class="container hero-content">
+        <div class="hero-badge">
+          <span class="material-symbols-outlined" style="font-size: 15px;">local_cafe</span>
+          <span>CAFÉ DE ESPECIALIDAD • PANADERÍA ARTESANAL • MAZATLÁN</span>
+          <span class="material-symbols-outlined" style="font-size: 15px;">stars</span>
+        </div>
+
+        <h1 class="hero-headline">
+          Mazatlán sabe a <span class="italic">Cafferium</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Café de especialidad de origen mexicano, panadería horneada a diario con masa madre y un refugio fresco y acogedor en el corazón de Mazatlán.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#menu-destacado" class="btn-primary">
+            <span class="material-symbols-outlined">restaurant_menu</span>
+            Mira nuestro menú
+          </a>
+          <a href="#sucursales" class="btn-secondary-glass">
+            <span class="material-symbols-outlined">location_on</span>
+            Ubicaciones y Horarios
+          </a>
+        </div>
+
+        <!-- Trust Ribbon -->
+        <div class="hero-trust-ribbon">
+          <div class="trust-item">
+            <span class="material-symbols-outlined">star</span>
+            <span><strong>4.7★</strong> en +669 opiniones</span>
+          </div>
+          <div class="trust-item">
+            <span class="material-symbols-outlined">storefront</span>
+            <span>2 Sucursales</span>
+          </div>
+          <div class="trust-item">
+            <span class="material-symbols-outlined">bakery_dining</span>
+            <span>Masa madre horneada diario</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         2. NUESTRA ESENCIA (Acerca de & El Vibe de Cafferium)
+         ========================================================================= -->
+    <section class="section-padding" id="esencia">
+      <div class="container">
+        <span class="section-tag">Nuestra Esencia Mazatleca</span>
+        <h2 class="section-title">Un rincón cultural donde el café se convierte en arte</h2>
+        <p class="section-desc">
+          Inspirados en la mitología clásica marina y el espíritu cálido sinaloense, Cafferium nació como un santuario ante el calor costeño: casonas coloniales con muros turquesa, biblioteca abierta, patio vegetal y el inconfundible aroma a grano de altura recién extraído.
+        </p>
+
+        <!-- Visual Mosaic Grid -->
+        <div class="mosaic-grid">
+          <!-- Main Facade -->
+          <div class="mosaic-card">
+            <div class="mosaic-card-img-wrapper" style="aspect-ratio: 16/11;">
+              <img 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP3vAB54DWQJ-RvlpzynUggz7B235SqeRoHiUgX5cHQLEDJ5UhetZFozwsiIAxD3VxKJ9zbNPeneYW29PSvqfELm6ZLnYtYJwYkrVOMu30hNLRyFGHVo4uMAocCCKI2157HZo3B7EqETFMYMsRjDDIRMCh6clw_UvAVauKJNM15c5s3RE9Xa94SAkkKV1WBSehs8TqPxyuvoT7Rra1IklnXMZKrkcRocuz2_ST0guCuXBiUUGKldCCO950P6lzXSfkngvMWnW9WNcigA" 
+                alt="Fachada colonial turquesa de Cafferium en Belisario Domínguez Centro Histórico" 
+                loading="lazy"
+                width="800"
+                height="550"
+              >
+            </div>
+            <div class="mosaic-caption">
+              <span>Fachada icónica en Belisario Domínguez</span>
+              <span class="tag">Centro Histórico</span>
+            </div>
+          </div>
+
+          <!-- Vertical Stack -->
+          <div class="mosaic-stack">
+            <div class="mosaic-card">
+              <div class="mosaic-card-img-wrapper" style="aspect-ratio: 16/9;">
+                <img 
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTGzmwQ5U51z4C_0qhvswHbPn48Gm6Lf5lUGh2t-wfP-FopLXq3AzzVWAwQyp1BkBTAwKC7oXawSg8TZd9NTJbF1rp2Dk2rdN9XyQ57LhgFAPn1QFuAZ4ptUJ_dEFqjCkOVc5of2-kE5yQ_33NZ5xOzcW-0RDZs7KMuf0__mUUItY3mwEQ84uSAMewBwn1VOuNdhrlEYRJWDqBnfeLQLEGxAvzpv9oS3PXV1O1LDQWgaf03cbUpqIai_jc7oqexSBLQaD41ABmEW0ATQ" 
+                  alt="Café de olla tradicional con especias locales en jarro de barro" 
+                  loading="lazy"
+                  width="600"
+                  height="338"
+                >
+              </div>
+              <div class="mosaic-caption">
+                <span>Café de olla en barro tradicional</span>
+                <span class="tag" style="color: var(--color-secondary-gold);">Receta Casera</span>
+              </div>
+            </div>
+
+            <div class="mosaic-card">
+              <div class="mosaic-card-img-wrapper" style="aspect-ratio: 16/9;">
+                <img 
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvkZ-uRABPLBY1yhkIiLY1s_KOxoo-dkxB-JuJd90SMadHghfhye_aGdzJypMpLSRs4cOinndxLwEbUgBaZ63lF9ab5NhPeLF-bLNynTqJ68F9DnGzxqzo38gEKjA1pByfpmMpSSROWws1bjbgnvIZm7ZCdDRRrRYMk1QkayEgYfGFZZ07eyWG_3QbFQ8jAyspnHqJH4-y_V--2cTCHJD0l6IYjcwPhXJAVgHib75fySW69uETiQipvW74dme1lD-YbBRNYEZQfbPZsw" 
+                  alt="Salón interior de Cafferium con papel picado, ladrillo y biblioteca" 
+                  loading="lazy"
+                  width="600"
+                  height="338"
+                >
+              </div>
+              <div class="mosaic-caption">
+                <span>Espacio climatizado para leer y crear</span>
+                <span class="tag">Biblioteca & Wifi</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Banner Full Width -->
+          <div class="mosaic-card mosaic-banner">
+            <div class="mosaic-card-img-wrapper" style="aspect-ratio: 21/9; max-height: 380px;">
+              <img 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMxJRnKHLCTcXLI8IMNbNAA5O95LpC8lq2IfOf584_h-o3j64ESmduoel3iBjE7womX0Dybp9EfXZJhnok2Ic-GlpyhyEz6XTF_SIACPp9IHSiPBJE39bjk2BTcBCw5gjhLLoIzW33rLA-lL5rhSVw5P7BOBzScG_RM9-_z1h6hbJR3lTwHD6woS9OjxWrbabJUXbB7dS-kdU9aekyY_JTqP2ti-j2RIfRWWtrdpClAq4v7WFuQ8f5" 
+                alt="Terraza exterior de Cafferium en Torre Central con sombrillas turquesa frente a la laguna" 
+                loading="lazy"
+                width="1280"
+                height="550"
+              >
+            </div>
+            <div class="mosaic-caption">
+              <span>Terraza Torre Central frente al malecón y laguna</span>
+              <span class="tag">Pet Friendly & Brisa Marina</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Pillars -->
+        <div class="pillars-grid">
+          <div class="pillar-card">
+            <div class="pillar-icon-box teal">
+              <span class="material-symbols-outlined" style="font-size: 28px;">coffee</span>
+            </div>
+            <span class="pillar-number" style="color: var(--color-primary);">01. Cosecha & Método</span>
+            <h3 class="pillar-title">Grano de Altura</h3>
+            <p class="pillar-text">
+              Seleccionamos micro-lotes de Chiapas, Veracruz y Oaxaca con tuestes de precisión. Desde métodos artesanales (V60, Chemex) hasta un espresso de crema densa.
+            </p>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon-box gold">
+              <span class="material-symbols-outlined" style="font-size: 28px;">bakery_dining</span>
+            </div>
+            <span class="pillar-number" style="color: var(--color-secondary-gold);">02. Taller de Panadería</span>
+            <h3 class="pillar-title">Panadería con Alma</h3>
+            <p class="pillar-text">
+              Brioches esponjosos, masa madre con fermentación lenta de 24 horas y repostería que sale tibia de nuestros hornos cada mañana para el deleite porteño.
+            </p>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon-box aqua">
+              <span class="material-symbols-outlined" style="font-size: 28px;">menu_book</span>
+            </div>
+            <span class="pillar-number" style="color: var(--color-tertiary);">03. Espacio & Convivencia</span>
+            <h3 class="pillar-title">Ambiente & Cultura</h3>
+            <p class="pillar-text">
+              Tu punto de encuentro con wifi de alta velocidad para trabajar, libros disponibles para préstamo en sala y un remanso fresco para platicar sin prisa.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         3. MENÚ DE ESPECIALIDAD (Interactivo con Filtros)
+         ========================================================================= -->
+    <section class="section-padding menu-section" id="menu-destacado">
+      <div class="container">
+        <div class="menu-header-bar">
+          <div>
+            <span class="section-tag">Deliciosamente Elaborado</span>
+            <h2 class="section-title">Nuestros Favoritos de la Barra & Cocina</h2>
+            <p class="section-desc">Cada plato y bebida está preparado al momento con insumos de productores regionales de alta calidad.</p>
+          </div>
+
+          <!-- Category Filter Buttons -->
+          <div class="filter-nav" role="tablist" aria-label="Filtro de categorías del menú">
+            <button type="button" class="filter-btn active" data-filter="all">Todos</button>
+            <button type="button" class="filter-btn" data-filter="cafe">Café y Bebidas</button>
+            <button type="button" class="filter-btn" data-filter="brunch">Desayunos</button>
+            <button type="button" class="filter-btn" data-filter="panaderia">Repostería</button>
+          </div>
+        </div>
+
+        <!-- Menu Grid -->
+        <div class="menu-grid" id="menuItemsGrid">
+          <!-- Item 1: Dirty Chai -->
+          <article class="menu-card" data-category="cafe">
+            <div class="menu-card-img-wrap">
+              <img 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeWn6GQ3lC_4nkjwe53psEtLNEL81ra_MLTG_C9piuqijwDLTRDY_AVbqVVjwmLMaqavoo4HnSjHQjX7A125O5uDn7ooCmiiRede9mbRgyHfWMNRG3IxS-wfT7rTRPdL-kElT_MDvRoeoqeQqu4SIlgXK37YRnyWtmlgY5wT2X1Y_YeGX2lWImfxvjtJ9YkY6CgdGTOahghcezGU250D6lq4jl5vB6eOBB1UWWR_LGVna8oUafFtU7eEF6-OUEryNFmw" 
+                alt="Dirty Chai y Cold Brew servido con hielo en vaso artesanal" 
+                loading="lazy"
+                width="400"
+                height="300"
+              >
+              <span class="menu-card-tag">Favorito</span>
+            </div>
+            <div class="menu-card-body">
+              <div>
+                <div class="menu-card-top">
+                  <h3 class="menu-card-title">Dirty Chai & Cold Brew</h3>
+                  <span class="menu-card-price">$75 <small>MXN</small></span>
+                </div>
+                <div class="menu-card-spec">ESPRESSO DOBLE • ESPECIAS CHAI • 18 HRS REPOSO</div>
+                <p class="menu-card-desc">Espresso doble infusionado con mezcla artesanal de especias masala chai y leche sedosa, o cold brew de extracción en frío por 18 horas.</p>
+              </div>
+              <div class="menu-card-footer">
+                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);">Tueste Medio</span>
+                <a href="https://wa.me/526691054810?text=Hola%20Cafferium,%20quisiera%20pedir%20un%20Dirty%20Chai" target="_blank" rel="noopener noreferrer" class="menu-order-btn">
+                  <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29"/></svg>
+                  Pedir por WhatsApp <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Item 2: Cafe de Olla -->
+          <article class="menu-card" data-category="cafe">
+            <div class="menu-card-img-wrap">
+              <img 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq0ikznxWo6SBr6CTIl2-kY6dN_R9baRYIhBoQkP0cM4RWSOLdh-XUunpMbIVZ4A9-zGrffrL-ksNjzJsKetjvGXaIsyL_dAfGs_is6_f3BixqR4JUm3PuZW-mg9xTwfbu6Errw7sKt4DAgW6XM4KuXkrw36o4mOLvRD9XTHRexpPRoEaSUH8gMNpRXtNE3gC8WSGVyjhBkgyt2IGKjHIiJemE80bq3B-lvrvgZg7BB0eYL-B_z4-I" 
+                alt="Café de olla con canela en raja y piloncillo en jarrito de barro" 
+                loading="lazy"
+                width="400"
+                height="300"
+              >
+              <span class="menu-card-tag gold">Tradición</span>
+            </div>
+            <div class="menu-card-body">
+              <div>
+                <div class="menu-card-top">
+                  <h3 class="menu-card-title">Café de Olla Mazatleco</h3>
+                  <span class="menu-card-price">$55 <small>MXN</small></span>
+                </div>
+                <div class="menu-card-spec">BARRO TRADICIONAL • CANELA EN RAJA • PILONCILLO</div>
+                <p class="menu-card-desc">Elaborado en olla de barro sinaloense con canela en raja de Ceilán, piloncillo regional y notas aromáticas de anís estrella.</p>
+              </div>
+              <div class="menu-card-footer">
+                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);">100% Orgánico</span>
+                <a href="https://wa.me/526691054810?text=Hola%20Cafferium,%20quisiera%20pedir%20un%20Café%20de%20Olla" target="_blank" rel="noopener noreferrer" class="menu-order-btn">
+                  <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29"/></svg>
+                  Pedir por WhatsApp <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Item 3: French Toast -->
+          <article class="menu-card" data-category="panaderia">
+            <div class="menu-card-img-wrap">
+              <img 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq1DVHNHjeeDXVvyGAZizuli6b7rTM7WHqlxDnotjnsAGW18_bAyb3prV1JMml-jq7DON4oZgQKajQ34gsK3LB926ZnwrRtytAMN7S8wQ87zsR8Q5glmQUz3ozaZiy7_CtRWxtlj_wE4S-A6m_3JfgllgY0LYSOo1Qt8MjAooabWLMNbt_L8zPe5uI9_9YEAha9oUlQhzGBF32Fzfb-orHVgY34ibDCsDGWzgTEfkmO3zJFkK9VAjf" 
+                alt="French Toast gourmet de pan brioche con coulis de frutos rojos y crema montada" 
+                loading="lazy"
+                width="400"
+                height="300"
+              >
+              <span class="menu-card-tag">Chef Choice</span>
+            </div>
+            <div class="menu-card-body">
+              <div>
+                <div class="menu-card-top">
+                  <h3 class="menu-card-title">French Toast de Frutos Rojos</h3>
+                  <span class="menu-card-price">$145 <small>MXN</small></span>
+                </div>
+                <div class="menu-card-spec">BRIOCHE ARTESANAL • COULIS CASERO • CREMA MONTADA</div>
+                <p class="menu-card-desc">Pan brioche de la casa bañado en huevo de rancho y dorado a la mantequilla, acompañado de frutos silvestres y crema montada sedosa.</p>
+              </div>
+              <div class="menu-card-footer">
+                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);">Más Vendido</span>
+                <a href="https://wa.me/526691054810?text=Hola%20Cafferium,%20quisiera%20pedir%20el%20French%20Toast" target="_blank" rel="noopener noreferrer" class="menu-order-btn">
+                  <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29"/></svg>
+                  Pedir por WhatsApp <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Item 4: Grilled Cheese -->
+          <article class="menu-card" data-category="brunch">
+            <div class="menu-card-img-wrap">
+              <img 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYC0_-C3vGHlJpGLkRnu99vpKFkDgoZJzplgm0frdOlDXGqsjx_xGTh5m_pw28iDeeewn25fkWpPINNwMbZro6_hjrWwrI3dJ2FOhuRwS39St-GKGre5FQkVcbFRKGe4V2s4ItBYEaS176f32lzeYAs9eZ_H48a5r3Qhi0FaB0KWu0szA838iCldf7d79kyvid_9QIYKFH8CBlpRG5fbFQnuX7pnTzPjo2gFeRH9jcu6gVGV6mQmHP" 
+                alt="Grilled Cheese artesanal con triple queso derretido en pan de masa madre con papas gajo" 
+                loading="lazy"
+                width="400"
+                height="300"
+              >
+              <span class="menu-card-tag">Favorito Salado</span>
+            </div>
+            <div class="menu-card-body">
+              <div>
+                <div class="menu-card-top">
+                  <h3 class="menu-card-title">Grilled Cheese Gourmet</h3>
+                  <span class="menu-card-price">$135 <small>MXN</small></span>
+                </div>
+                <div class="menu-card-spec">MASA MADRE • TRIPLE QUESO • PAPAS GAJO</div>
+                <p class="menu-card-desc">Rebanadas gruesas de pan campesino fermentado con masa madre, mezcla fundida de tres quesos, aderezo mostaza dijón y gajos crujientes.</p>
+              </div>
+              <div class="menu-card-footer">
+                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);">Crujiente</span>
+                <a href="https://wa.me/526691054810?text=Hola%20Cafferium,%20quisiera%20pedir%20el%20Grilled%20Cheese" target="_blank" rel="noopener noreferrer" class="menu-order-btn">
+                  <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29"/></svg>
+                  Pedir por WhatsApp <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Item 5: Ensalada César -->
+          <article class="menu-card" data-category="brunch">
+            <div class="menu-card-img-wrap">
+              <img 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwLVheZuZfu7bbhAl0dTMABqqEfKPpnuZB8-e4kYH87dV5ymqw0tCFtzi6M1YxlzdlQ6F5gK_F0xhXxwYl-7g6U-g8m_i-RnbNFW1Qogq13K7yaXjJkTBF09VJJsuL3sASDyfIojjYnYGcQCIZMXzawuYxNiL5cSdbB0wmCFSfs7_veXb9h6dPoz8fpXbiYdDKW9bQNX3_F8bAgWTLCeNkt2gKTPS1hKp806hQ1Pq1ityhXb12_MM6jwXVmE5q8ImIMw" 
+                alt="Ensalada César con pechuga asada, crutones de brioche y parmesano" 
+                loading="lazy"
+                width="400"
+                height="300"
+              >
+              <span class="menu-card-tag">Fresco & Ligero</span>
+            </div>
+            <div class="menu-card-body">
+              <div>
+                <div class="menu-card-top">
+                  <h3 class="menu-card-title">Ensalada César con Pollo</h3>
+                  <span class="menu-card-price">$130 <small>MXN</small></span>
+                </div>
+                <div class="menu-card-spec">LECHUGAS FRESCAS • CRUTONES BRIOCHE • PARMESANO</div>
+                <p class="menu-card-desc">Hojas crujientes de lechuga romana aderezadas con receta propia, pechuga de pollo a las hierbas, crutones brioche y abundante queso parmesano.</p>
+              </div>
+              <div class="menu-card-footer">
+                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);">Saludable</span>
+                <a href="https://wa.me/526691054810?text=Hola%20Cafferium,%20quisiera%20pedir%20la%20Ensalada%20César" target="_blank" rel="noopener noreferrer" class="menu-order-btn">
+                  <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29"/></svg>
+                  Pedir por WhatsApp <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Item 6: Banquete Brunch -->
+          <article class="menu-card" data-category="brunch">
+            <div class="menu-card-img-wrap">
+              <img 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCAzgkO4Ecj2ww_s0FxRZI0UhAEyo2TJPNDFwW1CYnkP5rvRj3paMQhHYTivwKZX-T8n3aCxvRDnIq3EcgRUdcSQwC35hslj4U_7GfuBbn_enYH1yhSy7BUcIdgTiqLTPPmI9FekKU-SfUH33QfeoQw_ptDsIYkHPqpsqo6C7_TaImH0V9nP_pAWu3pA_zlrsxS_ALqwpLMdfQqpOU-iYihfHI817jZNBCmSp5qind1XH5VklyPVk5" 
+                alt="Banquete de brunch completo con french toast, huevos de campo y café americano" 
+                loading="lazy"
+                width="400"
+                height="300"
+              >
+              <span class="menu-card-tag gold">Para Compartir</span>
+            </div>
+            <div class="menu-card-body">
+              <div>
+                <div class="menu-card-top">
+                  <h3 class="menu-card-title">Banquete Brunch Cafferium</h3>
+                  <span class="menu-card-price">$290 <small>MXN</small></span>
+                </div>
+                <div class="menu-card-spec">FRENCH TOAST • HUEVOS ESTRELLADOS • GRILLED CHEESE</div>
+                <p class="menu-card-desc">La experiencia completa para 2 o 3 personas: French toast dulce, tostada con huevos de campo, medio grilled cheese campesino y dos cafés americanos.</p>
+              </div>
+              <div class="menu-card-footer">
+                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);">2-3 Personas</span>
+                <a href="https://wa.me/526691054810?text=Hola%20Cafferium,%20quisiera%20reservar%20el%20Banquete%20Brunch" target="_blank" rel="noopener noreferrer" class="menu-order-btn">
+                  <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29"/></svg>
+                  Pedir por WhatsApp <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+          <a href="https://wa.me/526691054810?text=Hola%20Cafferium,%20me%20gustaria%20ver%20la%20carta%20completa%20en%20PDF" target="_blank" rel="noopener noreferrer" class="btn-primary" style="gap: 0.6rem;">
+            <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29"/></svg>
+            Ver menú completo
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         4. RESEÑAS & SOCIAL PROOF
+         ========================================================================= -->
+    <section class="section-padding reviews-section" id="resenas">
+      <div class="container">
+        <div class="reviews-top-bar">
+          <div>
+            <span class="section-tag">Experiencias Verificadas</span>
+            <h2 class="section-title">La comunidad mazatleca nos respalda</h2>
+          </div>
+
+          <!-- Google Score Card -->
+          <div class="google-score-card">
+            <span class="google-score-num">4.7</span>
+            <div>
+              <div class="stars-row">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star_half</span>
+              </div>
+              <p style="font-weight: 600; font-size: 0.85rem; margin-top: 2px;">Más de 669 reseñas en Google</p>
+              <p style="font-size: 0.75rem; color: var(--color-on-surface-muted);">Calificación de excelencia en Mazatlán</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reviews Grid -->
+        <div class="reviews-grid">
+          <!-- Review 1 -->
+          <div class="review-card">
+            <div>
+              <div class="stars-row">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              </div>
+              <p class="review-text">
+                "El lugar ideal si eres un aficionado al café de especialidad. Espacio brillante, comida increíble y un patio interior inesperado que te hace olvidar el ajetreo de la ciudad."
+              </p>
+            </div>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar">JD</div>
+              <div>
+                <p class="reviewer-name">Joe D.</p>
+                <p class="reviewer-sub">Google Local Guide • Nivel 7</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Review 2 -->
+          <div class="review-card">
+            <div>
+              <div class="stars-row">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              </div>
+              <p class="review-text">
+                "Los mejores chilaquiles y french toast de Mazatlán. El café en su punto exacto de tostado y una hermosa decoración colonial fresca que te rescata del calor."
+              </p>
+            </div>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar" style="background-color: rgba(212, 175, 55, 0.2); color: var(--color-secondary-gold);">MT</div>
+              <div>
+                <p class="reviewer-name">M.A. Thomson</p>
+                <p class="reviewer-sub">Visitante Internacional</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Review 3 -->
+          <div class="review-card">
+            <div>
+              <div class="stars-row">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              </div>
+              <p class="review-text">
+                "Un rincón especial en Mazatlán con una biblioteca acogedora para clientes, servicio impecable y repostería artesanal deliciosa. Ideal para trabajar por la tarde."
+              </p>
+            </div>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar" style="background-color: rgba(0, 104, 100, 0.15); color: var(--color-tertiary);">YK</div>
+              <div>
+                <p class="reviewer-name">P. Manz / Yair K.</p>
+                <p class="reviewer-sub">Comunidad Porteña Local</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Instagram Showcase Banner -->
+        <div class="instagram-banner">
+          <div>
+            <span class="section-tag">Galería Visual</span>
+            <h3 class="section-title" style="font-size: 1.5rem;">Sigue nuestra vida en Instagram</h3>
+            <p class="section-desc" style="font-size: 0.88rem; margin-bottom: 1.5rem;">
+              Descubre los eventos artísticos, catas sensoriales de café y las fotos de nuestros visitantes etiquetando a <strong style="color: var(--color-primary);">@cafferium</strong>.
+            </p>
+            <a href="https://www.instagram.com/cafferium.mx/" target="_blank" rel="noopener noreferrer" class="btn-primary" style="padding: 0.75rem 1.4rem; font-size: 0.88rem;">
+              <span class="material-symbols-outlined">photo_camera</span>
+              Ver perfil de Instagram
+            </a>
+          </div>
+
+          <div class="insta-photos-grid">
+            <div class="insta-photo-card">
+              <img 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUtyYswF29WqNh7PTmM3YBRjHUor-5Ob_Hwky5xd1cZUh69l6FBmBo1WhinRoxoMXXSytgo-EJGm0VkR987w9s1Q6Ztq-m1ovDdcKEBEtLWfoef5_uxiiHdH7pzG8X8ZUNyGojvFBOHpKxhJwa9SU-1d01_8vAxphFhyGbL70Jasw0C-IwNGd7bKLjmjvLtX-j8cnV3UDDLYjEy5Ku4-dGLC064DddFFATUkUKftwjKATC6wPsn7PXGFndAeYqbXhwoA" 
+                alt="Ambiente nocturno íntimo en cafetería Cafferium" 
+                loading="lazy"
+                width="300"
+                height="375"
+              >
+              <div class="insta-photo-overlay">
+                <!-- <span>Noches en Cafferium ✨</span> -->
+              </div>
+            </div>
+
+            <div class="insta-photo-card">
+              <img 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOIcfA6FTU5wMswJmmbqy6OrUNQD7I6Wtwwe_pW0xbnWNXFL1miy6QWtwhud8xklmujLv8ooadiNwi0n488XjKenqJw0vkGWCYgV3Xrv2ht9DryNzJLEBrGQxYzP5dml-HyF-RbiyvqLA3GkOgyDGanqAeC85yfi2MF1Yk2iflSFrQ7Hm3OdASXnFgrmv9JdaqlOYo-1ny8VludRdu2rS1AjDqv-K2vz_eRhV0wEh8ej6juJcU03FS0CvbiEDVQ3isUw" 
+                alt="Escultura helénica marina de arte en patio de Cafferium" 
+                loading="lazy"
+                width="300"
+                height="375"
+              >
+              <div class="insta-photo-overlay">
+                <!-- <span>Arte & Escultura Marina 🏛️</span> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         5. SUCURSALES, HORARIOS & UBICACIONES
+         ========================================================================= -->
+    <section class="section-padding branches-section" id="sucursales">
+      <div class="container">
+        <div style="text-align: center; max-width: 680px; margin-left: auto; margin-right: auto; margin-bottom: 3rem;">
+          <span class="section-tag">Visítanos en Mazatlán</span>
+          <h2 class="section-title">Nuestras dos sucursales</h2>
+          <p class="section-desc" style="margin-left: auto; margin-right: auto;">
+            Ya sea que busques el encanto colonial con biblioteca o la brisa abierta de la terraza lacustre, te esperamos con el mejor espresso.
+          </p>
+        </div>
+
+        <div class="branches-grid">
+          <!-- Sucursal 1: Centro Histórico -->
+          <article class="branch-card">
+            <div class="branch-img-header">
+              <img 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6y4paMq3QgtWzrNczvr7K0cgsTUqiPMyaukhDiFrLIOZbd2Vg9VCV4m4ZEbNT0ECwFLLiLgmYqSwJ1Q3AeS3g75NqqEw99T5hDnbZrVp1dfkNjOKvdHoIdbf9j0qOQHMyjyIc29thLmX3D3RoSgPQWsCgtGmyvZQHD31cKDHIDJppmx4_OaRWtSwFA2DDQCPSbbD-dxXQLWif52HrUIuH-FipnL60AITqbujYrDwPrbc1XBjZKNEs" 
+                alt="Ubicación y fachada de Cafferium Centro Histórico en Mazatlán" 
+                loading="lazy"
+                width="600"
+                height="220"
+              >
+              <div class="branch-img-overlay">
+                <h3 class="branch-badge-title">Sucursal Centro Histórico</h3>
+              </div>
+            </div>
+
+            <div class="branch-body">
+              <div class="branch-info-list">
+                <div class="branch-info-item">
+                  <span class="material-symbols-outlined text-primary">location_on</span>
+                  <span>Belisario Domínguez 2006, Centro Histórico, C.P. 82000, Mazatlán, Sin.</span>
+                </div>
+
+                <div class="branch-info-item">
+                  <span class="material-symbols-outlined text-gold">schedule</span>
+                  <div>
+                    <p><strong>Martes a Jueves:</strong> 8:00 AM – 10:00 PM</p>
+                    <p><strong>Viernes a Domingo:</strong> 8:00 AM – 11:00 PM</p>
+                    <p style="color: var(--color-error); font-weight: 600;">Lunes: Cerrado</p>
+                  </div>
+                </div>
+
+                <div class="branch-info-item">
+                  <span class="material-symbols-outlined text-tertiary">stars</span>
+                  <span>Casona azul colonial, biblioteca interior, patio vegetal y venta de café en grano.</span>
+                </div>
+              </div>
+
+              <div class="branch-actions-row">
+                <a href="https://maps.app.goo.gl/tRSFdKBwfajnCT1H9" target="_blank" rel="noopener noreferrer" class="btn-branch-maps">
+                  <span class="material-symbols-outlined" style="font-size: 18px;">map</span>
+                  Abrir en Google Maps
+                </a>
+                <a href="tel:6691054810" class="btn-branch-sub">
+                  <span class="material-symbols-outlined" style="font-size: 18px; color: var(--color-primary);">call</span>
+                  Llamar
+                </a>
+                <a href="https://wa.me/526691054810?text=Hola%20Cafferium%20Centro%20Historico" target="_blank" rel="noopener noreferrer" class="btn-branch-sub" style="gap: 0.45rem;">
+                  <svg class="whatsapp-icon whatsapp-icon-green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29"/></svg>
+                  WhatsApp
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Sucursal 2: Torre Central -->
+          <article class="branch-card">
+            <div class="branch-img-header">
+              <img 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjdq2G-WOdOd_kibCotNLK_pqBUGrNLjLBPPhOZnpPBdB_EgvnlSczv1rJH7SUW0kSmc9VwLfF3l-w8BXY3rCVRfqBHw5nYLTtG8T-fE7qRnEcCXO_sHGXjsGTySJISzdc0Oo7M5UnBjOtIWtPmClQJwNmDLUckMudqv3b9bPleAHcqVdoJSDTV9tAomb7sQCcQWnzy1hv_nhVDwEJlc4pxpqSFzrM5CUodJrdhu64NN0VO_QqNsIi" 
+                alt="Terraza exterior de Cafferium Torre Central en Mazatlán frente a la laguna" 
+                loading="lazy"
+                width="600"
+                height="220"
+              >
+              <div class="branch-img-overlay">
+                <h3 class="branch-badge-title">Sucursal Torre Central</h3>
+              </div>
+            </div>
+
+            <div class="branch-body">
+              <div class="branch-info-list">
+                <div class="branch-info-item">
+                  <span class="material-symbols-outlined text-primary">location_on</span>
+                  <span>Torre Central 102, Local 101 (Av. Quirino Ordaz / "Maleconcito"), Mazatlán, Sin.</span>
+                </div>
+
+                <div class="branch-info-item">
+                  <span class="material-symbols-outlined text-gold">schedule</span>
+                  <div>
+                    <p><strong>Martes a Jueves:</strong> 8:00 AM – 10:00 PM</p>
+                    <p><strong>Viernes a Domingo:</strong> 8:00 AM – 11:00 PM</p>
+                    <p style="color: var(--color-error); font-weight: 600;">Lunes: Cerrado</p>
+                  </div>
+                </div>
+
+                <div class="branch-info-item">
+                  <span class="material-symbols-outlined text-tertiary">beach_access</span>
+                  <span>Terraza con sombrillas turquesa frente a la laguna, barra express y estacionamiento.</span>
+                </div>
+              </div>
+
+              <div class="branch-actions-row">
+                <a href="https://maps.google.com/?q=Torre+Central+Mazatlan+Quirino+Ordaz" target="_blank" rel="noopener noreferrer" class="btn-branch-maps">
+                  <span class="material-symbols-outlined" style="font-size: 18px;">map</span>
+                  Abrir en Google Maps
+                </a>
+                <a href="tel:6691054810" class="btn-branch-sub">
+                  <span class="material-symbols-outlined" style="font-size: 18px; color: var(--color-primary);">call</span>
+                  Llamar
+                </a>
+                <a href="https://wa.me/526691054810?text=Hola%20Cafferium%20Torre%20Central" target="_blank" rel="noopener noreferrer" class="btn-branch-sub" style="gap: 0.45rem;">
+                  <svg class="whatsapp-icon whatsapp-icon-green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29"/></svg>
+                  WhatsApp
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Floating Quick WhatsApp Button -->
+  <aside class="floating-whatsapp">
+    <a href="https://wa.me/526691054810" target="_blank" rel="noopener noreferrer" class="whatsapp-bubble" aria-label="Escríbenos directamente por WhatsApp">
+      <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29"/></svg>
+      <span>WhatsApp</span>
+    </a>
+  </aside>
+
+  <!-- =========================================================================
+       FOOTER
+       ========================================================================= -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <!-- Col 1: Brand & Social -->
+      <div>
+        <div class="brand-logo-link" style="margin-bottom: 0.75rem;">
+          <img 
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA2zNKUDj0zruH5BoL0iuZB9VQyJoKKj-vtMAaFRKph8yo-4MlGWyBPkhYZPeYms8pIExYxF5Dkf8tKz61IRf2nAAXRXHD5DG2MTtcjSh6Fb94ugo80JTlgpmoUDinpmg9u1xT4n2A6taWXTfHaiYLCLGWu2R0k6r53-EQ3-ssuqcQVYFGMnRynmKzBQDal-aNgKH7QqZ4gKYfPhiCktTOhR4ADi8ujPjUc-e6mzT9LykhQYYlkOCaZCbeZ7tsyaKXfQ" 
+            alt="Logo Cafferium" 
+            class="brand-logo-img"
+            width="40"
+            height="40"
+          >
+          <span class="brand-title" style="font-size: 1.15rem;">CAFFERIUM</span>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--color-on-surface-variant); margin-bottom: 1rem;">
+          Cafetería de Especialidad, Panadería de Masa Madre & Espacio Cultural en Mazatlán, Sinaloa.
+        </p>
+        <div class="social-links-row">
+          <a href="https://instagram.com/cafferium" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Instagram">
+            <span class="material-symbols-outlined" style="font-size: 20px;">photo_camera</span>
+          </a>
+          <a href="https://facebook.com/cafferium" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Facebook">
+            <span class="material-symbols-outlined" style="font-size: 20px;">public</span>
+          </a>
+          <a href="https://wa.me/526691054810" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="WhatsApp">
+            <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Col 2: Sucursales -->
+      <div>
+        <h3 class="footer-col-title">Sucursales</h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.85rem; color: var(--color-on-surface-variant);">
+          <div>
+            <strong style="color: var(--color-on-surface); display: block;">Centro Histórico</strong>
+            <span>Belisario Domínguez 2006, Mazatlán, Sin.</span>
+          </div>
+          <div>
+            <strong style="color: var(--color-on-surface); display: block;">Torre Central</strong>
+            <span>Av. Quirino Ordaz Coppel ("Maleconcito"), Mazatlán, Sin.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 3: Horarios -->
+      <div>
+        <h3 class="footer-col-title">Horarios</h3>
+        <ul style="list-style: none; font-size: 0.85rem; color: var(--color-on-surface-variant); display: flex; flex-direction: column; gap: 0.5rem;">
+          <li><strong>Martes a Jueves:</strong> 8:00 AM – 10:00 PM</li>
+          <li><strong>Viernes a Domingo:</strong> 8:00 AM – 11:00 PM</li>
+          <li style="color: var(--color-error); font-weight: 600;">Lunes: Cerrado</li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Contacto Directo -->
+      <div>
+        <h3 class="footer-col-title">Contacto</h3>
+        <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem; color: var(--color-on-surface-variant);">
+          <a href="tel:6691054810" style="display: flex; align-items: center; gap: 0.5rem;">
+            <span class="material-symbols-outlined text-primary" style="font-size: 18px;">call</span>
+            669 105 4810
+          </a>
+          <a href="mailto:cafferium@gmail.com" style="display: flex; align-items: center; gap: 0.5rem;">
+            <span class="material-symbols-outlined text-primary" style="font-size: 18px;">mail</span>
+            cafferium@gmail.com
+          </a>
+          <a href="https://wa.me/526691054810" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 0.5rem;">
+            <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="color: #25D366;" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29"/></svg>
+            WhatsApp Directo
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="container footer-bottom">
+      <div>
+        <span>© 2026 Cafferium Specialty Coffee Mazatlán. Todos los derechos reservados.</span>
+        <span style="margin: 0 0.5rem;">•</span>
+        <span>Desarrollado para Cafferium</span>
+      </div>
+      <div>
+        <a href="#">Aviso de Privacidad</a>
+        <span style="margin: 0 0.5rem;">•</span>
+        <a href="#">Términos de Servicio</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
