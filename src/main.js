@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 4. Scrollspy Active Navigation
   initScrollspy();
+
+  // 5. Scroll Reveal Transitions
+  initScrollReveal();
 });
 
 /**
@@ -157,3 +160,39 @@ function initScrollspy() {
 
   sections.forEach((section) => observer.observe(section));
 }
+
+/**
+ * Smooth scroll-triggered reveal animations via IntersectionObserver
+ */
+function initScrollReveal() {
+  const revealElements = document.querySelectorAll('.reveal, .reveal-scale');
+  if (!revealElements.length) return;
+
+  // Mark document as supporting JS reveal to activate hidden initial state
+  document.documentElement.classList.add('js-reveal');
+
+  // Check prefers-reduced-motion accessibility preference
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    revealElements.forEach((el) => el.classList.add('is-visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      root: null,
+      rootMargin: '0px 0px -40px 0px',
+      threshold: 0.1,
+    }
+  );
+
+  revealElements.forEach((el) => observer.observe(el));
+}
+

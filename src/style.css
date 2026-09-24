@@ -185,25 +185,37 @@ button {
   object-fit: contain;
   box-shadow: var(--shadow-sm);
   border: 1px solid rgba(212, 175, 55, 0.4);
+  flex-shrink: 0;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
 }
 
 .brand-title {
+  display: block;
   font-family: var(--font-brand);
   font-size: 1.25rem;
   font-weight: 700;
   color: #443328;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  line-height: 1;
+  line-height: 1.1;
 }
 
 .brand-subtitle {
+  display: block;
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-tertiary);
-  margin-top: 3px;
+  margin-top: 2px;
+  white-space: nowrap;
 }
 
 /* Desktop Navigation */
@@ -1398,3 +1410,58 @@ button {
 .footer-bottom a:hover {
   color: var(--color-primary);
 }
+
+/* ==========================================================================
+   Scroll-Driven Reveal Transitions (Artisanal Coastal Motion)
+   ========================================================================== */
+
+/* Only activate hidden initial state when JS is running to prevent blank content without JS */
+.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.js-reveal .reveal-scale {
+  opacity: 0;
+  transform: scale(0.96) translateY(24px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* Revealed state */
+.js-reveal .reveal.is-visible,
+.js-reveal .reveal-scale.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Stagger delay classes for graceful cascading entrances */
+.js-reveal .reveal-delay-1 { transition-delay: 0.12s; }
+.js-reveal .reveal-delay-2 { transition-delay: 0.22s; }
+.js-reveal .reveal-delay-3 { transition-delay: 0.32s; }
+.js-reveal .reveal-delay-4 { transition-delay: 0.42s; }
+.js-reveal .reveal-delay-5 { transition-delay: 0.52s; }
+
+/* Keep interactive card hover state working smoothly after reveal */
+.js-reveal .menu-card.reveal.is-visible:hover,
+.js-reveal .pillar-card.reveal.is-visible:hover,
+.js-reveal .mosaic-card.reveal.is-visible:hover,
+.js-reveal .branch-card.reveal.is-visible:hover,
+.js-reveal .review-card.reveal.is-visible:hover {
+  transform: translateY(-4px);
+}
+
+/* Accessibility: respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal .reveal,
+  .js-reveal .reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
