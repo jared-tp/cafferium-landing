@@ -4,7 +4,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
   <title>Cafferium • Cafetería de Especialidad & Panadería Artesanal | Mazatlán</title>
+
+  <!-- Anti-FOUC Theme Detection Script -->
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem('cafferium-theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (e) {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          document.documentElement.classList.add('dark');
+        }
+      }
+    })();
+  </script>
 
   <!-- SEO & Social Meta Tags -->
   <meta name="description"
@@ -60,19 +83,35 @@
       <!-- Desktop Navigation -->
       <nav class="desktop-nav" aria-label="Navegación Principal">
         <a href="#esencia" class="nav-link">Nuestra Esencia</a>
-        <a href="#menu-destacado" class="nav-link">Menú de Especialidad</a>
+        <a href="#menu-destacado" class="nav-link">Menú</a>
         <a href="#resenas" class="nav-link">Reseñas</a>
         <a href="#sucursales" class="nav-link">Sucursales</a>
       </nav>
 
-      <!-- Nav Actions (Call & Menu Toggle) -->
+      <!-- Nav Actions (Theme Toggle & Mobile Menu) -->
       <div class="nav-actions">
-        <a href="tel:6691054810" class="icon-btn" aria-label="Llamar a Cafferium">
-          <span class="material-symbols-outlined">call</span>
-        </a>
-        <a href="#menu-destacado" class="icon-btn" aria-label="Ver menú">
-          <span class="material-symbols-outlined">restaurant_menu</span>
-        </a>
+        <button type="button" class="theme-toggle-switch" id="themeToggle" aria-label="Cambiar a modo oscuro" title="Cambiar a modo oscuro">
+          <span class="theme-switch-thumb" aria-hidden="true"></span>
+          <span class="theme-switch-side sun-side" aria-hidden="true">
+            <svg class="theme-icon-svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="m4.93 4.93 1.41 1.41"></path>
+              <path d="m17.66 17.66 1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="m6.34 17.66-1.41 1.41"></path>
+              <path d="m19.07 4.93-1.41 1.41"></path>
+            </svg>
+          </span>
+          <span class="theme-switch-divider" aria-hidden="true"></span>
+          <span class="theme-switch-side moon-side" aria-hidden="true">
+            <svg class="theme-icon-svg" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+            </svg>
+          </span>
+        </button>
         <button type="button" class="icon-btn mobile-menu-toggle" id="mobileMenuToggle" aria-label="Abrir menú"
           aria-expanded="false">
           <span class="material-symbols-outlined">menu</span>
@@ -208,7 +247,7 @@
         <div class="mosaic-grid">
           <!-- Main Facade -->
           <div class="mosaic-card reveal">
-            <div class="mosaic-card-img-wrapper" style="aspect-ratio: 16/11;">
+            <div class="mosaic-card-img-wrapper" style="aspect-ratio: 16/14;">
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP3vAB54DWQJ-RvlpzynUggz7B235SqeRoHiUgX5cHQLEDJ5UhetZFozwsiIAxD3VxKJ9zbNPeneYW29PSvqfELm6ZLnYtYJwYkrVOMu30hNLRyFGHVo4uMAocCCKI2157HZo3B7EqETFMYMsRjDDIRMCh6clw_UvAVauKJNM15c5s3RE9Xa94SAkkKV1WBSehs8TqPxyuvoT7Rra1IklnXMZKrkcRocuz2_ST0guCuXBiUUGKldCCO950P6lzXSfkngvMWnW9WNcigA"
                 alt="Fachada colonial turquesa de Cafferium en Belisario Domínguez Centro Histórico" loading="lazy"
@@ -230,8 +269,8 @@
                   height="338">
               </div>
               <div class="mosaic-caption">
-                <span>Café de olla en barro tradicional</span>
-                <span class="tag" style="color: var(--color-secondary-gold);">Receta Casera</span>
+                <span>Café de olla tradicional.</span>
+                <span class="tag">Café de especialidad</span>
               </div>
             </div>
 
@@ -243,8 +282,8 @@
                   height="338">
               </div>
               <div class="mosaic-caption">
-                <span>Espacio climatizado para leer y crear</span>
-                <span class="tag">Biblioteca & Wifi</span>
+                <span>Espacio climatizado para leer y disfrutar</span>
+                <span class="tag">Biblioteca y Wi-Fi</span>
               </div>
             </div>
           </div>
@@ -313,18 +352,18 @@
         <div class="menu-header-bar">
           <div>
             <span class="section-tag reveal">Deliciosamente Elaborado</span>
-            <h2 class="section-title reveal">Nuestros Favoritos de la Barra & Cocina</h2>
+            <h2 class="section-title reveal">Nuestros Favoritos de la Barra y Cocina</h2>
             <p class="section-desc reveal">Cada plato y bebida está preparado al momento con insumos de productores
               regionales de alta calidad.</p>
           </div>
 
           <!-- Category Filter Buttons -->
-          <div class="filter-nav reveal reveal-delay-1" role="tablist" aria-label="Filtro de categorías del menú">
+          <!-- <div class="filter-nav reveal reveal-delay-1" role="tablist" aria-label="Filtro de categorías del menú">
             <button type="button" class="filter-btn active" data-filter="all">Todos</button>
             <button type="button" class="filter-btn" data-filter="cafe">Café y Bebidas</button>
             <button type="button" class="filter-btn" data-filter="brunch">Desayunos</button>
             <button type="button" class="filter-btn" data-filter="panaderia">Repostería</button>
-          </div>
+          </div> -->
         </div>
 
         <!-- Menu Grid -->
@@ -336,7 +375,6 @@
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeWn6GQ3lC_4nkjwe53psEtLNEL81ra_MLTG_C9piuqijwDLTRDY_AVbqVVjwmLMaqavoo4HnSjHQjX7A125O5uDn7ooCmiiRede9mbRgyHfWMNRG3IxS-wfT7rTRPdL-kElT_MDvRoeoqeQqu4SIlgXK37YRnyWtmlgY5wT2X1Y_YeGX2lWImfxvjtJ9YkY6CgdGTOahghcezGU250D6lq4jl5vB6eOBB1UWWR_LGVna8oUafFtU7eEF6-OUEryNFmw"
                 alt="Dirty Chai y Cold Brew servido con hielo en vaso artesanal" loading="lazy" width="400"
                 height="300">
-              <span class="menu-card-tag">Favorito</span>
             </div>
             <div class="menu-card-body">
               <div>
@@ -371,7 +409,6 @@
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq0ikznxWo6SBr6CTIl2-kY6dN_R9baRYIhBoQkP0cM4RWSOLdh-XUunpMbIVZ4A9-zGrffrL-ksNjzJsKetjvGXaIsyL_dAfGs_is6_f3BixqR4JUm3PuZW-mg9xTwfbu6Errw7sKt4DAgW6XM4KuXkrw36o4mOLvRD9XTHRexpPRoEaSUH8gMNpRXtNE3gC8WSGVyjhBkgyt2IGKjHIiJemE80bq3B-lvrvgZg7BB0eYL-B_z4-I"
                 alt="Café de olla con canela en raja y piloncillo en jarrito de barro" loading="lazy" width="400"
                 height="300">
-              <span class="menu-card-tag gold">Tradición</span>
             </div>
             <div class="menu-card-body">
               <div>
@@ -406,7 +443,6 @@
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq1DVHNHjeeDXVvyGAZizuli6b7rTM7WHqlxDnotjnsAGW18_bAyb3prV1JMml-jq7DON4oZgQKajQ34gsK3LB926ZnwrRtytAMN7S8wQ87zsR8Q5glmQUz3ozaZiy7_CtRWxtlj_wE4S-A6m_3JfgllgY0LYSOo1Qt8MjAooabWLMNbt_L8zPe5uI9_9YEAha9oUlQhzGBF32Fzfb-orHVgY34ibDCsDGWzgTEfkmO3zJFkK9VAjf"
                 alt="French Toast gourmet de pan brioche con coulis de frutos rojos y crema montada" loading="lazy"
                 width="400" height="300">
-              <span class="menu-card-tag">Chef Choice</span>
             </div>
             <div class="menu-card-body">
               <div>
@@ -419,7 +455,7 @@
                   acompañado de frutos silvestres y crema montada sedosa.</p>
               </div>
               <div class="menu-card-footer">
-                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);">Más Vendido</span>
+                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);">Más vendido</span>
                 <a href="https://wa.me/526691054810?text=Hola%20Cafferium,%20quisiera%20pedir%20el%20French%20Toast"
                   target="_blank" rel="noopener noreferrer" class="menu-order-btn">
                   <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16"
@@ -441,7 +477,6 @@
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYC0_-C3vGHlJpGLkRnu99vpKFkDgoZJzplgm0frdOlDXGqsjx_xGTh5m_pw28iDeeewn25fkWpPINNwMbZro6_hjrWwrI3dJ2FOhuRwS39St-GKGre5FQkVcbFRKGe4V2s4ItBYEaS176f32lzeYAs9eZ_H48a5r3Qhi0FaB0KWu0szA838iCldf7d79kyvid_9QIYKFH8CBlpRG5fbFQnuX7pnTzPjo2gFeRH9jcu6gVGV6mQmHP"
                 alt="Grilled Cheese artesanal con triple queso derretido en pan de masa madre con papas gajo"
                 loading="lazy" width="400" height="300">
-              <span class="menu-card-tag">Favorito Salado</span>
             </div>
             <div class="menu-card-body">
               <div>
@@ -476,7 +511,6 @@
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwLVheZuZfu7bbhAl0dTMABqqEfKPpnuZB8-e4kYH87dV5ymqw0tCFtzi6M1YxlzdlQ6F5gK_F0xhXxwYl-7g6U-g8m_i-RnbNFW1Qogq13K7yaXjJkTBF09VJJsuL3sASDyfIojjYnYGcQCIZMXzawuYxNiL5cSdbB0wmCFSfs7_veXb9h6dPoz8fpXbiYdDKW9bQNX3_F8bAgWTLCeNkt2gKTPS1hKp806hQ1Pq1ityhXb12_MM6jwXVmE5q8ImIMw"
                 alt="Ensalada César con pechuga asada, crutones de brioche y parmesano" loading="lazy" width="400"
                 height="300">
-              <span class="menu-card-tag">Fresco & Ligero</span>
             </div>
             <div class="menu-card-body">
               <div>
@@ -511,7 +545,6 @@
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCAzgkO4Ecj2ww_s0FxRZI0UhAEyo2TJPNDFwW1CYnkP5rvRj3paMQhHYTivwKZX-T8n3aCxvRDnIq3EcgRUdcSQwC35hslj4U_7GfuBbn_enYH1yhSy7BUcIdgTiqLTPPmI9FekKU-SfUH33QfeoQw_ptDsIYkHPqpsqo6C7_TaImH0V9nP_pAWu3pA_zlrsxS_ALqwpLMdfQqpOU-iYihfHI817jZNBCmSp5qind1XH5VklyPVk5"
                 alt="Banquete de brunch completo con french toast, huevos de campo y café americano" loading="lazy"
                 width="400" height="300">
-              <span class="menu-card-tag gold">Para Compartir</span>
             </div>
             <div class="menu-card-body">
               <div>
@@ -663,11 +696,11 @@
         <!-- Instagram Showcase Banner -->
         <div class="instagram-banner reveal">
           <div>
-            <span class="section-tag">Galería Visual</span>
-            <h3 class="section-title" style="font-size: 1.5rem;">Sigue nuestra vida en Instagram</h3>
+            <span class="section-tag">Galería</span>
+            <h3 class="section-title" style="font-size: 1.5rem;">Sigue nuestra cuenta oficial de Instagram</h3>
             <p class="section-desc" style="font-size: 0.88rem; margin-bottom: 1.5rem;">
-              Descubre los eventos artísticos, catas sensoriales de café y las fotos de nuestros visitantes etiquetando
-              a <strong style="color: var(--color-primary);">@cafferium</strong>.
+              No te pierdas ninguna de nuestras publicaciones y novedades siguiéndonos en <strong
+                style="color: var(--color-primary);">@cafferium.mx</strong>.
             </p>
             <a href="https://www.instagram.com/cafferium.mx/" target="_blank" rel="noopener noreferrer"
               class="btn-primary" style="padding: 0.75rem 1.4rem; font-size: 0.88rem;">
@@ -940,14 +973,7 @@
     <!-- Bottom Bar -->
     <div class="container footer-bottom">
       <div>
-        <span>© 2026 Cafferium Specialty Coffee Mazatlán. Todos los derechos reservados.</span>
-        <span style="margin: 0 0.5rem;">•</span>
-        <span>Powered by JTP</span>
-      </div>
-      <div>
-        <a href="#">Aviso de Privacidad</a>
-        <span style="margin: 0 0.5rem;">•</span>
-        <a href="#">Términos de Servicio</a>
+        <span>© 2026 Cafferium Mazatlán. Todos los derechos reservados.</span>
       </div>
     </div>
   </footer>

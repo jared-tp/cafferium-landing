@@ -17,6 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 5. Scroll Reveal Transitions
   initScrollReveal();
+
+  // 6. Dark / Light Theme Toggle
+  initThemeToggle();
 });
 
 /**
@@ -195,4 +198,76 @@ function initScrollReveal() {
 
   revealElements.forEach((el) => observer.observe(el));
 }
+
+/**
+ * Theme toggle controller with localStorage persistence, OS detection, and accessible states
+ */
+function initThemeToggle() {
+  const toggleBtn = document.getElementById('themeToggle');
+  if (!toggleBtn) return;
+
+  const storageKey = 'cafferium-theme';
+
+  function getCurrentTheme() {
+    return document.documentElement.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  }
+
+  function applyTheme(theme, animate = true) {
+    if (animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('theme-transitioning');
+      setTimeout(() => {
+        document.documentElement.classList.remove('theme-transitioning');
+      }, 250);
+    }
+
+    document.documentElement.setAttribute('data-theme', theme);
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
+    // Dynamic descriptive aria-label and title for accessibility
+    const isDark = theme === 'dark';
+    const label = isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro';
+    toggleBtn.setAttribute('aria-label', label);
+    toggleBtn.setAttribute('title', label);
+  }
+
+  // Initialize accessibility attributes according to currently rendered theme
+  applyTheme(getCurrentTheme(), false);
+
+  // Toggle theme on button click
+  toggleBtn.addEventListener('click', () => {
+    const current = getCurrentTheme();
+    const next = current === 'dark' ? 'light' : 'dark';
+
+    try {
+      localStorage.setItem(storageKey, next);
+    } catch (e) {
+      console.warn('No se pudo guardar la preferencia en localStorage:', e);
+    }
+
+    applyTheme(next, true);
+  });
+
+  // Listen for OS system theme changes if the user hasn't explicitly chosen a manual preference
+  try {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', (e) => {
+      try {
+        const saved = localStorage.getItem(storageKey);
+        if (!saved) {
+          applyTheme(e.matches ? 'dark' : 'light', true);
+        }
+      } catch (err) {
+        applyTheme(e.matches ? 'dark' : 'light', true);
+      }
+    });
+  } catch (e) {
+    // Legacy browser support
+  }
+}
+
 

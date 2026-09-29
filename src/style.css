@@ -55,9 +55,149 @@
   --shadow-lg: 0 12px 32px -8px rgba(25, 28, 31, 0.12);
   --shadow-xl: 0 20px 48px -12px rgba(0, 103, 109, 0.2);
 
+  /* Theme-specific tokens (Light Mode default) */
+  --header-bg: rgba(248, 249, 253, 0.92);
+  --header-border: rgba(225, 226, 230, 0.6);
+  --brand-title-color: #443328;
+  --card-border: rgba(0, 0, 0, 0.04);
+  --card-tag-bg: rgba(255, 255, 255, 0.92);
+  --card-tag-color: var(--color-on-surface);
+  --filter-hover-bg: rgba(255, 255, 255, 0.6);
+  --order-btn-bg: rgba(0, 130, 138, 0.08);
+  --top-bar-bg: var(--color-surface-low);
+  --top-bar-border: rgba(0, 0, 0, 0.04);
+
   /* Max Widths & Spacing */
   --max-w-content: 1280px;
   --header-height: 80px;
+}
+
+/* ==========================================================================
+   Dark Theme Design Tokens (Artisanal Coastal Dark Mode)
+   Comfortable palette: rich dark slates & off-white, no pure black/pure white
+   WCAG AA compliant contrast ratios throughout
+   ========================================================================== */
+[data-theme="dark"],
+.dark {
+  /* Brand Palette (Dark Mode calibrated) */
+  --color-primary: #12b3aa;
+  --color-primary-dark: #00828a;
+  --color-primary-hover: #3dddd4;
+  --color-primary-container: #004d52;
+  --color-on-primary: #042023;
+  --color-on-primary-container: #ccfbf7;
+  
+  --color-secondary: #e6b93d;
+  --color-secondary-gold: #f0c347;
+  --color-secondary-fixed: #ffe088;
+  --color-secondary-container: #483800;
+  --color-on-secondary-fixed: #241a00;
+  
+  --color-tertiary: #4ec7c3;
+  --color-tertiary-container: #004d49;
+  --color-tertiary-fixed: #7df6ef;
+  
+  /* Dark Surfaces: Slate-tinted comfortable dark greys */
+  --color-surface-lowest: #1c2025;
+  --color-surface-low: #16191d;
+  --color-surface: #111417;
+  --color-surface-container: #242930;
+  --color-surface-high: #2c323a;
+  --color-surface-dim: #38404a;
+  
+  /* Text & Accents: Soft off-white for high legibility without glare */
+  --color-on-surface: #edf1f5;
+  --color-on-surface-variant: #c0c9d2;
+  --color-on-surface-muted: #8d98a4;
+  --color-outline: #525d69;
+  --color-outline-variant: #2e353e;
+  --color-error: #ffb4ab;
+
+  /* Shadows: deeper elevation shadows for dark mode */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 14px 36px -8px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 20px 48px -12px rgba(0, 0, 0, 0.75);
+
+  /* Theme-specific tokens */
+  --header-bg: rgba(17, 20, 23, 0.92);
+  --header-border: rgba(255, 255, 255, 0.08);
+  --brand-title-color: #f7f2ea;
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-tag-bg: rgba(22, 26, 30, 0.92);
+  --card-tag-color: #edf1f5;
+  --filter-hover-bg: rgba(255, 255, 255, 0.08);
+  --order-btn-bg: rgba(18, 179, 170, 0.16);
+  --top-bar-bg: #14171a;
+  --top-bar-border: rgba(255, 255, 255, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-primary: #12b3aa;
+    --color-primary-dark: #00828a;
+    --color-primary-hover: #3dddd4;
+    --color-primary-container: #004d52;
+    --color-on-primary: #042023;
+    --color-on-primary-container: #ccfbf7;
+    
+    --color-secondary: #e6b93d;
+    --color-secondary-gold: #f0c347;
+    --color-secondary-fixed: #ffe088;
+    --color-secondary-container: #483800;
+    --color-on-secondary-fixed: #241a00;
+    
+    --color-tertiary: #4ec7c3;
+    --color-tertiary-container: #004d49;
+    --color-tertiary-fixed: #7df6ef;
+    
+    --color-surface-lowest: #1c2025;
+    --color-surface-low: #16191d;
+    --color-surface: #111417;
+    --color-surface-container: #242930;
+    --color-surface-high: #2c323a;
+    --color-surface-dim: #38404a;
+    
+    --color-on-surface: #edf1f5;
+    --color-on-surface-variant: #c0c9d2;
+    --color-on-surface-muted: #8d98a4;
+    --color-outline: #525d69;
+    --color-outline-variant: #2e353e;
+    --color-error: #ffb4ab;
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 14px 36px -8px rgba(0, 0, 0, 0.6);
+    --shadow-xl: 0 20px 48px -12px rgba(0, 0, 0, 0.75);
+
+    --header-bg: rgba(17, 20, 23, 0.92);
+    --header-border: rgba(255, 255, 255, 0.08);
+    --brand-title-color: #f7f2ea;
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-tag-bg: rgba(22, 26, 30, 0.92);
+    --card-tag-color: #edf1f5;
+    --filter-hover-bg: rgba(255, 255, 255, 0.08);
+    --order-btn-bg: rgba(18, 179, 170, 0.16);
+    --top-bar-bg: #14171a;
+    --top-bar-border: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Smooth Theme Transition (~200ms) on toggle */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, fill 200ms ease, stroke 200ms ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-transitioning,
+  html.theme-transitioning *,
+  html.theme-transitioning *::before,
+  html.theme-transitioning *::after {
+    transition: none !important;
+  }
 }
 
 /* ==========================================================================
@@ -132,15 +272,15 @@ button {
   left: 0;
   right: 0;
   z-index: 1000;
-  background-color: rgba(248, 249, 253, 0.92);
+  background-color: var(--header-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(225, 226, 230, 0.6);
+  border-bottom: 1px solid var(--header-border);
   transition: all 0.3s ease;
 }
 
 .top-bar {
-  background-color: var(--color-surface-low);
+  background-color: var(--top-bar-bg);
   color: var(--color-on-surface-variant);
   padding: 0.4rem 1rem;
   font-size: 0.75rem;
@@ -148,7 +288,7 @@ button {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid var(--top-bar-border);
 }
 
 .top-bar .dot {
@@ -201,7 +341,7 @@ button {
   font-family: var(--font-brand);
   font-size: 1.25rem;
   font-weight: 700;
-  color: #443328;
+  color: var(--brand-title-color);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   line-height: 1.1;
@@ -266,6 +406,211 @@ button {
 .icon-btn:hover {
   background-color: var(--color-surface-high);
   color: var(--color-primary-dark);
+}
+
+/* ==========================================================================
+   Dual-Icon Segmented Theme Toggle Switch
+   ========================================================================== */
+.theme-toggle-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  width: 72px;
+  height: 38px;
+  padding: 3px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface-container);
+  border: 1px solid var(--card-border);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.theme-toggle-switch:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Sliding Background Contrast Pill */
+.theme-switch-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-full);
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14);
+  transform: translateX(0);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.3s ease,
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Sides for Sun & Moon */
+.theme-switch-side {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  z-index: 2;
+  border-radius: var(--radius-full);
+}
+
+.theme-switch-side svg {
+  display: block;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.25s ease,
+              fill 0.25s ease,
+              stroke 0.25s ease;
+}
+
+/* Central Divider */
+.theme-switch-divider {
+  width: 1px;
+  height: 16px;
+  background-color: var(--color-outline-variant);
+  opacity: 0.5;
+  position: relative;
+  z-index: 2;
+  margin: 0 1px;
+  transition: opacity 0.25s ease, background-color 0.25s ease;
+}
+
+/* --------------------------------------------------------------------------
+   STATE 1: LIGHT MODE ACTIVE (Sun highlighted & colored)
+   -------------------------------------------------------------------------- */
+.theme-switch-side.sun-side {
+  color: #d97706;
+}
+
+.theme-switch-side.sun-side svg {
+  stroke: #d97706;
+  fill: rgba(245, 158, 11, 0.22);
+}
+
+.theme-switch-side.moon-side {
+  color: var(--color-on-surface-muted);
+  opacity: 0.65;
+}
+
+.theme-switch-side.moon-side svg {
+  stroke: currentColor;
+  fill: none;
+}
+
+/* Hover in Light Mode: playful rotation on Sun and tilt on Moon */
+.theme-toggle-switch:hover .theme-switch-side.sun-side svg {
+  transform: rotate(35deg) scale(1.15);
+  color: #b45309;
+  stroke: #b45309;
+}
+
+.theme-toggle-switch:hover .theme-switch-side.moon-side svg {
+  transform: rotate(-18deg) scale(1.18);
+  color: var(--color-on-surface);
+  stroke: var(--color-on-surface);
+  opacity: 0.9;
+}
+
+/* --------------------------------------------------------------------------
+   STATE 2: DARK MODE ACTIVE (Moon highlighted & colored, slider slides right)
+   -------------------------------------------------------------------------- */
+[data-theme="dark"] .theme-switch-thumb,
+.dark .theme-switch-thumb {
+  transform: translateX(35px);
+  background-color: var(--color-surface-high);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .theme-switch-side.sun-side,
+.dark .theme-switch-side.sun-side {
+  color: var(--color-on-surface-muted);
+  opacity: 0.55;
+}
+
+[data-theme="dark"] .theme-switch-side.sun-side svg,
+.dark .theme-switch-side.sun-side svg {
+  stroke: currentColor;
+  fill: none;
+}
+
+[data-theme="dark"] .theme-switch-side.moon-side,
+.dark .theme-switch-side.moon-side {
+  color: var(--color-secondary-gold);
+  opacity: 1;
+}
+
+[data-theme="dark"] .theme-switch-side.moon-side svg,
+.dark .theme-switch-side.moon-side svg {
+  stroke: var(--color-secondary-gold);
+  fill: rgba(240, 195, 71, 0.25);
+}
+
+/* Hover in Dark Mode: playful tilt on active Moon */
+[data-theme="dark"] .theme-toggle-switch:hover .theme-switch-side.moon-side svg,
+.dark .theme-toggle-switch:hover .theme-switch-side.moon-side svg {
+  transform: rotate(-18deg) scale(1.18);
+  stroke: #ffe088;
+  color: #ffe088;
+}
+
+/* --------------------------------------------------------------------------
+   SYSTEM PREFERENCE FALLBACK (@media prefers-color-scheme: dark)
+   -------------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-switch-thumb {
+    transform: translateX(35px);
+    background-color: var(--color-surface-high);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  :root:not([data-theme="light"]) .theme-switch-side.sun-side {
+    color: var(--color-on-surface-muted);
+    opacity: 0.55;
+  }
+
+  :root:not([data-theme="light"]) .theme-switch-side.sun-side svg {
+    stroke: currentColor;
+    fill: none;
+  }
+
+  :root:not([data-theme="light"]) .theme-switch-side.moon-side {
+    color: var(--color-secondary-gold);
+    opacity: 1;
+  }
+
+  :root:not([data-theme="light"]) .theme-switch-side.moon-side svg {
+    stroke: var(--color-secondary-gold);
+    fill: rgba(240, 195, 71, 0.25);
+  }
+
+  :root:not([data-theme="light"]) .theme-toggle-switch:hover .theme-switch-side.moon-side svg {
+    transform: rotate(-18deg) scale(1.18);
+    stroke: #ffe088;
+    color: #ffe088;
+  }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .theme-switch-thumb {
+    transition: none !important;
+  }
+  .theme-switch-side svg {
+    transition: none !important;
+    transform: none !important;
+  }
 }
 
 .mobile-menu-toggle {
@@ -634,6 +979,7 @@ button {
 .mosaic-card {
   position: relative;
   background-color: var(--color-surface-lowest);
+  border: 1px solid var(--card-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
@@ -707,7 +1053,7 @@ button {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   transition: all 0.3s ease;
-  border: 1px solid rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--card-border);
 }
 
 .pillar-card:hover {
@@ -817,7 +1163,7 @@ button {
 
 .filter-btn:not(.active):hover {
   color: var(--color-primary);
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: var(--filter-hover-bg);
 }
 
 /* Menu Grid */
@@ -841,6 +1187,7 @@ button {
 
 .menu-card {
   background-color: var(--color-surface-lowest);
+  border: 1px solid var(--card-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
@@ -883,10 +1230,11 @@ button {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  background-color: rgba(255, 255, 255, 0.92);
+  background-color: var(--card-tag-bg);
   backdrop-filter: blur(8px);
-  color: var(--color-on-surface);
+  color: var(--card-tag-color);
   box-shadow: var(--shadow-sm);
+  border: 1px solid var(--card-border);
 }
 
 .menu-card-tag.gold {
@@ -965,7 +1313,7 @@ button {
   font-size: 0.85rem;
   padding: 0.4rem 0.8rem;
   border-radius: var(--radius-sm);
-  background-color: rgba(0, 130, 138, 0.08);
+  background-color: var(--order-btn-bg);
 }
 
 .menu-order-btn:hover {
@@ -1018,6 +1366,7 @@ button {
   padding: 1rem 1.5rem;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
+  border: 1px solid var(--card-border);
 }
 
 .google-score-num {
@@ -1055,7 +1404,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--card-border);
 }
 
 .review-card:hover {
@@ -1110,6 +1459,7 @@ button {
   grid-template-columns: 1fr;
   gap: 2rem;
   align-items: center;
+  border: 1px solid var(--card-border);
 }
 
 @media (min-width: 900px) {
@@ -1183,6 +1533,7 @@ button {
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
+  border: 1px solid var(--card-border);
 }
 
 .branch-card:hover {
@@ -1289,6 +1640,7 @@ button {
   border-radius: var(--radius-md);
   font-weight: 500;
   font-size: 0.88rem;
+  border: 1px solid var(--card-border);
 }
 
 .btn-branch-sub:hover {
@@ -1380,6 +1732,7 @@ button {
   justify-content: center;
   color: var(--color-on-surface-variant);
   box-shadow: var(--shadow-sm);
+  border: 1px solid var(--card-border);
 }
 
 .social-icon-btn:hover {
@@ -1464,4 +1817,25 @@ button {
     transition: none !important;
   }
 }
+
+/* ==========================================================================
+   Dark Theme Image & Asset Refinements
+   ========================================================================== */
+[data-theme="dark"] img:not(.brand-logo-img),
+.dark img:not(.brand-logo-img) {
+  filter: brightness(0.92) contrast(1.02);
+}
+
+[data-theme="dark"] img:not(.brand-logo-img):hover,
+.dark img:not(.brand-logo-img):hover {
+  filter: brightness(1) contrast(1);
+}
+
+/* Subtle gold halo for circular brand logo badge in dark mode */
+[data-theme="dark"] .brand-logo-img,
+.dark .brand-logo-img {
+  border-color: rgba(240, 195, 71, 0.6);
+  box-shadow: 0 0 12px rgba(240, 195, 71, 0.25);
+}
+
 
