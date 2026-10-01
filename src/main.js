@@ -2,7 +2,151 @@
  * CAFFERIUM SPECIALTY COFFEE - Main Client Logic
  */
 
+/* ==========================================================================
+   Internationalization (ES / EN)
+   Las traducciones viven junto al original en el markup: data-es / data-en para
+   texto, data-alt-* para <img alt>, data-aria-* para aria-label y data-wa-*
+   para los mensajes prellenados de WhatsApp.
+   ========================================================================== */
+
+const I18N = {
+  storageKey: 'cafferium-lang',
+  supported: ['es', 'en'],
+  htmlLang: { es: 'es-MX', en: 'en' },
+
+  docTitle: {
+    es: 'Cafferium • Cafetería de Especialidad & Panadería Artesanal | Mazatlán',
+    en: 'Cafferium • Specialty Coffee & Artisan Bakery | Mazatlán',
+  },
+
+  docDescription: {
+    es: 'Cafetería de especialidad y panadería de masa madre en Mazatlán, Sinaloa. Café mexicano de altura, repostería artesanal, libros y un refugio cultural en Centro Histórico y Torre Central.',
+    en: 'Specialty coffee and sourdough bakery in Mazatlán, Sinaloa. High-altitude Mexican coffee, artisan pastries, books and a cool cultural retreat in Centro Histórico and Torre Central.',
+  },
+
+  // La etiqueta describe la acción que ejecuta el toggle, no el estado actual
+  toggleLabel: {
+    es: 'Switch to English',
+    en: 'Cambiar a español',
+  },
+
+  liveMessage: {
+    es: 'Idioma cambiado a español',
+    en: 'Language changed to English',
+  },
+
+  whatsappBase: 'https://wa.me/526691054810?text=',
+};
+
+/**
+ * Determina el idioma activo respetando, en este orden:
+ * 1. Preferencia guardada por el usuario
+ * 2. data-lang, ya resuelto por el script anti-FOUC del <head>
+ * 3. Idioma del navegador
+ */
+function resolveLanguage() {
+  let saved = null;
+  try {
+    saved = localStorage.getItem(I18N.storageKey);
+  } catch (e) {
+    saved = null;
+  }
+  if (saved && I18N.supported.includes(saved)) return saved;
+
+  const fromHead = document.documentElement.getAttribute('data-lang');
+  if (fromHead && I18N.supported.includes(fromHead)) return fromHead;
+
+  const nav = (navigator.language || 'es').toLowerCase();
+  return nav.startsWith('es') ? 'es' : 'en';
+}
+
+function getCurrentLanguage() {
+  return document.documentElement.getAttribute('data-lang') || 'es';
+}
+
+/**
+ * Aplica un idioma a todo el documento.
+ *
+ * Se ejecuta como UNA única tarea sincrónica: el navegador no pinta entre
+ * iteraciones, así que no hay parpadeo. Nada aquí usa setTimeout, clases
+ * transitorias ni requestAnimationFrame, que son justamente lo que lo causaría.
+ */
+function applyLanguage(lang) {
+  const k = lang === 'en' ? 'en' : 'es';
+  const root = document.documentElement;
+  root.setAttribute('data-lang', lang);
+  root.setAttribute('lang', I18N.htmlLang[lang]);
+
+  // --- Texto visible ---
+  const texts = document.querySelectorAll('[data-es]');
+  for (const el of texts) {
+    // Sólo nodos hoja: si el elemento tiene hijos, sobrescribir textContent
+    // destruiría iconos o etiquetas anidadas.
+    if (el.children.length > 0) continue;
+    const value = el.getAttribute('data-' + k);
+    if (value !== null) el.textContent = value;
+  }
+
+  // --- Texto alternativo de imágenes ---
+  for (const el of document.querySelectorAll('[data-alt-es]')) {
+    const value = el.getAttribute('data-alt-' + k);
+    if (value !== null) el.setAttribute('alt', value);
+  }
+
+  // --- Etiquetas accesibles ---
+  for (const el of document.querySelectorAll('[data-aria-es]')) {
+    const value = el.getAttribute('data-aria-' + k);
+    if (value !== null) el.setAttribute('aria-label', value);
+  }
+
+  // --- Mensajes prellenados de WhatsApp ---
+  for (const el of document.querySelectorAll('[data-wa-es]')) {
+    const msg = el.getAttribute('data-wa-' + k);
+    if (msg) el.setAttribute('href', I18N.whatsappBase + encodeURIComponent(msg));
+  }
+
+  // --- Metadatos del documento ---
+  document.title = I18N.docTitle[k];
+  const desc = document.querySelector('meta[name="description"]');
+  if (desc) desc.setAttribute('content', I18N.docDescription[k]);
+
+  // --- Estado accesible de los controles de idioma (header y drawer) ---
+  const label = I18N.toggleLabel[lang];
+  for (const toggle of document.querySelectorAll('.lang-toggle-switch')) {
+    toggle.setAttribute('aria-label', label);
+    toggle.setAttribute('title', label);
+  }
+}
+
+function initLanguage() {
+  const toggles = document.querySelectorAll('.lang-toggle-switch');
+  const status = document.getElementById('langStatus');
+
+  // El idioma ya quedó resuelto en el <head> antes del primer paint, así que
+  // aquí sólo se sincroniza el DOM. Corre antes que initScrollReveal() para
+  // que ningún elemento oculto llegue a mostrarse con el texto anterior.
+  applyLanguage(resolveLanguage());
+
+  toggles.forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const next = getCurrentLanguage() === 'en' ? 'es' : 'en';
+      try {
+        localStorage.setItem(I18N.storageKey, next);
+      } catch (e) {
+        // Modo privado / almacenamiento bloqueado: el cambio sigue funcionando
+      }
+      applyLanguage(next);
+      if (status) status.textContent = I18N.liveMessage[next];
+      // Si se cambió desde el drawer, se cierra para no tapar el resultado.
+      if (toggle.id === 'langToggleDrawer') closeMobileDrawer();
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  // 0. Idioma — antes que cualquier otra inicialización
+  initLanguage();
+
   // 1. Menu Filter Logic
   initMenuFilter();
 
@@ -63,6 +207,21 @@ function initMenuFilter() {
 }
 
 /**
+ * Cierra el drawer móvil. Definido a nivel de módulo para que otros
+ * inicializadores (p. ej. el de idioma) puedan invocarlo.
+ */
+function closeMobileDrawer() {
+  const drawer = document.getElementById('mobileDrawer');
+  const overlay = document.getElementById('drawerOverlay');
+  const toggleBtn = document.getElementById('mobileMenuToggle');
+
+  if (drawer) drawer.classList.remove('open');
+  if (overlay) overlay.classList.remove('open');
+  if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+/**
  * Manages mobile drawer menu opening, closing, escape key, and backdrop blur
  */
 function initMobileDrawer() {
@@ -81,24 +240,17 @@ function initMobileDrawer() {
     toggleBtn.setAttribute('aria-expanded', 'true');
   }
 
-  function closeDrawer() {
-    drawer.classList.remove('open');
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
-    toggleBtn.setAttribute('aria-expanded', 'false');
-  }
-
   toggleBtn.addEventListener('click', openDrawer);
-  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
-  overlay.addEventListener('click', closeDrawer);
+  if (closeBtn) closeBtn.addEventListener('click', closeMobileDrawer);
+  overlay.addEventListener('click', closeMobileDrawer);
 
   drawerLinks.forEach((link) => {
-    link.addEventListener('click', closeDrawer);
+    link.addEventListener('click', closeMobileDrawer);
   });
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && drawer.classList.contains('open')) {
-      closeDrawer();
+      closeMobileDrawer();
     }
   });
 }

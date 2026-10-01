@@ -7,24 +7,45 @@
   <meta name="color-scheme" content="light dark">
   <title>Cafferium • Cafetería de Especialidad & Panadería Artesanal | Mazatlán</title>
 
-  <!-- Anti-FOUC Theme Detection Script -->
+  <!-- Anti-FOUC: resuelve tema e idioma ANTES del primer pintado, para que la
+       página no llegue a mostrarse en el modo o idioma equivocados. -->
   <script>
     (function () {
+      var root = document.documentElement;
+
+      // ---------- Tema claro / oscuro ----------
       try {
         var savedTheme = localStorage.getItem('cafferium-theme');
         var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         var theme = savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', theme);
+        root.setAttribute('data-theme', theme);
         if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
+          root.classList.add('dark');
         } else {
-          document.documentElement.classList.remove('dark');
+          root.classList.remove('dark');
         }
       } catch (e) {
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.documentElement.setAttribute('data-theme', 'dark');
-          document.documentElement.classList.add('dark');
+          root.setAttribute('data-theme', 'dark');
+          root.classList.add('dark');
         }
+      }
+
+      // ---------- Idioma (es / en) ----------
+      // Mandan las preferencias guardadas; si no hay, se deriva del idioma del
+      // navegador. El texto se intercambia en main.js, pero data-lang y <html
+      // lang> quedan listos aquí para que la primera pintada sea correcta.
+      try {
+        var SUPPORTED = ['es', 'en'];
+        var savedLang = localStorage.getItem('cafferium-lang');
+        var lang = (savedLang && SUPPORTED.indexOf(savedLang) > -1)
+          ? savedLang
+          : ((navigator.language || 'es').toLowerCase().indexOf('es') === 0 ? 'es' : 'en');
+        root.setAttribute('data-lang', lang);
+        root.setAttribute('lang', lang === 'en' ? 'en' : 'es-MX');
+      } catch (e) {
+        root.setAttribute('data-lang', 'es');
+        root.setAttribute('lang', 'es-MX');
       }
     })();
   </script>
@@ -98,7 +119,7 @@
         "@id": "https://cafferium.com.mx/#website",
         "url": "https://cafferium.com.mx/",
         "name": "Cafferium",
-        "inLanguage": "es-MX",
+        "inLanguage": [ "es-MX", "en" ],
         "publisher": { "@id": "https://cafferium.com.mx/#brand" }
       },
       {
@@ -251,34 +272,50 @@
        ========================================================================= -->
   <header class="site-header" id="siteHeader">
     <div class="top-bar">
-      <span class="dot"></span>
-      <span>☕ <strong>4.7★</strong> en más de 669 reseñas en Google • Centro Histórico & Torre Central</span>
+      <span class="dot" aria-hidden="true"></span>
+      <span>☕ <strong>4.7★</strong> <span
+          data-es="en más de 669 reseñas en Google • Centro Histórico &amp; Torre Central"
+          data-en="from 669+ Google reviews • Centro Histórico &amp; Torre Central">en más de 669 reseñas en Google • Centro Histórico &amp; Torre Central</span></span>
     </div>
 
     <div class="container nav-container">
       <!-- Brand Logo -->
-      <a href="#" class="brand-logo-link" aria-label="Cafferium Inicio">
+      <a href="#" class="brand-logo-link" aria-label="Cafferium Inicio" data-aria-es="Cafferium Inicio"
+        data-aria-en="Cafferium Home">
         <img
           src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA2zNKUDj0zruH5BoL0iuZB9VQyJoKKj-vtMAaFRKph8yo-4MlGWyBPkhYZPeYms8pIExYxF5Dkf8tKz61IRf2nAAXRXHD5DG2MTtcjSh6Fb94ugo80JTlgpmoUDinpmg9u1xT4n2A6taWXTfHaiYLCLGWu2R0k6r53-EQ3-ssuqcQVYFGMnRynmKzBQDal-aNgKH7QqZ4gKYfPhiCktTOhR4ADi8ujPjUc-e6mzT9LykhQYYlkOCaZCbeZ7tsyaKXfQ"
-          alt="Cafferium Sello Poseidón y Laurel" class="brand-logo-img" width="44" height="44">
+          alt="Cafferium Sello Poseidón y Laurel" data-alt-es="Cafferium Sello Poseidón y Laurel"
+          data-alt-en="Cafferium Poseidon and Laurel seal" class="brand-logo-img" width="44" height="44">
         <div class="brand-text">
           <span class="brand-title">CAFFERIUM</span>
-          <span class="brand-subtitle">Cafetería • Panadería • Arte</span>
+          <span class="brand-subtitle" data-es="Cafetería • Panadería • Arte"
+            data-en="Coffee • Bakery • Art">Cafetería • Panadería • Arte</span>
         </div>
       </a>
 
       <!-- Desktop Navigation -->
-      <nav class="desktop-nav" aria-label="Navegación Principal">
-        <a href="#esencia" class="nav-link">Nuestra Esencia</a>
-        <a href="#menu-destacado" class="nav-link">Menú</a>
-        <a href="#resenas" class="nav-link">Reseñas</a>
-        <a href="#sucursales" class="nav-link">Sucursales</a>
+      <nav class="desktop-nav" aria-label="Navegación Principal" data-aria-es="Navegación Principal"
+        data-aria-en="Main Navigation">
+        <a href="#esencia" class="nav-link" data-es="Nuestra Esencia" data-en="Our Story">Nuestra Esencia</a>
+        <a href="#menu-destacado" class="nav-link" data-es="Menú" data-en="Menu">Menú</a>
+        <a href="#resenas" class="nav-link" data-es="Reseñas" data-en="Reviews">Reseñas</a>
+        <a href="#sucursales" class="nav-link" data-es="Sucursales" data-en="Locations">Sucursales</a>
       </nav>
 
-      <!-- Nav Actions (Theme Toggle & Mobile Menu) -->
+      <!-- Nav Actions (Language Toggle, Theme Toggle & Mobile Menu) -->
       <div class="nav-actions">
+        <!-- Idioma ES | EN. aria-label y title los mantiene main.js según el
+             idioma activo, así que aquí sólo va el valor por defecto. -->
+        <button type="button" class="lang-toggle-switch" id="langToggle" aria-label="Switch to English"
+          title="Switch to English">
+          <span class="lang-switch-thumb" aria-hidden="true"></span>
+          <span class="lang-switch-side es-side" aria-hidden="true">ES</span>
+          <span class="lang-switch-divider" aria-hidden="true"></span>
+          <span class="lang-switch-side en-side" aria-hidden="true">EN</span>
+        </button>
+
         <button type="button" class="theme-toggle-switch" id="themeToggle" aria-label="Cambiar a modo oscuro"
-          title="Cambiar a modo oscuro">
+          title="Cambiar a modo oscuro" data-aria-es="Cambiar a modo oscuro" data-aria-en="Switch to dark mode">
           <span class="theme-switch-thumb" aria-hidden="true"></span>
           <span class="theme-switch-side sun-side" aria-hidden="true">
             <svg class="theme-icon-svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
@@ -303,16 +340,20 @@
           </span>
         </button>
         <button type="button" class="icon-btn mobile-menu-toggle" id="mobileMenuToggle" aria-label="Abrir menú"
-          aria-expanded="false">
-          <span class="material-symbols-outlined">menu</span>
+          aria-expanded="false" data-aria-es="Abrir menú" data-aria-en="Open menu">
+          <span class="material-symbols-outlined" aria-hidden="true">menu</span>
         </button>
       </div>
     </div>
   </header>
 
+  <!-- Anuncia el cambio de idioma a lectores de pantalla -->
+  <span class="sr-only" id="langStatus" role="status" aria-live="polite"></span>
+
   <!-- Mobile Drawer Overlay & Menu -->
   <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
-  <aside class="mobile-drawer" id="mobileDrawer" aria-label="Menú móvil">
+  <aside class="mobile-drawer" id="mobileDrawer" aria-label="Menú móvil" data-aria-es="Menú móvil"
+    data-aria-en="Mobile menu">
     <div class="drawer-header">
       <div class="brand-logo-link">
         <img
@@ -320,27 +361,28 @@
           alt="Logo" class="brand-logo-img" width="36" height="36">
         <span class="brand-title" style="font-size: 1.1rem;">CAFFERIUM</span>
       </div>
-      <button type="button" class="icon-btn" id="mobileDrawerClose" aria-label="Cerrar menú">
-        <span class="material-symbols-outlined">close</span>
+      <button type="button" class="icon-btn" id="mobileDrawerClose" aria-label="Cerrar menú"
+        data-aria-es="Cerrar menú" data-aria-en="Close menu">
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
       </button>
     </div>
 
     <nav class="drawer-links">
       <a href="#esencia" class="drawer-link">
-        <span class="material-symbols-outlined" style="color: var(--color-primary);">history_edu</span>
-        Nuestra Esencia
+        <span class="material-symbols-outlined" aria-hidden="true" style="color: var(--color-primary);">history_edu</span>
+        <span data-es="Nuestra Esencia" data-en="Our Story">Nuestra Esencia</span>
       </a>
       <a href="#menu-destacado" class="drawer-link">
-        <span class="material-symbols-outlined" style="color: var(--color-primary);">menu_book</span>
-        Menú de Especialidad
+        <span class="material-symbols-outlined" aria-hidden="true" style="color: var(--color-primary);">menu_book</span>
+        <span data-es="Menú de Especialidad" data-en="Specialty Menu">Menú de Especialidad</span>
       </a>
       <a href="#resenas" class="drawer-link">
-        <span class="material-symbols-outlined" style="color: var(--color-primary);">star</span>
-        Reseñas Google (4.7★)
+        <span class="material-symbols-outlined" aria-hidden="true" style="color: var(--color-primary);">star</span>
+        <span data-es="Reseñas Google (4.7★)" data-en="Google Reviews (4.7★)">Reseñas Google (4.7★)</span>
       </a>
       <a href="#sucursales" class="drawer-link">
-        <span class="material-symbols-outlined" style="color: var(--color-primary);">location_on</span>
-        Sucursales & Horarios
+        <span class="material-symbols-outlined" aria-hidden="true" style="color: var(--color-primary);">location_on</span>
+        <span data-es="Sucursales & Horarios" data-en="Locations & Hours">Sucursales & Horarios</span>
       </a>
     </nav>
 
@@ -352,8 +394,21 @@
           <path
             d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29" />
         </svg>
-        Escribir por WhatsApp
+        <span data-es="Escribir por WhatsApp" data-en="Message us on WhatsApp">Escribir por WhatsApp</span>
       </a>
+
+      <!-- Segundo acceso al selector de idioma, con etiqueta explícita -->
+      <div class="drawer-lang">
+        <span class="drawer-lang-label" data-es="Idioma" data-en="Language">Idioma</span>
+        <button type="button" class="lang-toggle-switch" id="langToggleDrawer" aria-label="Switch to English"
+          title="Switch to English">
+          <span class="lang-switch-thumb" aria-hidden="true"></span>
+          <span class="lang-switch-side es-side" aria-hidden="true">ES</span>
+          <span class="lang-switch-divider" aria-hidden="true"></span>
+          <span class="lang-switch-side en-side" aria-hidden="true">EN</span>
+        </button>
+      </div>
+
       <p style="font-size: 0.75rem; color: var(--color-on-surface-muted); text-align: center; margin-top: 1rem;">
         Belisario Domínguez 2006 • Torre Central
       </p>
@@ -369,50 +424,56 @@
       <img
         src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnimzW5-Vl9z-JwuwNiVGagqek2Mc2_Oq2EqswWJz6b9KpXipzNAYnrlIDUzkxR02lSDwUZ9WgPzKsJYAH_LE8Mc3LVvmFAiqkYrcZab8qFcYS7IiRpQMZq6vJ52YUH8eef-JN-LGERzTxDya-GVA0mcFy0mN9t4Pp_WAEfxy0DIzCpP5CSdpfjONxVlo8foHF76AkojIiJJHZ2Kmu7sUGvPkZlDSj5ylYGQPbJCdCT4DLhInttBN2"
         alt="Atardecer dramático en el malecón de Mazatlán sobre el Océano Pacífico con el sello dorado de Poseidón y Cafferium"
+        data-alt-es="Atardecer dramático en el malecón de Mazatlán sobre el Océano Pacífico con el sello dorado de Poseidón y Cafferium"
+        data-alt-en="Dramatic sunset over the Mazatlán boardwalk on the Pacific Ocean, with the golden Poseidon and Cafferium seal"
         class="hero-bg-img" fetchpriority="high" width="1920" height="1080">
       <div class="hero-scrim-gradient"></div>
       <div class="hero-scrim-radial"></div>
 
       <div class="container hero-content">
         <div class="hero-badge reveal">
-          <span class="material-symbols-outlined" style="font-size: 15px;">local_cafe</span>
-          <span>CAFÉ DE ESPECIALIDAD • PANADERÍA ARTESANAL • MAZATLÁN</span>
-          <span class="material-symbols-outlined" style="font-size: 15px;">stars</span>
+          <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 15px;">local_cafe</span>
+          <span data-es="CAFÉ DE ESPECIALIDAD • PANADERÍA ARTESANAL • MAZATLÁN"
+            data-en="SPECIALTY COFFEE • ARTISAN BAKERY • MAZATLÁN">CAFÉ DE ESPECIALIDAD • PANADERÍA ARTESANAL • MAZATLÁN</span>
+          <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 15px;">stars</span>
         </div>
 
         <h1 class="hero-headline reveal reveal-delay-1">
-          Mazatlán sabe a <span class="italic">Cafferium</span>
+          <span data-es="Mazatlán sabe a " data-en="Mazatlán tastes like ">Mazatlán sabe a </span><span
+            class="italic">Cafferium</span>
         </h1>
 
-        <p class="hero-subtitle reveal reveal-delay-2">
+        <p class="hero-subtitle reveal reveal-delay-2"
+          data-es="Café de especialidad de origen mexicano, panadería horneada a diario con masa madre y un refugio fresco y acogedor en el corazón de Mazatlán."
+          data-en="Specialty coffee of Mexican origin, bread baked daily with sourdough starter, and a cool, welcoming retreat in the heart of Mazatlán.">
           Café de especialidad de origen mexicano, panadería horneada a diario con masa madre y un refugio fresco y
           acogedor en el corazón de Mazatlán.
         </p>
 
         <div class="hero-actions reveal reveal-delay-3">
           <a href="#menu-destacado" class="btn-primary">
-            <span class="material-symbols-outlined">restaurant_menu</span>
-            Mira nuestro menú
+            <span class="material-symbols-outlined" aria-hidden="true">restaurant_menu</span>
+            <span data-es="Mira nuestro menú" data-en="See our menu">Mira nuestro menú</span>
           </a>
           <a href="#sucursales" class="btn-secondary-glass">
-            <span class="material-symbols-outlined">location_on</span>
-            Ubicaciones y Horarios
+            <span class="material-symbols-outlined" aria-hidden="true">location_on</span>
+            <span data-es="Ubicaciones y Horarios" data-en="Locations &amp; Hours">Ubicaciones y Horarios</span>
           </a>
         </div>
 
         <!-- Trust Ribbon -->
         <div class="hero-trust-ribbon reveal reveal-delay-4">
           <div class="trust-item">
-            <span class="material-symbols-outlined">star</span>
-            <span><strong>4.7★</strong> en +669 opiniones</span>
+            <span class="material-symbols-outlined" aria-hidden="true">star</span>
+            <span><strong>4.7★</strong> <span data-es="en +669 opiniones" data-en="from 669+ reviews">en +669 opiniones</span></span>
           </div>
           <div class="trust-item">
-            <span class="material-symbols-outlined">storefront</span>
-            <span>2 Sucursales</span>
+            <span class="material-symbols-outlined" aria-hidden="true">storefront</span>
+            <span data-es="2 Sucursales" data-en="2 Locations">2 Sucursales</span>
           </div>
           <div class="trust-item">
-            <span class="material-symbols-outlined">bakery_dining</span>
-            <span>Masa madre horneada diario</span>
+            <span class="material-symbols-outlined" aria-hidden="true">bakery_dining</span>
+            <span data-es="Masa madre horneada diario" data-en="Sourdough baked daily">Masa madre horneada diario</span>
           </div>
         </div>
       </div>
@@ -424,9 +485,12 @@
     <section class="section-padding" id="esencia">
       <div class="container">
         <div class="reveal">
-          <span class="section-tag">Nuestra Esencia Mazatleca</span>
-          <h2 class="section-title">Un rincón cultural donde el café se convierte en arte</h2>
-          <p class="section-desc">
+          <span class="section-tag" data-es="Nuestra Esencia Mazatleca" data-en="Our Mazatlán Spirit">Nuestra Esencia Mazatleca</span>
+          <h2 class="section-title" data-es="Un rincón cultural donde el café se convierte en arte"
+            data-en="A cultural corner where coffee becomes art">Un rincón cultural donde el café se convierte en arte</h2>
+          <p class="section-desc"
+            data-es="Inspirados en la mitología clásica marina y el espíritu cálido sinaloense, Cafferium nació como un santuario ante el calor costeño: casonas coloniales con muros turquesa, biblioteca abierta, patio vegetal y el inconfundible aroma a grano de altura recién extraído."
+            data-en="Inspired by classical marine mythology and the warm spirit of Sinaloa, Cafferium was born as a sanctuary from the coastal heat: colonial mansions with turquoise walls, an open library, a plant courtyard and the unmistakable aroma of freshly brewed high-altitude beans.">
             Inspirados en la mitología clásica marina y el espíritu cálido sinaloense, Cafferium nació como un santuario
             ante el calor costeño: casonas coloniales con muros turquesa, biblioteca abierta, patio vegetal y el
             inconfundible aroma a grano de altura recién extraído.
@@ -440,12 +504,14 @@
             <div class="mosaic-card-img-wrapper" style="aspect-ratio: 16/14;">
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP3vAB54DWQJ-RvlpzynUggz7B235SqeRoHiUgX5cHQLEDJ5UhetZFozwsiIAxD3VxKJ9zbNPeneYW29PSvqfELm6ZLnYtYJwYkrVOMu30hNLRyFGHVo4uMAocCCKI2157HZo3B7EqETFMYMsRjDDIRMCh6clw_UvAVauKJNM15c5s3RE9Xa94SAkkKV1WBSehs8TqPxyuvoT7Rra1IklnXMZKrkcRocuz2_ST0guCuXBiUUGKldCCO950P6lzXSfkngvMWnW9WNcigA"
-                alt="Fachada colonial turquesa de Cafferium en Belisario Domínguez Centro Histórico" loading="lazy"
+                alt="Fachada colonial turquesa de Cafferium en Belisario Domínguez Centro Histórico"
+                data-alt-es="Fachada colonial turquesa de Cafferium en Belisario Domínguez Centro Histórico"
+                data-alt-en="Cafferium's turquoise colonial facade on Belisario Domínguez, Centro Histórico" loading="lazy"
                 width="800" height="550">
             </div>
             <div class="mosaic-caption">
-              <span>Fachada icónica en Belisario Domínguez</span>
-              <span class="tag">Centro Histórico</span>
+              <span data-es="Fachada icónica en Belisario Domínguez" data-en="Iconic facade on Belisario Domínguez">Fachada icónica en Belisario Domínguez</span>
+              <span class="tag" data-es="Centro Histórico" data-en="Centro Histórico">Centro Histórico</span>
             </div>
           </div>
 
@@ -455,12 +521,14 @@
               <div class="mosaic-card-img-wrapper" style="aspect-ratio: 16/9;">
                 <img
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTGzmwQ5U51z4C_0qhvswHbPn48Gm6Lf5lUGh2t-wfP-FopLXq3AzzVWAwQyp1BkBTAwKC7oXawSg8TZd9NTJbF1rp2Dk2rdN9XyQ57LhgFAPn1QFuAZ4ptUJ_dEFqjCkOVc5of2-kE5yQ_33NZ5xOzcW-0RDZs7KMuf0__mUUItY3mwEQ84uSAMewBwn1VOuNdhrlEYRJWDqBnfeLQLEGxAvzpv9oS3PXV1O1LDQWgaf03cbUpqIai_jc7oqexSBLQaD41ABmEW0ATQ"
-                  alt="Café de olla tradicional con especias locales en jarro de barro" loading="lazy" width="600"
+                  alt="Café de olla tradicional con especias locales en jarro de barro"
+                  data-alt-es="Café de olla tradicional con especias locales en jarro de barro"
+                  data-alt-en="Traditional Mexican clay-pot coffee with local spices" loading="lazy" width="600"
                   height="338">
               </div>
               <div class="mosaic-caption">
-                <span>Café de olla tradicional.</span>
-                <span class="tag">Café de especialidad</span>
+                <span data-es="Café de olla tradicional." data-en="Traditional clay-pot coffee.">Café de olla tradicional.</span>
+                <span class="tag" data-es="Café de especialidad" data-en="Specialty coffee">Café de especialidad</span>
               </div>
             </div>
 
@@ -468,12 +536,14 @@
               <div class="mosaic-card-img-wrapper" style="aspect-ratio: 16/9;">
                 <img
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvkZ-uRABPLBY1yhkIiLY1s_KOxoo-dkxB-JuJd90SMadHghfhye_aGdzJypMpLSRs4cOinndxLwEbUgBaZ63lF9ab5NhPeLF-bLNynTqJ68F9DnGzxqzo38gEKjA1pByfpmMpSSROWws1bjbgnvIZm7ZCdDRRrRYMk1QkayEgYfGFZZ07eyWG_3QbFQ8jAyspnHqJH4-y_V--2cTCHJD0l6IYjcwPhXJAVgHib75fySW69uETiQipvW74dme1lD-YbBRNYEZQfbPZsw"
-                  alt="Salón interior de Cafferium con papel picado, ladrillo y biblioteca" loading="lazy" width="600"
+                  alt="Salón interior de Cafferium con papel picado, ladrillo y biblioteca"
+                  data-alt-es="Salón interior de Cafferium con papel picado, ladrillo y biblioteca"
+                  data-alt-en="Cafferium's interior with papel picado, brickwork and a library" loading="lazy" width="600"
                   height="338">
               </div>
               <div class="mosaic-caption">
-                <span>Espacio climatizado para leer y disfrutar</span>
-                <span class="tag">Biblioteca y Wi-Fi</span>
+                <span data-es="Espacio climatizado para leer y disfrutar" data-en="Air-conditioned space to read and unwind">Espacio climatizado para leer y disfrutar</span>
+                <span class="tag" data-es="Biblioteca y Wi-Fi" data-en="Library &amp; Wi-Fi">Biblioteca y Wi-Fi</span>
               </div>
             </div>
           </div>
@@ -484,11 +554,13 @@
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMxJRnKHLCTcXLI8IMNbNAA5O95LpC8lq2IfOf584_h-o3j64ESmduoel3iBjE7womX0Dybp9EfXZJhnok2Ic-GlpyhyEz6XTF_SIACPp9IHSiPBJE39bjk2BTcBCw5gjhLLoIzW33rLA-lL5rhSVw5P7BOBzScG_RM9-_z1h6hbJR3lTwHD6woS9OjxWrbabJUXbB7dS-kdU9aekyY_JTqP2ti-j2RIfRWWtrdpClAq4v7WFuQ8f5"
                 alt="Terraza exterior de Cafferium en Torre Central con sombrillas turquesa frente a la laguna"
+                data-alt-es="Terraza exterior de Cafferium en Torre Central con sombrillas turquesa frente a la laguna"
+                data-alt-en="Cafferium's outdoor terrace at Torre Central with turquoise umbrellas facing the lagoon"
                 loading="lazy" width="1280" height="550">
             </div>
             <div class="mosaic-caption">
-              <span>Terraza Torre Central frente al malecón y laguna</span>
-              <span class="tag">Pet Friendly & Brisa Marina</span>
+              <span data-es="Terraza Torre Central frente al malecón y laguna" data-en="Torre Central terrace overlooking the boardwalk and lagoon">Terraza Torre Central frente al malecón y laguna</span>
+              <span class="tag" data-es="Pet Friendly &amp; Brisa Marina" data-en="Pet Friendly &amp; Sea Breeze">Pet Friendly &amp; Brisa Marina</span>
             </div>
           </div>
         </div>
@@ -499,9 +571,12 @@
             <div class="pillar-icon-box teal">
               <span class="material-symbols-outlined" style="font-size: 28px;">coffee</span>
             </div>
-            <span class="pillar-number" style="color: var(--color-primary);">01. Cosecha & Método</span>
-            <h3 class="pillar-title">Grano de Altura</h3>
-            <p class="pillar-text">
+            <span class="pillar-number" style="color: var(--color-primary);" data-es="01. Cosecha &amp; Método"
+              data-en="01. Harvest &amp; Method">01. Cosecha &amp; Método</span>
+            <h3 class="pillar-title" data-es="Grano de Altura" data-en="High-Altitude Beans">Grano de Altura</h3>
+            <p class="pillar-text"
+              data-es="Seleccionamos micro-lotes de Chiapas, Veracruz y Oaxaca con tuestes de precisión. Desde métodos artesanales (V60, Chemex) hasta un espresso de crema densa."
+              data-en="We select micro-lots from Chiapas, Veracruz and Oaxaca with precision roasts. From craft brewing methods (V60, Chemex) to a dense-crema espresso.">
               Seleccionamos micro-lotes de Chiapas, Veracruz y Oaxaca con tuestes de precisión. Desde métodos
               artesanales (V60, Chemex) hasta un espresso de crema densa.
             </p>
@@ -509,11 +584,14 @@
 
           <div class="pillar-card reveal reveal-delay-1">
             <div class="pillar-icon-box gold">
-              <span class="material-symbols-outlined" style="font-size: 28px;">bakery_dining</span>
+              <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 28px;">bakery_dining</span>
             </div>
-            <span class="pillar-number" style="color: var(--color-secondary-gold);">02. Taller de Panadería</span>
-            <h3 class="pillar-title">Panadería con Alma</h3>
-            <p class="pillar-text">
+            <span class="pillar-number" style="color: var(--color-secondary-gold);" data-es="02. Taller de Panadería"
+              data-en="02. Bakery Workshop">02. Taller de Panadería</span>
+            <h3 class="pillar-title" data-es="Panadería con Alma" data-en="Bakery with Soul">Panadería con Alma</h3>
+            <p class="pillar-text"
+              data-es="Brioches esponjosos, masa madre con fermentación lenta de 24 horas y repostería que sale tibia de nuestros hornos cada mañana para el deleite porteño."
+              data-en="Fluffy brioches, sourdough with a slow 24-hour fermentation, and pastries that come out of our ovens warm every single morning.">
               Brioches esponjosos, masa madre con fermentación lenta de 24 horas y repostería que sale tibia de nuestros
               hornos cada mañana para el deleite porteño.
             </p>
@@ -521,11 +599,14 @@
 
           <div class="pillar-card reveal reveal-delay-2">
             <div class="pillar-icon-box aqua">
-              <span class="material-symbols-outlined" style="font-size: 28px;">menu_book</span>
+              <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 28px;">menu_book</span>
             </div>
-            <span class="pillar-number" style="color: var(--color-tertiary);">03. Espacio & Convivencia</span>
-            <h3 class="pillar-title">Ambiente & Cultura</h3>
-            <p class="pillar-text">
+            <span class="pillar-number" style="color: var(--color-tertiary);" data-es="03. Espacio &amp; Convivencia"
+              data-en="03. Space &amp; Company">03. Espacio &amp; Convivencia</span>
+            <h3 class="pillar-title" data-es="Ambiente &amp; Cultura" data-en="Atmosphere &amp; Culture">Ambiente &amp; Cultura</h3>
+            <p class="pillar-text"
+              data-es="Tu punto de encuentro con wifi de alta velocidad para trabajar, libros disponibles para préstamo en sala y un remanso fresco para platicar sin prisa."
+              data-en="Your meeting point with high-speed Wi-Fi to get some work done, books available to borrow in-store, and a cool retreat to chat without rushing.">
               Tu punto de encuentro con wifi de alta velocidad para trabajar, libros disponibles para préstamo en sala y
               un remanso fresco para platicar sin prisa.
             </p>
@@ -541,9 +622,12 @@
       <div class="container">
         <div class="menu-header-bar">
           <div>
-            <span class="section-tag reveal">Deliciosamente Elaborado</span>
-            <h2 class="section-title reveal">Nuestros Favoritos de la Barra y Cocina</h2>
-            <p class="section-desc reveal">Cada plato y bebida está preparado al momento con insumos de productores
+            <span class="section-tag reveal" data-es="Deliciosamente Elaborado" data-en="Deliciously Crafted">Deliciosamente Elaborado</span>
+            <h2 class="section-title reveal" data-es="Nuestros Favoritos de la Barra y Cocina"
+              data-en="Our Favourites from Bar and Kitchen">Nuestros Favoritos de la Barra y Cocina</h2>
+            <p class="section-desc reveal"
+              data-es="Cada plato y bebida está preparado al momento con insumos de productores regionales de alta calidad."
+              data-en="Every dish and drink is made to order with ingredients from high-quality regional producers.">Cada plato y bebida está preparado al momento con insumos de productores
               regionales de alta calidad.</p>
           </div>
 
@@ -563,30 +647,39 @@
             <div class="menu-card-img-wrap">
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeWn6GQ3lC_4nkjwe53psEtLNEL81ra_MLTG_C9piuqijwDLTRDY_AVbqVVjwmLMaqavoo4HnSjHQjX7A125O5uDn7ooCmiiRede9mbRgyHfWMNRG3IxS-wfT7rTRPdL-kElT_MDvRoeoqeQqu4SIlgXK37YRnyWtmlgY5wT2X1Y_YeGX2lWImfxvjtJ9YkY6CgdGTOahghcezGU250D6lq4jl5vB6eOBB1UWWR_LGVna8oUafFtU7eEF6-OUEryNFmw"
-                alt="Dirty Chai y Cold Brew servido con hielo en vaso artesanal" loading="lazy" width="400"
+                alt="Dirty Chai y Cold Brew servido con hielo en vaso artesanal"
+                data-alt-es="Dirty Chai y Cold Brew servido con hielo en vaso artesanal"
+                data-alt-en="Dirty Chai and Cold Brew served over ice in an artisan glass" loading="lazy" width="400"
                 height="300">
             </div>
             <div class="menu-card-body">
               <div>
                 <div class="menu-card-top">
-                  <h3 class="menu-card-title">Dirty Chai & Cold Brew</h3>
+                  <h3 class="menu-card-title" data-es="Dirty Chai &amp; Cold Brew"
+                    data-en="Dirty Chai &amp; Cold Brew">Dirty Chai &amp; Cold Brew</h3>
                   <span class="menu-card-price">$75 <small>MXN</small></span>
                 </div>
-                <div class="menu-card-spec">ESPRESSO DOBLE • ESPECIAS CHAI • 18 HRS REPOSO</div>
-                <p class="menu-card-desc">Espresso doble infusionado con mezcla artesanal de especias masala chai y
+                <div class="menu-card-spec" data-es="ESPRESSO DOBLE • ESPECIAS CHAI • 18 HRS REPOSO"
+                  data-en="DOUBLE ESPRESSO • CHAI SPICES • 18 HR STEEP">ESPRESSO DOBLE • ESPECIAS CHAI • 18 HRS REPOSO</div>
+                <p class="menu-card-desc"
+                  data-es="Espresso doble infusionado con mezcla artesanal de especias masala chai y leche sedosa, o cold brew de extracción en frío por 18 horas."
+                  data-en="Double espresso steeped with our house masala chai spice blend and silky milk, or an 18-hour cold brew.">Espresso doble infusionado con mezcla artesanal de especias masala chai y
                   leche sedosa, o cold brew de extracción en frío por 18 horas.</p>
               </div>
               <div class="menu-card-footer">
-                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);">Tueste Medio</span>
+                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);" data-es="Tueste Medio"
+                  data-en="Medium Roast">Tueste Medio</span>
                 <a href="https://wa.me/526691054810?text=Hola%20Cafferium,%20quisiera%20pedir%20un%20Dirty%20Chai"
-                  target="_blank" rel="noopener noreferrer" class="menu-order-btn">
+                  data-wa-es="Hola Cafferium, quisiera pedir un Dirty Chai"
+                  data-wa-en="Hi Cafferium, I'd like to order a Dirty Chai" target="_blank" rel="noopener noreferrer"
+                  class="menu-order-btn">
                   <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16"
                     height="16" fill="currentColor" aria-hidden="true">
                     <path
                       d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29" />
                   </svg>
-                  Pedir por WhatsApp <span class="material-symbols-outlined"
-                    style="font-size: 16px;">arrow_forward</span>
+                  <span data-es="Pedir por WhatsApp" data-en="Order on WhatsApp">Pedir por WhatsApp</span> <span
+                    class="material-symbols-outlined" aria-hidden="true" style="font-size: 16px;">arrow_forward</span>
                 </a>
               </div>
             </div>
@@ -597,30 +690,39 @@
             <div class="menu-card-img-wrap">
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq0ikznxWo6SBr6CTIl2-kY6dN_R9baRYIhBoQkP0cM4RWSOLdh-XUunpMbIVZ4A9-zGrffrL-ksNjzJsKetjvGXaIsyL_dAfGs_is6_f3BixqR4JUm3PuZW-mg9xTwfbu6Errw7sKt4DAgW6XM4KuXkrw36o4mOLvRD9XTHRexpPRoEaSUH8gMNpRXtNE3gC8WSGVyjhBkgyt2IGKjHIiJemE80bq3B-lvrvgZg7BB0eYL-B_z4-I"
-                alt="Café de olla con canela en raja y piloncillo en jarrito de barro" loading="lazy" width="400"
-                height="300">
+                alt="Café de olla con canela en raja y piloncillo en jarrito de barro"
+                data-alt-es="Café de olla con canela en raja y piloncillo en jarrito de barro"
+                data-alt-en="Clay-pot coffee with Ceylon cinnamon and piloncillo in an earthenware jug" loading="lazy"
+                width="400" height="300">
             </div>
             <div class="menu-card-body">
               <div>
                 <div class="menu-card-top">
-                  <h3 class="menu-card-title">Café de Olla Mazatleco</h3>
+                  <h3 class="menu-card-title" data-es="Café de Olla Mazatleco"
+                    data-en="Mazatlán Clay-Pot Coffee">Café de Olla Mazatleco</h3>
                   <span class="menu-card-price">$55 <small>MXN</small></span>
                 </div>
-                <div class="menu-card-spec">BARRO TRADICIONAL • CANELA EN RAJA • PILONCILLO</div>
-                <p class="menu-card-desc">Elaborado en olla de barro sinaloense con canela en raja de Ceilán, piloncillo
+                <div class="menu-card-spec" data-es="BARRO TRADICIONAL • CANELA EN RAJA • PILONCILLO"
+                  data-en="TRADITIONAL CLAY • CEYLON CINNAMON • PILONCILLO">BARRO TRADICIONAL • CANELA EN RAJA • PILONCILLO</div>
+                <p class="menu-card-desc"
+                  data-es="Elaborado en olla de barro sinaloense con canela en raja de Ceilán, piloncillo regional y notas aromáticas de anís estrella."
+                  data-en="Brewed in a Sinaloan clay pot with Ceylon cinnamon, regional piloncillo and aromatic star anise notes.">Elaborado en olla de barro sinaloense con canela en raja de Ceilán, piloncillo
                   regional y notas aromáticas de anís estrella.</p>
               </div>
               <div class="menu-card-footer">
-                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);">100% Orgánico</span>
+                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);" data-es="100% Orgánico"
+                  data-en="100% Organic">100% Orgánico</span>
                 <a href="https://wa.me/526691054810?text=Hola%20Cafferium,%20quisiera%20pedir%20un%20Café%20de%20Olla"
-                  target="_blank" rel="noopener noreferrer" class="menu-order-btn">
+                  data-wa-es="Hola Cafferium, quisiera pedir un Café de Olla"
+                  data-wa-en="Hi Cafferium, I'd like to order a clay-pot coffee" target="_blank" rel="noopener noreferrer"
+                  class="menu-order-btn">
                   <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16"
                     height="16" fill="currentColor" aria-hidden="true">
                     <path
                       d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29" />
                   </svg>
-                  Pedir por WhatsApp <span class="material-symbols-outlined"
-                    style="font-size: 16px;">arrow_forward</span>
+                  <span data-es="Pedir por WhatsApp" data-en="Order on WhatsApp">Pedir por WhatsApp</span> <span
+                    class="material-symbols-outlined" aria-hidden="true" style="font-size: 16px;">arrow_forward</span>
                 </a>
               </div>
             </div>
@@ -631,30 +733,39 @@
             <div class="menu-card-img-wrap">
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq1DVHNHjeeDXVvyGAZizuli6b7rTM7WHqlxDnotjnsAGW18_bAyb3prV1JMml-jq7DON4oZgQKajQ34gsK3LB926ZnwrRtytAMN7S8wQ87zsR8Q5glmQUz3ozaZiy7_CtRWxtlj_wE4S-A6m_3JfgllgY0LYSOo1Qt8MjAooabWLMNbt_L8zPe5uI9_9YEAha9oUlQhzGBF32Fzfb-orHVgY34ibDCsDGWzgTEfkmO3zJFkK9VAjf"
-                alt="French Toast gourmet de pan brioche con coulis de frutos rojos y crema montada" loading="lazy"
+                alt="French Toast gourmet de pan brioche con coulis de frutos rojos y crema montada"
+                data-alt-es="French Toast gourmet de pan brioche con coulis de frutos rojos y crema montada"
+                data-alt-en="Gourmet brioche French toast with berry coulis and whipped cream" loading="lazy"
                 width="400" height="300">
             </div>
             <div class="menu-card-body">
               <div>
                 <div class="menu-card-top">
-                  <h3 class="menu-card-title">French Toast de Frutos Rojos</h3>
+                  <h3 class="menu-card-title" data-es="French Toast de Frutos Rojos"
+                    data-en="Berry French Toast">French Toast de Frutos Rojos</h3>
                   <span class="menu-card-price">$145 <small>MXN</small></span>
                 </div>
-                <div class="menu-card-spec">BRIOCHE ARTESANAL • COULIS CASERO • CREMA MONTADA</div>
-                <p class="menu-card-desc">Pan brioche de la casa bañado en huevo de rancho y dorado a la mantequilla,
+                <div class="menu-card-spec" data-es="BRIOCHE ARTESANAL • COULIS CASERO • CREMA MONTADA"
+                  data-en="ARTISAN BRIOCHE • HOUSE COULIS • WHIPPED CREAM">BRIOCHE ARTESANAL • COULIS CASERO • CREMA MONTADA</div>
+                <p class="menu-card-desc"
+                  data-es="Pan brioche de la casa bañado en huevo de rancho y dorado a la mantequilla, acompañado de frutos silvestres y crema montada sedosa."
+                  data-en="Our house brioche dipped in farm eggs and griddled in butter, served with wild berries and silky whipped cream.">Pan brioche de la casa bañado en huevo de rancho y dorado a la mantequilla,
                   acompañado de frutos silvestres y crema montada sedosa.</p>
               </div>
               <div class="menu-card-footer">
-                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);">Más vendido</span>
+                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);" data-es="Más vendido"
+                  data-en="Best Seller">Más vendido</span>
                 <a href="https://wa.me/526691054810?text=Hola%20Cafferium,%20quisiera%20pedir%20el%20French%20Toast"
-                  target="_blank" rel="noopener noreferrer" class="menu-order-btn">
+                  data-wa-es="Hola Cafferium, quisiera pedir el French Toast"
+                  data-wa-en="Hi Cafferium, I'd like to order the French Toast" target="_blank" rel="noopener noreferrer"
+                  class="menu-order-btn">
                   <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16"
                     height="16" fill="currentColor" aria-hidden="true">
                     <path
                       d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29" />
                   </svg>
-                  Pedir por WhatsApp <span class="material-symbols-outlined"
-                    style="font-size: 16px;">arrow_forward</span>
+                  <span data-es="Pedir por WhatsApp" data-en="Order on WhatsApp">Pedir por WhatsApp</span> <span
+                    class="material-symbols-outlined" aria-hidden="true" style="font-size: 16px;">arrow_forward</span>
                 </a>
               </div>
             </div>
@@ -666,29 +777,38 @@
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYC0_-C3vGHlJpGLkRnu99vpKFkDgoZJzplgm0frdOlDXGqsjx_xGTh5m_pw28iDeeewn25fkWpPINNwMbZro6_hjrWwrI3dJ2FOhuRwS39St-GKGre5FQkVcbFRKGe4V2s4ItBYEaS176f32lzeYAs9eZ_H48a5r3Qhi0FaB0KWu0szA838iCldf7d79kyvid_9QIYKFH8CBlpRG5fbFQnuX7pnTzPjo2gFeRH9jcu6gVGV6mQmHP"
                 alt="Grilled Cheese artesanal con triple queso derretido en pan de masa madre con papas gajo"
+                data-alt-es="Grilled Cheese artesanal con triple queso derretido en pan de masa madre con papas gajo"
+                data-alt-en="Artisan grilled cheese with three melted cheeses on sourdough bread and potato wedges"
                 loading="lazy" width="400" height="300">
             </div>
             <div class="menu-card-body">
               <div>
                 <div class="menu-card-top">
-                  <h3 class="menu-card-title">Grilled Cheese Gourmet</h3>
+                  <h3 class="menu-card-title" data-es="Grilled Cheese Gourmet"
+                    data-en="Gourmet Grilled Cheese">Grilled Cheese Gourmet</h3>
                   <span class="menu-card-price">$135 <small>MXN</small></span>
                 </div>
-                <div class="menu-card-spec">MASA MADRE • TRIPLE QUESO • PAPAS GAJO</div>
-                <p class="menu-card-desc">Rebanadas gruesas de pan campesino fermentado con masa madre, mezcla fundida
+                <div class="menu-card-spec" data-es="MASA MADRE • TRIPLE QUESO • PAPAS GAJO"
+                  data-en="SOURDOUGH • THREE CHEESES • POTATO WEDGES">MASA MADRE • TRIPLE QUESO • PAPAS GAJO</div>
+                <p class="menu-card-desc"
+                  data-es="Rebanadas gruesas de pan campesino fermentado con masa madre, mezcla fundida de tres quesos, aderezo mostaza dijón y gajos crujientes."
+                  data-en="Thick slices of sourdough country bread, a melted three-cheese blend, Dijon mustard dressing and crispy potato wedges.">Rebanadas gruesas de pan campesino fermentado con masa madre, mezcla fundida
                   de tres quesos, aderezo mostaza dijón y gajos crujientes.</p>
               </div>
               <div class="menu-card-footer">
-                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);">Crujiente</span>
+                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);" data-es="Crujiente"
+                  data-en="Crispy">Crujiente</span>
                 <a href="https://wa.me/526691054810?text=Hola%20Cafferium,%20quisiera%20pedir%20el%20Grilled%20Cheese"
-                  target="_blank" rel="noopener noreferrer" class="menu-order-btn">
+                  data-wa-es="Hola Cafferium, quisiera pedir el Grilled Cheese"
+                  data-wa-en="Hi Cafferium, I'd like to order the Grilled Cheese" target="_blank" rel="noopener noreferrer"
+                  class="menu-order-btn">
                   <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16"
                     height="16" fill="currentColor" aria-hidden="true">
                     <path
                       d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29" />
                   </svg>
-                  Pedir por WhatsApp <span class="material-symbols-outlined"
-                    style="font-size: 16px;">arrow_forward</span>
+                  <span data-es="Pedir por WhatsApp" data-en="Order on WhatsApp">Pedir por WhatsApp</span> <span
+                    class="material-symbols-outlined" aria-hidden="true" style="font-size: 16px;">arrow_forward</span>
                 </a>
               </div>
             </div>
@@ -699,30 +819,39 @@
             <div class="menu-card-img-wrap">
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwLVheZuZfu7bbhAl0dTMABqqEfKPpnuZB8-e4kYH87dV5ymqw0tCFtzi6M1YxlzdlQ6F5gK_F0xhXxwYl-7g6U-g8m_i-RnbNFW1Qogq13K7yaXjJkTBF09VJJsuL3sASDyfIojjYnYGcQCIZMXzawuYxNiL5cSdbB0wmCFSfs7_veXb9h6dPoz8fpXbiYdDKW9bQNX3_F8bAgWTLCeNkt2gKTPS1hKp806hQ1Pq1ityhXb12_MM6jwXVmE5q8ImIMw"
-                alt="Ensalada César con pechuga asada, crutones de brioche y parmesano" loading="lazy" width="400"
+                alt="Ensalada César con pechuga asada, crutones de brioche y parmesano"
+                data-alt-es="Ensalada César con pechuga asada, crutones de brioche y parmesano"
+                data-alt-en="Caesar salad with grilled chicken, brioche croutons and parmesan" loading="lazy" width="400"
                 height="300">
             </div>
             <div class="menu-card-body">
               <div>
                 <div class="menu-card-top">
-                  <h3 class="menu-card-title">Ensalada César con Pollo</h3>
+                  <h3 class="menu-card-title" data-es="Ensalada César con Pollo"
+                    data-en="Caesar Salad with Chicken">Ensalada César con Pollo</h3>
                   <span class="menu-card-price">$130 <small>MXN</small></span>
                 </div>
-                <div class="menu-card-spec">LECHUGAS FRESCAS • CRUTONES BRIOCHE • PARMESANO</div>
-                <p class="menu-card-desc">Hojas crujientes de lechuga romana aderezadas con receta propia, pechuga de
+                <div class="menu-card-spec" data-es="LECHUGAS FRESCAS • CRUTONES BRIOCHE • PARMESANO"
+                  data-en="FRESH LETTUCE • BRIOCHE CROUTONS • PARMESAN">LECHUGAS FRESCAS • CRUTONES BRIOCHE • PARMESANO</div>
+                <p class="menu-card-desc"
+                  data-es="Hojas crujientes de lechuga romana aderezadas con receta propia, pechuga de pollo a las hierbas, crutones brioche y abundante queso parmesano."
+                  data-en="Crisp romaine leaves with our house dressing, herb-grilled chicken breast, brioche croutons and plenty of parmesan.">Hojas crujientes de lechuga romana aderezadas con receta propia, pechuga de
                   pollo a las hierbas, crutones brioche y abundante queso parmesano.</p>
               </div>
               <div class="menu-card-footer">
-                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);">Saludable</span>
+                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);" data-es="Saludable"
+                  data-en="Healthy">Saludable</span>
                 <a href="https://wa.me/526691054810?text=Hola%20Cafferium,%20quisiera%20pedir%20la%20Ensalada%20César"
-                  target="_blank" rel="noopener noreferrer" class="menu-order-btn">
+                  data-wa-es="Hola Cafferium, quisiera pedir la Ensalada César"
+                  data-wa-en="Hi Cafferium, I'd like to order the Caesar Salad" target="_blank" rel="noopener noreferrer"
+                  class="menu-order-btn">
                   <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16"
                     height="16" fill="currentColor" aria-hidden="true">
                     <path
                       d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29" />
                   </svg>
-                  Pedir por WhatsApp <span class="material-symbols-outlined"
-                    style="font-size: 16px;">arrow_forward</span>
+                  <span data-es="Pedir por WhatsApp" data-en="Order on WhatsApp">Pedir por WhatsApp</span> <span
+                    class="material-symbols-outlined" aria-hidden="true" style="font-size: 16px;">arrow_forward</span>
                 </a>
               </div>
             </div>
@@ -733,30 +862,39 @@
             <div class="menu-card-img-wrap">
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCAzgkO4Ecj2ww_s0FxRZI0UhAEyo2TJPNDFwW1CYnkP5rvRj3paMQhHYTivwKZX-T8n3aCxvRDnIq3EcgRUdcSQwC35hslj4U_7GfuBbn_enYH1yhSy7BUcIdgTiqLTPPmI9FekKU-SfUH33QfeoQw_ptDsIYkHPqpsqo6C7_TaImH0V9nP_pAWu3pA_zlrsxS_ALqwpLMdfQqpOU-iYihfHI817jZNBCmSp5qind1XH5VklyPVk5"
-                alt="Banquete de brunch completo con french toast, huevos de campo y café americano" loading="lazy"
+                alt="Banquete de brunch completo con french toast, huevos de campo y café americano"
+                data-alt-es="Banquete de brunch completo con french toast, huevos de campo y café americano"
+                data-alt-en="Full brunch feast with French toast, farm eggs and American coffee" loading="lazy"
                 width="400" height="300">
             </div>
             <div class="menu-card-body">
               <div>
                 <div class="menu-card-top">
-                  <h3 class="menu-card-title">Banquete Brunch Cafferium</h3>
+                  <h3 class="menu-card-title" data-es="Banquete Brunch Cafferium"
+                    data-en="Cafferium Brunch Feast">Banquete Brunch Cafferium</h3>
                   <span class="menu-card-price">$290 <small>MXN</small></span>
                 </div>
-                <div class="menu-card-spec">FRENCH TOAST • HUEVOS ESTRELLADOS • GRILLED CHEESE</div>
-                <p class="menu-card-desc">La experiencia completa para 2 o 3 personas: French toast dulce, tostada con
+                <div class="menu-card-spec" data-es="FRENCH TOAST • HUEVOS ESTRELLADOS • GRILLED CHEESE"
+                  data-en="FRENCH TOAST • FRIED EGGS • GRILLED CHEESE">FRENCH TOAST • HUEVOS ESTRELLADOS • GRILLED CHEESE</div>
+                <p class="menu-card-desc"
+                  data-es="La experiencia completa para 2 o 3 personas: French toast dulce, tostada con huevos de campo, medio grilled cheese campesino y dos cafés americanos."
+                  data-en="The complete experience for 2 or 3 people: sweet French toast, farm-egg toast, half a country grilled cheese and two American coffees.">La experiencia completa para 2 o 3 personas: French toast dulce, tostada con
                   huevos de campo, medio grilled cheese campesino y dos cafés americanos.</p>
               </div>
               <div class="menu-card-footer">
-                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);">2-3 Personas</span>
+                <span style="font-size: 0.8rem; color: var(--color-on-surface-muted);" data-es="2-3 Personas"
+                  data-en="Serves 2-3">2-3 Personas</span>
                 <a href="https://wa.me/526691054810?text=Hola%20Cafferium,%20quisiera%20reservar%20el%20Banquete%20Brunch"
-                  target="_blank" rel="noopener noreferrer" class="menu-order-btn">
+                  data-wa-es="Hola Cafferium, quisiera reservar el Banquete Brunch"
+                  data-wa-en="Hi Cafferium, I'd like to book the Brunch Feast" target="_blank" rel="noopener noreferrer"
+                  class="menu-order-btn">
                   <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16"
                     height="16" fill="currentColor" aria-hidden="true">
                     <path
                       d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29" />
                   </svg>
-                  Pedir por WhatsApp <span class="material-symbols-outlined"
-                    style="font-size: 16px;">arrow_forward</span>
+                  <span data-es="Pedir por WhatsApp" data-en="Order on WhatsApp">Pedir por WhatsApp</span> <span
+                    class="material-symbols-outlined" aria-hidden="true" style="font-size: 16px;">arrow_forward</span>
                 </a>
               </div>
             </div>
@@ -765,13 +903,15 @@
 
         <div style="text-align: center; margin-top: 3rem;" class="reveal">
           <a href="https://wa.me/526691054810?text=Hola%20Cafferium,%20me%20gustaria%20ver%20la%20carta%20completa%20en%20PDF"
-            target="_blank" rel="noopener noreferrer" class="btn-primary" style="gap: 0.6rem;">
+            data-wa-es="Hola Cafferium, me gustaría ver la carta completa en PDF"
+            data-wa-en="Hi Cafferium, I'd like to see the full menu in PDF" target="_blank" rel="noopener noreferrer"
+            class="btn-primary" style="gap: 0.6rem;">
             <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"
               fill="currentColor" aria-hidden="true">
               <path
                 d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29" />
             </svg>
-            Ver menú completo
+            <span data-es="Ver menú completo" data-en="See the full menu">Ver menú completo</span>
           </a>
         </div>
       </div>
@@ -784,8 +924,9 @@
       <div class="container">
         <div class="reviews-top-bar">
           <div>
-            <span class="section-tag">Experiencias Verificadas</span>
-            <h2 class="section-title">La comunidad mazatleca nos respalda</h2>
+            <span class="section-tag" data-es="Experiencias Verificadas" data-en="Verified Experiences">Experiencias Verificadas</span>
+            <h2 class="section-title" data-es="La comunidad mazatleca nos respalda"
+              data-en="Backed by the local community">La comunidad mazatleca nos respalda</h2>
           </div>
 
           <!-- Google Score Card -->
@@ -793,14 +934,17 @@
             <span class="google-score-num">4.7</span>
             <div>
               <div class="stars-row">
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star_half</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star_half</span>
               </div>
-              <p style="font-weight: 600; font-size: 0.85rem; margin-top: 2px;">Más de 669 reseñas en Google</p>
-              <p style="font-size: 0.75rem; color: var(--color-on-surface-muted);">Calificación de excelencia en
+              <p style="font-weight: 600; font-size: 0.85rem; margin-top: 2px;" data-es="Más de 669 reseñas en Google"
+                data-en="669+ reviews on Google">Más de 669 reseñas en Google</p>
+              <p style="font-size: 0.75rem; color: var(--color-on-surface-muted);"
+                data-es="Calificación de excelencia en Mazatlán"
+                data-en="An excellence rating in Mazatlán">Calificación de excelencia en
                 Mazatlán</p>
             </div>
           </div>
@@ -812,13 +956,15 @@
           <div class="review-card reveal">
             <div>
               <div class="stars-row">
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
               </div>
-              <p class="review-text">
+              <p class="review-text"
+                data-es="&quot;El lugar ideal si eres un aficionado al café de especialidad. Espacio brillante, comida increíble y un patio interior inesperado que te hace olvidar el ajetreo de la ciudad.&quot;"
+                data-en="&quot;The ideal spot if you're into specialty coffee. Bright space, incredible food, and an unexpected inner patio that makes you forget the city's hustle.&quot;">
                 "El lugar ideal si eres un aficionado al café de especialidad. Espacio brillante, comida increíble y un
                 patio interior inesperado que te hace olvidar el ajetreo de la ciudad."
               </p>
@@ -827,7 +973,8 @@
               <div class="reviewer-avatar">JD</div>
               <div>
                 <p class="reviewer-name">Joe D.</p>
-                <p class="reviewer-sub">Google Local Guide • Nivel 7</p>
+                <p class="reviewer-sub" data-es="Google Local Guide • Nivel 7"
+                  data-en="Google Local Guide • Level 7">Google Local Guide • Nivel 7</p>
               </div>
             </div>
           </div>
@@ -836,13 +983,15 @@
           <div class="review-card reveal reveal-delay-1">
             <div>
               <div class="stars-row">
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
               </div>
-              <p class="review-text">
+              <p class="review-text"
+                data-es="&quot;Los mejores chilaquiles y french toast de Mazatlán. El café en su punto exacto de tostado y una hermosa decoración colonial fresca que te rescata del calor.&quot;"
+                data-en="&quot;The best chilaquiles and French toast in Mazatlán. The coffee roasted exactly to its peak, and a gorgeous, breezy colonial decor that rescues you from the heat.&quot;">
                 "Los mejores chilaquiles y french toast de Mazatlán. El café en su punto exacto de tostado y una hermosa
                 decoración colonial fresca que te rescata del calor."
               </p>
@@ -852,7 +1001,8 @@
                 style="background-color: rgba(212, 175, 55, 0.2); color: var(--color-secondary-gold);">MT</div>
               <div>
                 <p class="reviewer-name">M.A. Thomson</p>
-                <p class="reviewer-sub">Visitante Internacional</p>
+                <p class="reviewer-sub" data-es="Visitante Internacional"
+                  data-en="International Visitor">Visitante Internacional</p>
               </div>
             </div>
           </div>
@@ -861,13 +1011,15 @@
           <div class="review-card reveal reveal-delay-2">
             <div>
               <div class="stars-row">
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">star</span>
               </div>
-              <p class="review-text">
+              <p class="review-text"
+                data-es="&quot;Un rincón especial en Mazatlán con una biblioteca acogedora para clientes, servicio impecable y repostería artesanal deliciosa. Ideal para trabajar por la tarde.&quot;"
+                data-en="&quot;A special corner in Mazatlán with a cosy lending library for customers, impeccable service and delicious artisan pastries. Ideal for an afternoon of work.&quot;">
                 "Un rincón especial en Mazatlán con una biblioteca acogedora para clientes, servicio impecable y
                 repostería artesanal deliciosa. Ideal para trabajar por la tarde."
               </p>
@@ -877,7 +1029,8 @@
                 style="background-color: rgba(0, 104, 100, 0.15); color: var(--color-tertiary);">YK</div>
               <div>
                 <p class="reviewer-name">P. Manz / Yair K.</p>
-                <p class="reviewer-sub">Comunidad Porteña Local</p>
+                <p class="reviewer-sub" data-es="Comunidad Porteña Local"
+                  data-en="Local Community Member">Comunidad Porteña Local</p>
               </div>
             </div>
           </div>
@@ -886,16 +1039,17 @@
         <!-- Instagram Showcase Banner -->
         <div class="instagram-banner reveal">
           <div>
-            <span class="section-tag">Galería</span>
-            <h3 class="section-title" style="font-size: 1.5rem;">Sigue nuestra cuenta oficial de Instagram</h3>
-            <p class="section-desc" style="font-size: 0.88rem; margin-bottom: 1.5rem;">
-              No te pierdas ninguna de nuestras publicaciones y novedades siguiéndonos en <strong
-                style="color: var(--color-primary);">@cafferium.mx</strong>.
-            </p>
+            <span class="section-tag" data-es="Galería" data-en="Gallery">Galería</span>
+            <h3 class="section-title" style="font-size: 1.5rem;" data-es="Sigue nuestra cuenta oficial de Instagram"
+              data-en="Follow our official Instagram">Sigue nuestra cuenta oficial de Instagram</h3>
+            <p class="section-desc" style="font-size: 0.88rem; margin-bottom: 1.5rem;"><span
+                data-es="No te pierdas ninguna de nuestras publicaciones y novedades siguiéndonos en"
+                data-en="Don't miss a single post or update — follow us at">No te pierdas ninguna de nuestras publicaciones y novedades siguiéndonos en</span>
+              <strong style="color: var(--color-primary);">@cafferium.mx</strong>.</p>
             <a href="https://www.instagram.com/cafferium.mx/" target="_blank" rel="noopener noreferrer"
               class="btn-primary" style="padding: 0.75rem 1.4rem; font-size: 0.88rem;">
-              <span class="material-symbols-outlined">photo_camera</span>
-              Ver perfil de Instagram
+              <span class="material-symbols-outlined" aria-hidden="true">photo_camera</span>
+              <span data-es="Ver perfil de Instagram" data-en="View Instagram profile">Ver perfil de Instagram</span>
             </a>
           </div>
 
@@ -903,7 +1057,9 @@
             <div class="insta-photo-card">
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUtyYswF29WqNh7PTmM3YBRjHUor-5Ob_Hwky5xd1cZUh69l6FBmBo1WhinRoxoMXXSytgo-EJGm0VkR987w9s1Q6Ztq-m1ovDdcKEBEtLWfoef5_uxiiHdH7pzG8X8ZUNyGojvFBOHpKxhJwa9SU-1d01_8vAxphFhyGbL70Jasw0C-IwNGd7bKLjmjvLtX-j8cnV3UDDLYjEy5Ku4-dGLC064DddFFATUkUKftwjKATC6wPsn7PXGFndAeYqbXhwoA"
-                alt="Ambiente nocturno íntimo en cafetería Cafferium" loading="lazy" width="300" height="375">
+                alt="Ambiente nocturno íntimo en cafetería Cafferium"
+                data-alt-es="Ambiente nocturno íntimo en cafetería Cafferium"
+                data-alt-en="Cosy evening atmosphere inside Cafferium" loading="lazy" width="300" height="375">
               <div class="insta-photo-overlay">
                 <!-- <span>Noches en Cafferium ✨</span> -->
               </div>
@@ -912,7 +1068,9 @@
             <div class="insta-photo-card">
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOIcfA6FTU5wMswJmmbqy6OrUNQD7I6Wtwwe_pW0xbnWNXFL1miy6QWtwhud8xklmujLv8ooadiNwi0n488XjKenqJw0vkGWCYgV3Xrv2ht9DryNzJLEBrGQxYzP5dml-HyF-RbiyvqLA3GkOgyDGanqAeC85yfi2MF1Yk2iflSFrQ7Hm3OdASXnFgrmv9JdaqlOYo-1ny8VludRdu2rS1AjDqv-K2vz_eRhV0wEh8ej6juJcU03FS0CvbiEDVQ3isUw"
-                alt="Escultura helénica marina de arte en patio de Cafferium" loading="lazy" width="300" height="375">
+                alt="Escultura helénica marina de arte en patio de Cafferium"
+                data-alt-es="Escultura helénica marina de arte en patio de Cafferium"
+                data-alt-en="Grecian maritime sculpture in Cafferium's courtyard" loading="lazy" width="300" height="375">
               <div class="insta-photo-overlay">
                 <!-- <span>Arte & Escultura Marina 🏛️</span> -->
               </div>
@@ -929,9 +1087,11 @@
       <div class="container">
         <div style="text-align: center; max-width: 680px; margin-left: auto; margin-right: auto; margin-bottom: 3rem;"
           class="reveal">
-          <span class="section-tag">Visítanos en Mazatlán</span>
-          <h2 class="section-title">Nuestras dos sucursales</h2>
-          <p class="section-desc" style="margin-left: auto; margin-right: auto;">
+          <span class="section-tag" data-es="Visítanos en Mazatlán" data-en="Visit us in Mazatlán">Visítanos en Mazatlán</span>
+          <h2 class="section-title" data-es="Nuestras dos sucursales" data-en="Our two locations">Nuestras dos sucursales</h2>
+          <p class="section-desc" style="margin-left: auto; margin-right: auto;"
+            data-es="Ya sea que busques el encanto colonial con biblioteca o la brisa abierta de la terraza lacustre, te esperamos con el mejor espresso."
+            data-en="Whether you're after the colonial charm of the library or the open breeze of the lagoon terrace, we welcome you with the best espresso around.">
             Ya sea que busques el encanto colonial con biblioteca o la brisa abierta de la terraza lacustre, te
             esperamos con el mejor espresso.
           </p>
@@ -943,47 +1103,52 @@
             <div class="branch-img-header">
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6y4paMq3QgtWzrNczvr7K0cgsTUqiPMyaukhDiFrLIOZbd2Vg9VCV4m4ZEbNT0ECwFLLiLgmYqSwJ1Q3AeS3g75NqqEw99T5hDnbZrVp1dfkNjOKvdHoIdbf9j0qOQHMyjyIc29thLmX3D3RoSgPQWsCgtGmyvZQHD31cKDHIDJppmx4_OaRWtSwFA2DDQCPSbbD-dxXQLWif52HrUIuH-FipnL60AITqbujYrDwPrbc1XBjZKNEs"
-                alt="Ubicación y fachada de Cafferium Centro Histórico en Mazatlán" loading="lazy" width="600"
+                alt="Ubicación y fachada de Cafferium Centro Histórico en Mazatlán"
+                data-alt-es="Ubicación y fachada de Cafferium Centro Histórico en Mazatlán"
+                data-alt-en="Location and facade of Cafferium Centro Histórico in Mazatlán" loading="lazy" width="600"
                 height="220">
               <div class="branch-img-overlay">
-                <h3 class="branch-badge-title">Sucursal Centro Histórico</h3>
+                <h3 class="branch-badge-title" data-es="Sucursal Centro Histórico"
+                  data-en="Centro Histórico Branch">Sucursal Centro Histórico</h3>
               </div>
             </div>
 
             <div class="branch-body">
               <div class="branch-info-list">
                 <div class="branch-info-item">
-                  <span class="material-symbols-outlined text-primary">location_on</span>
-                  <span>Belisario Domínguez 2006, Centro Histórico, C.P. 82000, Mazatlán, Sin.</span>
+                  <span class="material-symbols-outlined text-primary" aria-hidden="true">location_on</span>
+                  <span data-es="Belisario Domínguez 2006, Centro Histórico, C.P. 82000, Mazatlán, Sin." data-en="Belisario Domínguez 2006, Centro Histórico, C.P. 82000, Mazatlán, Sin.">Belisario Domínguez 2006, Centro Histórico, C.P. 82000, Mazatlán, Sin.</span>
                 </div>
 
                 <div class="branch-info-item">
-                  <span class="material-symbols-outlined text-gold">schedule</span>
+                  <span class="material-symbols-outlined text-gold" aria-hidden="true">schedule</span>
                   <div>
-                    <p><strong>Martes a Jueves:</strong> 8:00 AM – 10:00 PM</p>
-                    <p><strong>Viernes a Domingo:</strong> 8:00 AM – 11:00 PM</p>
-                    <p style="color: var(--color-error); font-weight: 600;">Lunes: Cerrado</p>
+                    <p><strong data-es="Martes a Jueves:" data-en="Tuesday to Thursday:">Martes a Jueves:</strong> 8:00 AM – 10:00 PM</p>
+                    <p><strong data-es="Viernes a Domingo:" data-en="Friday to Sunday:">Viernes a Domingo:</strong> 8:00 AM – 11:00 PM</p>
+                    <p style="color: var(--color-error); font-weight: 600;" data-es="Lunes: Cerrado" data-en="Monday: Closed">Lunes: Cerrado</p>
                   </div>
                 </div>
 
                 <div class="branch-info-item">
-                  <span class="material-symbols-outlined text-tertiary">stars</span>
-                  <span>Casona azul colonial, biblioteca interior, patio vegetal y venta de café en grano.</span>
+                  <span class="material-symbols-outlined text-tertiary" aria-hidden="true">stars</span>
+                  <span data-es="Casona azul colonial, biblioteca interior, patio vegetal y venta de café en grano."
+                    data-en="Colonial blue mansion, indoor library, plant courtyard and whole-bean coffee for sale.">Casona azul colonial, biblioteca interior, patio vegetal y venta de café en grano.</span>
                 </div>
               </div>
 
               <div class="branch-actions-row">
                 <a href="https://maps.app.goo.gl/tRSFdKBwfajnCT1H9" target="_blank" rel="noopener noreferrer"
                   class="btn-branch-maps">
-                  <span class="material-symbols-outlined" style="font-size: 18px;">map</span>
-                  Abrir en Google Maps
+                  <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 18px;">map</span>
+                  <span data-es="Abrir en Google Maps" data-en="Open in Google Maps">Abrir en Google Maps</span>
                 </a>
                 <a href="tel:6691054810" class="btn-branch-sub">
-                  <span class="material-symbols-outlined"
+                  <span class="material-symbols-outlined" aria-hidden="true"
                     style="font-size: 18px; color: var(--color-primary);">call</span>
-                  Llamar
+                  <span data-es="Llamar" data-en="Call">Llamar</span>
                 </a>
-                <a href="https://wa.me/526691054810?text=Hola%20Cafferium%20Centro%20Historico" target="_blank"
+                <a href="https://wa.me/526691054810?text=Hola%20Cafferium%20Centro%20Historico"
+                  data-wa-es="Hola Cafferium Centro Historico" data-wa-en="Hi Cafferium Centro Historico" target="_blank"
                   rel="noopener noreferrer" class="btn-branch-sub" style="gap: 0.45rem;">
                   <svg class="whatsapp-icon whatsapp-icon-green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                     width="18" height="18" fill="currentColor" aria-hidden="true">
@@ -1001,47 +1166,53 @@
             <div class="branch-img-header">
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjdq2G-WOdOd_kibCotNLK_pqBUGrNLjLBPPhOZnpPBdB_EgvnlSczv1rJH7SUW0kSmc9VwLfF3l-w8BXY3rCVRfqBHw5nYLTtG8T-fE7qRnEcCXO_sHGXjsGTySJISzdc0Oo7M5UnBjOtIWtPmClQJwNmDLUckMudqv3b9bPleAHcqVdoJSDTV9tAomb7sQCcQWnzy1hv_nhVDwEJlc4pxpqSFzrM5CUodJrdhu64NN0VO_QqNsIi"
-                alt="Terraza exterior de Cafferium Torre Central en Mazatlán frente a la laguna" loading="lazy"
+                alt="Terraza exterior de Cafferium Torre Central en Mazatlán frente a la laguna"
+                data-alt-es="Terraza exterior de Cafferium Torre Central en Mazatlán frente a la laguna"
+                data-alt-en="Cafferium's outdoor terrace at Torre Central in Mazatlán facing the lagoon" loading="lazy"
                 width="600" height="220">
               <div class="branch-img-overlay">
-                <h3 class="branch-badge-title">Sucursal Torre Central</h3>
+                <h3 class="branch-badge-title" data-es="Sucursal Torre Central"
+                  data-en="Torre Central Branch">Sucursal Torre Central</h3>
               </div>
             </div>
 
             <div class="branch-body">
               <div class="branch-info-list">
                 <div class="branch-info-item">
-                  <span class="material-symbols-outlined text-primary">location_on</span>
-                  <span>Torre Central 102, Local 101 (Av. Quirino Ordaz / "Maleconcito"), Mazatlán, Sin.</span>
+                  <span class="material-symbols-outlined text-primary" aria-hidden="true">location_on</span>
+                  <span data-es="Torre Central 102, Local 101 (Av. Quirino Ordaz / &quot;Maleconcito&quot;), Mazatlán, Sin."
+                    data-en="Torre Central 102, Local 101 (Av. Quirino Ordaz / &quot;Maleconcito&quot;), Mazatlán, Sin.">Torre Central 102, Local 101 (Av. Quirino Ordaz / "Maleconcito"), Mazatlán, Sin.</span>
                 </div>
 
                 <div class="branch-info-item">
-                  <span class="material-symbols-outlined text-gold">schedule</span>
+                  <span class="material-symbols-outlined text-gold" aria-hidden="true">schedule</span>
                   <div>
-                    <p><strong>Martes a Jueves:</strong> 8:00 AM – 10:00 PM</p>
-                    <p><strong>Viernes a Domingo:</strong> 8:00 AM – 11:00 PM</p>
-                    <p style="color: var(--color-error); font-weight: 600;">Lunes: Cerrado</p>
+                    <p><strong data-es="Martes a Jueves:" data-en="Tuesday to Thursday:">Martes a Jueves:</strong> 8:00 AM – 10:00 PM</p>
+                    <p><strong data-es="Viernes a Domingo:" data-en="Friday to Sunday:">Viernes a Domingo:</strong> 8:00 AM – 11:00 PM</p>
+                    <p style="color: var(--color-error); font-weight: 600;" data-es="Lunes: Cerrado" data-en="Monday: Closed">Lunes: Cerrado</p>
                   </div>
                 </div>
 
                 <div class="branch-info-item">
-                  <span class="material-symbols-outlined text-tertiary">beach_access</span>
-                  <span>Terraza con sombrillas turquesa frente a la laguna, barra express y estacionamiento.</span>
+                  <span class="material-symbols-outlined text-tertiary" aria-hidden="true">beach_access</span>
+                  <span data-es="Terraza con sombrillas turquesa frente a la laguna, barra express y estacionamiento."
+                    data-en="Terrace with turquoise umbrellas facing the lagoon, express bar and parking.">Terraza con sombrillas turquesa frente a la laguna, barra express y estacionamiento.</span>
                 </div>
               </div>
 
               <div class="branch-actions-row">
                 <a href="https://maps.google.com/?q=Torre+Central+Mazatlan+Quirino+Ordaz" target="_blank"
                   rel="noopener noreferrer" class="btn-branch-maps">
-                  <span class="material-symbols-outlined" style="font-size: 18px;">map</span>
-                  Abrir en Google Maps
+                  <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 18px;">map</span>
+                  <span data-es="Abrir en Google Maps" data-en="Open in Google Maps">Abrir en Google Maps</span>
                 </a>
                 <a href="tel:6691054810" class="btn-branch-sub">
-                  <span class="material-symbols-outlined"
+                  <span class="material-symbols-outlined" aria-hidden="true"
                     style="font-size: 18px; color: var(--color-primary);">call</span>
-                  Llamar
+                  <span data-es="Llamar" data-en="Call">Llamar</span>
                 </a>
-                <a href="https://wa.me/526691054810?text=Hola%20Cafferium%20Torre%20Central" target="_blank"
+                <a href="https://wa.me/526691054810?text=Hola%20Cafferium%20Torre%20Central"
+                  data-wa-es="Hola Cafferium Torre Central" data-wa-en="Hi Cafferium Torre Central" target="_blank"
                   rel="noopener noreferrer" class="btn-branch-sub" style="gap: 0.45rem;">
                   <svg class="whatsapp-icon whatsapp-icon-green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                     width="18" height="18" fill="currentColor" aria-hidden="true">
@@ -1061,7 +1232,8 @@
   <!-- Floating Quick WhatsApp Button -->
   <aside class="floating-whatsapp">
     <a href="https://wa.me/526691054810" target="_blank" rel="noopener noreferrer" class="whatsapp-bubble"
-      aria-label="Escríbenos directamente por WhatsApp">
+      aria-label="Escríbenos directamente por WhatsApp" data-aria-es="Escríbenos directamente por WhatsApp"
+      data-aria-en="Message us directly on WhatsApp">
       <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
         fill="currentColor" aria-hidden="true">
         <path
@@ -1084,17 +1256,19 @@
             alt="Logo Cafferium" class="brand-logo-img" width="40" height="40">
           <span class="brand-title" style="font-size: 1.15rem;">CAFFERIUM</span>
         </div>
-        <p style="font-size: 0.85rem; color: var(--color-on-surface-variant); margin-bottom: 1rem;">
-          Cafetería de Especialidad, Panadería de Masa Madre & Espacio Cultural en Mazatlán, Sinaloa.
+        <p style="font-size: 0.85rem; color: var(--color-on-surface-variant); margin-bottom: 1rem;"
+          data-es="Cafetería de Especialidad, Panadería de Masa Madre &amp; Espacio Cultural en Mazatlán, Sinaloa."
+          data-en="Specialty Coffee, Sourdough Bakery &amp; Cultural Space in Mazatlán, Sinaloa.">
+          Cafetería de Especialidad, Panadería de Masa Madre &amp; Espacio Cultural en Mazatlán, Sinaloa.
         </p>
         <div class="social-links-row">
           <a href="https://instagram.com/cafferium.mx" target="_blank" rel="noopener noreferrer" class="social-icon-btn"
             aria-label="Instagram">
-            <span class="material-symbols-outlined" style="font-size: 20px;">photo_camera</span>
+            <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 20px;">photo_camera</span>
           </a>
           <a href="https://facebook.com/Cafferium" target="_blank" rel="noopener noreferrer" class="social-icon-btn"
             aria-label="Facebook">
-            <span class="material-symbols-outlined" style="font-size: 20px;">public</span>
+            <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 20px;">public</span>
           </a>
           <a href="https://wa.me/526691054810" target="_blank" rel="noopener noreferrer" class="social-icon-btn"
             aria-label="WhatsApp">
@@ -1109,42 +1283,45 @@
 
       <!-- Col 2: Sucursales -->
       <div>
-        <h3 class="footer-col-title">Sucursales</h3>
+        <h3 class="footer-col-title" data-es="Sucursales" data-en="Locations">Sucursales</h3>
         <div
           style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.85rem; color: var(--color-on-surface-variant);">
           <div>
-            <strong style="color: var(--color-on-surface); display: block;">Centro Histórico</strong>
+            <strong style="color: var(--color-on-surface); display: block;" data-es="Centro Histórico"
+              data-en="Centro Histórico">Centro Histórico</strong>
             <span>Belisario Domínguez 2006, Mazatlán, Sin.</span>
           </div>
           <div>
-            <strong style="color: var(--color-on-surface); display: block;">Torre Central</strong>
-            <span>Av. Quirino Ordaz Coppel ("Maleconcito"), Mazatlán, Sin.</span>
+            <strong style="color: var(--color-on-surface); display: block;" data-es="Torre Central"
+              data-en="Torre Central">Torre Central</strong>
+            <span data-es="Av. Quirino Ordaz Coppel (&quot;Maleconcito&quot;), Mazatlán, Sin."
+              data-en="Av. Quirino Ordaz Coppel (&quot;Maleconcito&quot;), Mazatlán, Sin.">Av. Quirino Ordaz Coppel ("Maleconcito"), Mazatlán, Sin.</span>
           </div>
         </div>
       </div>
 
       <!-- Col 3: Horarios -->
       <div>
-        <h3 class="footer-col-title">Horarios</h3>
+        <h3 class="footer-col-title" data-es="Horarios" data-en="Opening Hours">Horarios</h3>
         <ul
           style="list-style: none; font-size: 0.85rem; color: var(--color-on-surface-variant); display: flex; flex-direction: column; gap: 0.5rem;">
-          <li><strong>Martes a Jueves:</strong> 8:00 AM – 10:00 PM</li>
-          <li><strong>Viernes a Domingo:</strong> 8:00 AM – 11:00 PM</li>
-          <li style="color: var(--color-error); font-weight: 600;">Lunes: Cerrado</li>
+          <li><strong data-es="Martes a Jueves:" data-en="Tuesday to Thursday:">Martes a Jueves:</strong> 8:00 AM – 10:00 PM</li>
+          <li><strong data-es="Viernes a Domingo:" data-en="Friday to Sunday:">Viernes a Domingo:</strong> 8:00 AM – 11:00 PM</li>
+          <li style="color: var(--color-error); font-weight: 600;" data-es="Lunes: Cerrado" data-en="Monday: Closed">Lunes: Cerrado</li>
         </ul>
       </div>
 
       <!-- Col 4: Contacto Directo -->
       <div>
-        <h3 class="footer-col-title">Contacto</h3>
+        <h3 class="footer-col-title" data-es="Contacto" data-en="Contact">Contacto</h3>
         <div
           style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem; color: var(--color-on-surface-variant);">
           <a href="tel:6691054810" style="display: flex; align-items: center; gap: 0.5rem;">
-            <span class="material-symbols-outlined text-primary" style="font-size: 18px;">call</span>
+            <span class="material-symbols-outlined text-primary" aria-hidden="true" style="font-size: 18px;">call</span>
             669 105 4810
           </a>
           <a href="mailto:cafferium@gmail.com" style="display: flex; align-items: center; gap: 0.5rem;">
-            <span class="material-symbols-outlined text-primary" style="font-size: 18px;">mail</span>
+            <span class="material-symbols-outlined text-primary" aria-hidden="true" style="font-size: 18px;">mail</span>
             cafferium@gmail.com
           </a>
           <a href="https://wa.me/526691054810" target="_blank" rel="noopener noreferrer"
@@ -1154,7 +1331,7 @@
               <path
                 d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29" />
             </svg>
-            WhatsApp Directo
+            <span data-es="WhatsApp Directo" data-en="WhatsApp Direct">WhatsApp Directo</span>
           </a>
         </div>
       </div>
@@ -1163,7 +1340,8 @@
     <!-- Bottom Bar -->
     <div class="container footer-bottom">
       <div>
-        <span>© 2026 Cafferium Mazatlán. Todos los derechos reservados.</span>
+        <span data-es="© 2026 Cafferium Mazatlán. Todos los derechos reservados."
+          data-en="© 2026 Cafferium Mazatlán. All rights reserved.">© 2026 Cafferium Mazatlán. Todos los derechos reservados.</span>
       </div>
     </div>
   </footer>

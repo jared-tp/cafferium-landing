@@ -22,7 +22,7 @@ npm run preview   # sirve dist/ localmente
 ```
 index.html            Markup completo de la landing (una sola página)
 src/style.css         Design system + todos los estilos
-src/main.js           Lógica de cliente (filtros, drawer, scrollspy, reveal, tema)
+src/main.js           Lógica de cliente (i18n, filtros, drawer, scrollspy, reveal, tema)
 public/               Assets estáticos copiados tal cual a dist/
 ```
 
@@ -66,6 +66,83 @@ El sitio está preparado para **SEO local** de un negocio con dos sucursales.
 
 ---
 
+## Idiomas (ES / EN)
+
+La landing se puede leer en español o inglés. El control está en el header
+(pastilla `ES | EN` junto al toggle de tema) y también en el drawer móvil,
+donde aparece con la etiqueta "Idioma".
+
+**Preferencia inicial:** manda lo guardado en `localStorage`
+(`cafferium-lang`); si no hay, se deduce de `navigator.language` — los
+navegadores `es*` caen a español y cualquier otro a inglés.
+
+### Cómo funcionan las traducciones
+
+Cada traducción vive **junto al original en el markup**, con atributos `data-*`:
+
+| Atributo | Se aplica a | Nº de pares |
+|---|---|---|
+| `data-es` / `data-en` | texto visible (`<h1>`, `<p>`, `<span>`…) | 119 |
+| `data-alt-es` / `data-alt-en` | `alt` de las imágenes | 16 |
+| `data-aria-es` / `data-aria-en` | `aria-label` (nav, drawer, botón flotante) | 7 |
+| `data-wa-es` / `data-wa-en` | mensajes prellenados de WhatsApp | 9 |
+
+Además se actualizan `<title>` y la `meta description` desde `I18N` en `main.js`.
+
+**Regla importante:** sólo se marca un elemento si es una *hoja* (no tiene
+hijos). `applyLanguage()` usa `textContent`, así que marcar un elemento con
+`<strong>` o un `<span class="material-symbols-outlined">` dentro destruiría ese
+contenido. Cuando hay texto mixto, se marca el hijo de texto y se deja el resto
+intacto. El guard `if (el.children.length > 0) continue;` protege frente a
+errores, pero lo correcto es no marcar esos elementos.
+
+### Por qué no hay parpadeo
+
+1. El script inline del `<head>` (el mismo que ya existía para el tema) resuelve
+   el idioma **antes del primer pintado**, así que la primera pintada ya sale en
+   el idioma correcto.
+2. `applyLanguage()` se ejecuta como **una única tarea sincrónica**: no usa
+   `setTimeout`, `requestAnimationFrame` ni clases transitorias, que son
+   justamente lo que produciría un pintado intermedio.
+3. Corre **antes de `initScrollReveal()`**, de modo que ningún elemento oculto
+   llega a mostrarse con el texto anterior.
+
+Verificado con screencast del navegador: con la transición del control anulada
+(`prefers-reduced-motion: reduce`) el cambio produce **1 solo repintado**, y en
+109 frames observados hay **0 estados intermedios** — la página nunca se ve a
+medio traducir.
+
+Sin JavaScript, el markup base en español sigue siendo visible.
+
+### Editar una traducción
+
+Cambia el valor de `data-en` (y `data-alt-en`, `data-aria-en` o `data-wa-en`
+según el caso). El texto en español es el contenido real del elemento, así que
+si cambias uno tienes que cambiar el otro: conviene mantenerlos idénticos.
+
+---
+
+## Header
+
+El menú central se centra con un **grid de 3 columnas** (`1fr auto 1fr`) en lugar
+de `justify-content: space-between` en flex. Con flex, el hijo del centro sólo
+queda centrado cuando la marca y los controles miden lo mismo, y nunca lo hacen:
+el nav se iba unos 110 px a la izquierda.
+
+Breakpoints relevantes:
+
+| Rango | Comportamiento |
+|---|---|
+| `< 480px` | 2 columnas (`minmax(0,1fr) auto`), controles y paddings reducidos, pill de idioma a 50 px |
+| `< 768px` | Se oculta `.brand-subtitle` y se reduce la marca |
+| `1000–1023px` | Aparece el nav; `.brand-subtitle` sigue oculto (el día que vuelve a salir ya todo cabe holgado) |
+| `≥ 1024px` | Se muestra `.brand-subtitle` |
+
+Medido en Chrome en 15 anchos de 320 a 1920 px, en ambos idiomas: **0 solapes,
+0 overflow horizontal, 0 títulos truncados y offset de centrado 0 px**.
+
+---
+
 ## Notas sobre las imágenes
 
 Las fotografías se sirven como URLs directas de `lh3.googleusercontent.com` y **todas llegan como máximo a 512 px de lado mayor**, aunque varias se declaran en el HTML a 1920 px o más. En pantallas grandes se ven pixeladas y penalizan el LCP. Se recomienda bajar originales de mayor resolución y alojarlos en `public/img/` con `srcset`.
@@ -75,5 +152,6 @@ Las fotografías se sirven como URLs directas de `lh3.googleusercontent.com` y *
 ## Pendientes técnicos
 
 - No hay linter, formateador, tests ni CI
-- Los botones de filtro del menú están comentados en `index.html` (líneas ~361), aunque la lógica sigue viva en `src/main.js`
-- `index.html` monolítico (~1100 líneas): candidato natural a componentizar
+- Los botones de filtro del menú están comentados en `index.html`, aunque la lógica sigue viva en `src/main.js`
+- `index.html` monolítico (~1350 líneas): candidato natural a componentizar
+- Al añadir texto traducible hay que acordarse del par `data-es` / `data-en` (ver arriba)

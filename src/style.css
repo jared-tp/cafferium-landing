@@ -232,6 +232,19 @@ img {
   display: block;
 }
 
+/* Visible sólo para lectores de pantalla */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -299,11 +312,129 @@ button {
   display: inline-block;
 }
 
+/* El menú central se centra respecto al viewport con un grid de 3 columnas.
+   Con `justify-content: space-between` en flex, el hijo del centro sólo queda
+   alineado cuando la marca (izq.) y los controles (der.) miden lo mismo, y
+   nunca lo hacen: el nav se iba ~110px a la izquierda. */
 .nav-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   height: 70px;
+}
+
+.nav-container > * {
+  min-width: 0;
+}
+
+.nav-container > .brand-logo-link {
+  grid-column: 1;
+  justify-self: start;
+}
+
+.nav-container > .desktop-nav {
+  grid-column: 2;
+  justify-self: center;
+}
+
+.nav-container > .nav-actions {
+  grid-column: 3;
+  justify-self: end;
+}
+
+/* Por debajo de 1000px no hay menú central, así que la columna del medio sobra.
+   Con dos columnas y `minmax(0, 1fr)` la marca puede encogerse sin montarse
+   encima de los controles.
+
+   `justify-self: stretch` es imprescindible: con `start` el item toma su
+   ancho max-content y se sale de la pista, Montándose sobre los controles. */
+@media (max-width: 999px) {
+  .nav-container {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .nav-container > .brand-logo-link {
+    grid-column: 1;
+    justify-self: stretch;
+  }
+
+  .nav-container > .nav-actions {
+    grid-column: 2;
+  }
+}
+
+/* En móvil el subtítulo (nowrap, ~200px) no cabe junto a los controles:
+   se oculta y se reduce la marca para dejar sitio al resto. */
+@media (max-width: 767px) {
+  .nav-container .brand-subtitle {
+    display: none;
+  }
+
+  .nav-container .brand-logo-img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .nav-container .brand-title {
+    font-size: 1.05rem;
+  }
+}
+
+/* Cinturón de seguridad: si aun así no cabe, el nombre se recorta con
+   elipsis en lugar de invadir los controles. */
+.brand-text {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.brand-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Pantallas estrechas: se recuperan unos píxeles de margen y controles. */
+@media (max-width: 479px) {
+  .container {
+    padding-left: 0.875rem;
+    padding-right: 0.875rem;
+  }
+
+  .nav-container {
+    gap: 0.4rem;
+  }
+
+  .nav-actions {
+    gap: 0.4rem;
+  }
+
+  .nav-container .icon-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .nav-container .theme-toggle-switch {
+    width: 62px;
+  }
+
+  [data-lang="en"] .nav-container .theme-switch-thumb {
+    transform: translateX(29px);
+  }
+
+  :root:not([data-lang="es"]) .nav-container .theme-switch-thumb {
+    transform: translateX(29px);
+  }
+
+  .nav-container .lang-toggle-switch {
+    width: 50px;
+  }
+
+  [data-lang="en"] .nav-container .lang-switch-thumb {
+    transform: translateX(20px);
+  }
+
+  :root:not([data-lang="es"]) .nav-container .lang-switch-thumb {
+    transform: translateX(20px);
+  }
 }
 
 @media (min-width: 768px) {
@@ -358,6 +489,15 @@ button {
   white-space: nowrap;
 }
 
+/* Cuando aparece el menú desktop, el subtítulo (elemento `nowrap` muy ancho)
+   se oculta para dejarle sitio al nav y a los controles de la derecha.
+   Vuelve a mostrarse a partir de 1024px, donde ya todo cabe holgado. */
+@media (min-width: 1000px) and (max-width: 1023px) {
+  .nav-container .brand-subtitle {
+    display: none;
+  }
+}
+
 /* Desktop Navigation */
 .desktop-nav {
   display: none;
@@ -365,7 +505,7 @@ button {
   gap: 0.5rem;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1000px) {
   .desktop-nav {
     display: flex;
   }
@@ -377,6 +517,7 @@ button {
   color: var(--color-on-surface-variant);
   padding: 0.5rem 0.85rem;
   border-radius: var(--radius-sm);
+  white-space: nowrap;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -613,11 +754,152 @@ button {
   }
 }
 
+/* ==========================================================================
+   Segmented Language Toggle (ES | EN)
+   Mismo lenguaje visual que el toggle de tema: pastilla segmentada con un
+   "thumb" deslizante, dos lados y un divisor central. Versión compacta
+   (58x30) para convivir con el toggle de tema sin ensanchar el header.
+   ========================================================================== */
+.lang-toggle-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  width: 58px;
+  height: 30px;
+  padding: 3px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface-container);
+  border: 1px solid var(--card-border);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.lang-toggle-switch:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.lang-switch-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14);
+  transform: translateX(0);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.3s ease,
+              box-shadow 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.lang-switch-side {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  z-index: 2;
+  border-radius: var(--radius-full);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+
+.lang-switch-divider {
+  width: 1px;
+  height: 14px;
+  background-color: var(--color-outline-variant);
+  opacity: 0.5;
+  position: relative;
+  z-index: 2;
+  transition: opacity 0.25s ease, background-color 0.25s ease;
+}
+
+/* --- Estado por defecto: Español activo --- */
+.lang-switch-side.es-side {
+  color: var(--color-primary);
+  opacity: 1;
+}
+
+.lang-switch-side.en-side {
+  color: var(--color-on-surface-muted);
+  opacity: 0.65;
+}
+
+.lang-toggle-switch:hover .lang-switch-side.en-side {
+  color: var(--color-on-surface);
+  opacity: 0.9;
+}
+
+/* --- Inglés activo: el thumb se desliza a la derecha --- */
+[data-lang="en"] .lang-switch-thumb {
+  transform: translateX(28px);
+  background-color: var(--color-surface-high);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-lang="en"] .lang-switch-side.es-side {
+  color: var(--color-on-surface-muted);
+  opacity: 0.65;
+}
+
+[data-lang="en"] .lang-switch-side.en-side {
+  color: var(--color-primary);
+  opacity: 1;
+}
+
+[data-lang="en"] .lang-toggle-switch:hover .lang-switch-side.es-side {
+  color: var(--color-on-surface);
+  opacity: 0.9;
+}
+
+/* --- Fallback por preferencia del sistema (sin data-lang explícito) --- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-lang="es"]) .lang-switch-thumb {
+    transform: translateX(28px);
+    background-color: var(--color-surface-high);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  :root:not([data-lang="es"]) .lang-switch-side.es-side {
+    color: var(--color-on-surface-muted);
+    opacity: 0.65;
+  }
+
+  :root:not([data-lang="es"]) .lang-switch-side.en-side {
+    color: var(--color-primary);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .lang-switch-thumb,
+  .lang-switch-side {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
 .mobile-menu-toggle {
   display: inline-flex;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1000px) {
   .mobile-menu-toggle {
     display: none;
   }
@@ -701,6 +983,24 @@ button {
   margin-top: auto;
   padding-top: 1.5rem;
   border-top: 1px solid var(--color-surface-container);
+}
+
+/* Selector de idioma del drawer: replica el del header, con etiqueta */
+.drawer-lang {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-low);
+}
+
+.drawer-lang-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-on-surface);
 }
 
 /* ==========================================================================
