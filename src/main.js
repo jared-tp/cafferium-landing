@@ -35,7 +35,7 @@ const I18N = {
     en: 'Language changed to English',
   },
 
-  whatsappBase: 'https://wa.me/526691054810?text=',
+  whatsappBase: 'https://wa.me/526691591505?text=',
 };
 
 /**
