@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-MX">
 
 <head>
   <meta charset="UTF-8">
@@ -29,19 +29,206 @@
     })();
   </script>
 
-  <!-- SEO & Social Meta Tags -->
+  <!-- =========================================================================
+       SEO: indexación, canonical y señales geográficas
+       ========================================================================= -->
   <meta name="description"
     content="Cafetería de especialidad y panadería de masa madre en Mazatlán, Sinaloa. Café mexicano de altura, repostería artesanal, libros y un refugio cultural en Centro Histórico y Torre Central.">
-  <meta name="keywords"
-    content="Cafferium, cafe de especialidad, Mazatlan, panaderia artesanal, masa madre, Centro Historico Mazatlan, Torre Central, brunch Mazatlan, specialty coffee">
+  <link rel="canonical" href="https://cafferium.com.mx/">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="author" content="Cafferium Mazatlán">
+  <meta name="publisher" content="Cafferium Mazatlán">
+  <meta name="geo.region" content="MX-SIN">
+  <meta name="geo.placename" content="Centro Histórico y Torre Central, Mazatlán, Sinaloa">
+  <meta name="ICBM" content="23.2494, -106.4111">
+
+  <!-- theme-color: se adapta al tema del sistema operativo -->
+  <meta name="theme-color" content="#f8f9fd" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111417" media="(prefers-color-scheme: dark)">
+
+  <!-- =========================================================================
+       Favicons / PWA
+       ========================================================================= -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- =========================================================================
+       Open Graph / Twitter Card
+       og:image apunta a un asset local (1200x630) servido desde la raíz del
+       dominio, en lugar de un hotlink a Google que puede caducar.
+       ========================================================================= -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cafferium">
+  <meta property="og:locale" content="es_MX">
+  <meta property="og:url" content="https://cafferium.com.mx/">
   <meta property="og:title" content="Cafferium • Cafetería de Especialidad & Panadería Artesanal | Mazatlán">
   <meta property="og:description"
     content="Café de especialidad de origen mexicano, panadería horneada a diario con masa madre y un santuario cultural fresco en Mazatlán.">
-  <meta property="og:image"
-    content="https://lh3.googleusercontent.com/aida-public/AB6AXuDnimzW5-Vl9z-JwuwNiVGagqek2Mc2_Oq2EqswWJz6b9KpXipzNAYnrlIDUzkxR02lSDwUZ9WgPzKsJYAH_LE8Mc3LVvmFAiqkYrcZab8qFcYS7IiRpQMZq6vJ52YUH8eef-JN-LGERzTxDya-GVA0mcFy0mN9t4Pp_WAEfxy0DIzCpP5CSdpfjONxVlo8foHF76AkojIiJJHZ2Kmu7sUGvPkZlDSj5ylYGQPbJCdCT4DLhInttBN2">
-  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://cafferium.com.mx/og-image.jpg">
+  <meta property="og:image:secure_url" content="https://cafferium.com.mx/og-image.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt"
+    content="Cafferium: cafetería de especialidad y panadería artesanal en Mazatlán, con atardecer sobre el malecón y el sello de laurel.">
+
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cafferium • Cafetería de Especialidad & Panadería Artesanal | Mazatlán">
+  <meta name="twitter:description"
+    content="Café de especialidad de origen mexicano, panadería horneada a diario con masa madre y un santuario cultural fresco en Mazatlán.">
+  <meta name="twitter:image" content="https://cafferium.com.mx/og-image.jpg">
+  <meta name="twitter:image:alt"
+    content="Cafferium: cafetería de especialidad y panadería artesanal en Mazatlán, con atardecer sobre el malecón y el sello de laurel.">
+
+  <!-- =========================================================================
+       Datos estructurados (schema.org / JSON-LD)
+       Un nodo por sucursal, según la recomendación de Google para negocios
+       multi-sucursal. review/aggregateRating refleja reseñas reales de Google
+       enlazadas desde la web de Google (no reseñas escritas en este sitio).
+       ========================================================================= -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://cafferium.com.mx/#website",
+        "url": "https://cafferium.com.mx/",
+        "name": "Cafferium",
+        "inLanguage": "es-MX",
+        "publisher": { "@id": "https://cafferium.com.mx/#brand" }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://cafferium.com.mx/#brand",
+        "name": "Cafferium",
+        "url": "https://cafferium.com.mx/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://cafferium.com.mx/icon-512.png",
+          "width": 512,
+          "height": 512
+        },
+        "image": "https://cafferium.com.mx/og-image.jpg",
+        "description": "Cafetería de especialidad y panadería de masa madre en Mazatlán, Sinaloa. Cultura, café de altura y repostería artesanal.",
+        "email": "cafferium@gmail.com",
+        "telephone": "+52-669-105-4810",
+        "sameAs": [
+          "https://www.instagram.com/cafferium.mx/"
+        ],
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.7",
+          "reviewCount": "669",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "brand": { "@id": "https://cafferium.com.mx/#brand" }
+      },
+      {
+        "@type": "CafeOrCoffeeShop",
+        "@id": "https://cafferium.com.mx/#centro-historico",
+        "name": "Cafferium — Centro Histórico",
+        "url": "https://cafferium.com.mx/#sucursales",
+        "image": "https://cafferium.com.mx/og-image.jpg",
+        "telephone": "+52-669-105-4810",
+        "priceRange": "$$",
+        "currenciesAccepted": "MXN",
+        "paymentAccepted": "Efectivo, Tarjeta de crédito, Tarjeta de débito",
+        "servesCuisine": [
+          "Café de especialidad",
+          "Panadería de masa madre",
+          "Brunch",
+          "Repostería artesanal"
+        ],
+        "hasMenu": "https://cafferium.com.mx/#menu-destacado",
+        "acceptsReservations": true,
+        "branchOf": { "@id": "https://cafferium.com.mx/#brand" },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Belisario Domínguez 2006, Centro Histórico",
+          "addressLocality": "Mazatlán",
+          "addressRegion": "Sinaloa",
+          "postalCode": "82000",
+          "addressCountry": "MX"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 23.2494,
+          "longitude": -106.4111
+        },
+        "hasMap": "https://maps.app.goo.gl/tRSFdKBwfajnCT1H9",
+        "areaServed": "Centro Histórico, Mazatlán",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [ "Tuesday", "Wednesday", "Thursday" ],
+            "opens": "08:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [ "Friday", "Saturday", "Sunday" ],
+            "opens": "08:00",
+            "closes": "23:00"
+          }
+        ]
+      },
+      {
+        "@type": "CafeOrCoffeeShop",
+        "@id": "https://cafferium.com.mx/#torre-central",
+        "name": "Cafferium — Torre Central",
+        "url": "https://cafferium.com.mx/#sucursales",
+        "image": "https://cafferium.com.mx/og-image.jpg",
+        "telephone": "+52-669-105-4810",
+        "priceRange": "$$",
+        "currenciesAccepted": "MXN",
+        "paymentAccepted": "Efectivo, Tarjeta de crédito, Tarjeta de débito",
+        "servesCuisine": [
+          "Café de especialidad",
+          "Panadería de masa madre",
+          "Brunch",
+          "Repostería artesanal"
+        ],
+        "hasMenu": "https://cafferium.com.mx/#menu-destacado",
+        "acceptsReservations": true,
+        "branchOf": { "@id": "https://cafferium.com.mx/#brand" },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Torre Central 102, Local 101 (Av. Quirino Ordaz / \"Maleconcito\")",
+          "addressLocality": "Mazatlán",
+          "addressRegion": "Sinaloa",
+          "postalCode": "82000",
+          "addressCountry": "MX"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 23.2451,
+          "longitude": -106.4140
+        },
+        "hasMap": "https://maps.google.com/?q=Torre+Central+Mazatlan+Quirino+Ordaz",
+        "areaServed": "Malecón / Torre Central, Mazatlán",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [ "Tuesday", "Wednesday", "Thursday" ],
+            "opens": "08:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [ "Friday", "Saturday", "Sunday" ],
+            "opens": "08:00",
+            "closes": "23:00"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 
   <!-- Preconnect to Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -90,10 +277,12 @@
 
       <!-- Nav Actions (Theme Toggle & Mobile Menu) -->
       <div class="nav-actions">
-        <button type="button" class="theme-toggle-switch" id="themeToggle" aria-label="Cambiar a modo oscuro" title="Cambiar a modo oscuro">
+        <button type="button" class="theme-toggle-switch" id="themeToggle" aria-label="Cambiar a modo oscuro"
+          title="Cambiar a modo oscuro">
           <span class="theme-switch-thumb" aria-hidden="true"></span>
           <span class="theme-switch-side sun-side" aria-hidden="true">
-            <svg class="theme-icon-svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="theme-icon-svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="4"></circle>
               <path d="M12 2v2"></path>
               <path d="M12 20v2"></path>
@@ -107,7 +296,8 @@
           </span>
           <span class="theme-switch-divider" aria-hidden="true"></span>
           <span class="theme-switch-side moon-side" aria-hidden="true">
-            <svg class="theme-icon-svg" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="theme-icon-svg" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
             </svg>
           </span>
@@ -898,11 +1088,11 @@
           Cafetería de Especialidad, Panadería de Masa Madre & Espacio Cultural en Mazatlán, Sinaloa.
         </p>
         <div class="social-links-row">
-          <a href="https://instagram.com/cafferium" target="_blank" rel="noopener noreferrer" class="social-icon-btn"
+          <a href="https://instagram.com/cafferium.mx" target="_blank" rel="noopener noreferrer" class="social-icon-btn"
             aria-label="Instagram">
             <span class="material-symbols-outlined" style="font-size: 20px;">photo_camera</span>
           </a>
-          <a href="https://facebook.com/cafferium" target="_blank" rel="noopener noreferrer" class="social-icon-btn"
+          <a href="https://facebook.com/Cafferium" target="_blank" rel="noopener noreferrer" class="social-icon-btn"
             aria-label="Facebook">
             <span class="material-symbols-outlined" style="font-size: 20px;">public</span>
           </a>

@@ -1,0 +1,23 @@
+# robots.txt — Cafferium Mazatlán
+# https://cafferium.com.mx
+
+User-agent: *
+Allow: /
+
+# Sin páginas privadas ni áreas administrativas en este proyecto.
+Disallow: /dist/
+Disallow: /src/
+
+# Bot de previsualización de redes sociales (Facebook / Discord / Slack / Twitter)
+# No necesita "Disallow"; se permite explícitamente para que las previews
+# puedan obtener la imagen OG y los metadatos correctamente.
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+Sitemap: https://cafferium.com.mx/sitemap.xml
