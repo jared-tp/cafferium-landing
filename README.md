@@ -30,14 +30,31 @@ public/               Assets estáticos copiados tal cual a dist/
 
 | Archivo | Propósito |
 |---|---|
-| `favicon.svg` | Favicon vectorial (copa + vapor, turquesa/oro) |
-| `icon-192.png` / `icon-512.png` | Iconos PWA con esquinas redondeadas |
-| `icon-512-maskable.png` | Icono PWA *maskable* (zona segura adaptada) |
-| `apple-touch-icon.png` | Icono iOS 180×180 a sangre completa |
+| `favicon.ico` | ICO multi-tamaño (16 + 32 + 48) con la corona de laurel |
+| `favicon-32x32.png` / `favicon-48x48.png` | PNG con alfa, misma corona, para navegadores que prefieren PNG |
+| `apple-touch-icon.png` | 180×180, logo completo sobre turquesa (iOS no admite transparencia) |
+| `icon-192.png` | PWA 192×192, logo completo |
+| `icon-512.jpg` | PWA 512×512, logo completo |
+| `icon-512-maskable.jpg` | PWA 512×512 con zona segura del 80% central |
 | `og-image.jpg` | Imagen Open Graph 1200×630 (≈126 KB) |
 | `site.webmanifest` | Manifiesto PWA |
 | `robots.txt` | Reglas de rastreo + referencia al sitemap |
 | `sitemap.xml` | Sitemap para la única URL del sitio |
+
+#### Por qué el favicon usa la corona y no el logo entero
+
+El logo es un dibujo de línea con mucho detalle: barba, ojos y hojas
+individuales del laurel. Medido a tamaño real de píxel, **a 16 px el rostro se
+convierte en una mancha** y a 32 px apenas se intuye. La corona de laurel, en
+cambio, se lee como un anillo limpio tanto en fondo claro como oscuro.
+
+Solución: marca simplificada para 16–48 px y logo completo a partir de 180 px,
+que es lo que hacen las marcas con logotipos detallados.
+
+Los iconos de 512 van en **JPEG** a propósito: sin canal alfa, el mismo dibujo
+pasa de 285 KB en PNG a 46 KB en JPEG q90 sin diferencia visible, porque es
+arte de línea sobre fondo plano y opaco. El PNG se reserva para lo que
+necesita transparencia (el favicon) y para iOS, cuya especificación lo pide.
 
 ---
 
