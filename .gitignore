@@ -1,27 +1,53 @@
-# Dependencies
+# ==========================================================================
+#  Dependencias
+# ==========================================================================
 node_modules/
 .pnp
 .pnp.js
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
 
-# Production build outputs
+# ==========================================================================
+#  Salida de build
+#  Todo lo que produce `npm run build` se regenera con ese comando.
+#  Ojo: `public/` NO va aquí, es la fuente de los assets que se publican.
+# ==========================================================================
 dist/
 dist-ssr/
 build/
 out/
+*.tsbuildinfo
 
-# Environment variables & secrets (CRÍTICO: evita subir credenciales, tokens o variables de entorno)
+# ==========================================================================
+#  Variables de entorno y secretos
+#  Crítico: evita subir credenciales, tokens o claves de API.
+# ==========================================================================
 .env
 .env.*
 *.env
 !.env.example
 
-# Cache & Vite artifacts
+# ==========================================================================
+#  Cachés
+# ==========================================================================
 .vite/
 .cache/
 .parcel-cache/
+.npm/
 .eslintcache
+.stylelintcache
+.temp/
+.turbo/
+coverage/
+.nyc_output/
 
-# Logs & debugging
+# ==========================================================================
+#  Logs y depuración
+# ==========================================================================
 logs/
 *.log
 npm-debug.log*
@@ -29,13 +55,47 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+debug.log
 
-# Operating System files
-# macOS
+# ==========================================================================
+#  Archivos de trabajo temporales
+#  Scripts de un solo uso, capturas de verificación, comparativas de diseño
+#  y resultados de pruebas que se generan en local y no aportan nada al repo.
+#  Convención: prefijo `_` = temporal (igual que `_tmp/`, `_favicon/`, etc.)
+# ==========================================================================
+_*/
+_*
+!_gitignore
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+*.swp
+*.swo
+*~
+*-check.png
+*-review.png
+*-test.png
+*-preview.png
+*-before.png
+*-after.png
+
+# ==========================================================================
+#  Sistema operativo
+#  macOS
+# ==========================================================================
 .DS_Store
+.DS_Store?
+._*
 .AppleDouble
 .LSOverride
-._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+.VolumeIcon.icns
 # Windows
 Thumbs.db
 Thumbs.db:encryptable
@@ -43,21 +103,35 @@ ehthumbs.db
 ehthumbs_vista.db
 [Dd]esktop.ini
 $RECYCLE.BIN/
+*.lnk
+# Linux
+.directory
+.Trash-*
+.nfs*
 
-# IDE & Editor files
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
+# ==========================================================================
+#  Editores e IDE
+#  .vscode va entera ignorada: las preferencias son personales y este
+#  proyecto no comparte ninguna configuración de editor.
+# ==========================================================================
+.vscode/
 .idea/
+*.code-workspace
 *.suo
+*.user
+*.userosscache
+*.sln.docstates
 *.ntvs*
 *.njsproj
-*.sln
-*.sw?
-*.sublime-workspace
+*.project
+*.jshintrc
+.history/
 *.sublime-project
+*.sublime-workspace
 
-# Temporary / Local override files
+# ==========================================================================
+#  Configuración local por máquina
+# ==========================================================================
 *.local
-temp/
-tmp/
+.env.local
+.env.*.local
