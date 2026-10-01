@@ -414,26 +414,14 @@ button {
 
   .nav-container .theme-toggle-switch {
     width: 62px;
-  }
-
-  [data-lang="en"] .nav-container .theme-switch-thumb {
-    transform: translateX(29px);
-  }
-
-  :root:not([data-lang="es"]) .nav-container .theme-switch-thumb {
-    transform: translateX(29px);
+    /* 62 - 3 (padding izq) - 3 (padding der) - 30 (thumb) = 26px */
+    --thumb-slide: 26px;
   }
 
   .nav-container .lang-toggle-switch {
     width: 50px;
-  }
-
-  [data-lang="en"] .nav-container .lang-switch-thumb {
-    transform: translateX(20px);
-  }
-
-  :root:not([data-lang="es"]) .nav-container .lang-switch-thumb {
-    transform: translateX(20px);
+    /* 50 - 3 - 3 - 24 = 20px */
+    --lang-slide: 20px;
   }
 }
 
@@ -553,6 +541,11 @@ button {
    Dual-Icon Segmented Theme Toggle Switch
    ========================================================================== */
 .theme-toggle-switch {
+  /* Distancia que recorre el thumb. Se declara AQUÍ y no en cada estado para
+     que el ancho de la pastilla y el recorrido no puedan desincronizarse, que
+     es lo que pasaba cuando el valor se repetía en varias reglas. */
+  --thumb-slide: 35px;
+
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
@@ -667,7 +660,7 @@ button {
    -------------------------------------------------------------------------- */
 [data-theme="dark"] .theme-switch-thumb,
 .dark .theme-switch-thumb {
-  transform: translateX(35px);
+  transform: translateX(var(--thumb-slide));
   background-color: var(--color-surface-high);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -710,7 +703,7 @@ button {
    -------------------------------------------------------------------------- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .theme-switch-thumb {
-    transform: translateX(35px);
+    transform: translateX(var(--thumb-slide));
     background-color: var(--color-surface-high);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -761,6 +754,9 @@ button {
    (58x30) para convivir con el toggle de tema sin ensanchar el header.
    ========================================================================== */
 .lang-toggle-switch {
+  /* Mismo criterio que --thumb-slide: la distancia vive en el control. */
+  --lang-slide: 28px;
+
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
@@ -845,7 +841,7 @@ button {
 
 /* --- Inglés activo: el thumb se desliza a la derecha --- */
 [data-lang="en"] .lang-switch-thumb {
-  transform: translateX(28px);
+  transform: translateX(var(--lang-slide));
   background-color: var(--color-surface-high);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -869,7 +865,7 @@ button {
 /* --- Fallback por preferencia del sistema (sin data-lang explícito) --- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-lang="es"]) .lang-switch-thumb {
-    transform: translateX(28px);
+    transform: translateX(var(--lang-slide));
     background-color: var(--color-surface-high);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1636,6 +1632,16 @@ button {
   color: #25D366;
 }
 
+/* Iconos de marca (Instagram, Facebook). Heredan el color del contenedor con
+   currentColor, igual que .whatsapp-icon, para que el hover turquesa del
+   footer siga funcionando sin reglas extra. */
+.brand-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
 /* ==========================================================================
    Section: Reseñas & Google Social Proof
    ========================================================================== */
@@ -1826,6 +1832,11 @@ button {
 }
 
 .branch-card {
+  /* Los botones de abajo se reacomodan según el ancho de la TARJETA, no del
+     viewport: se estrechan por motivos distintos en el móvil (una columna) y
+     en la retícula de dos columnas a media pantalla. */
+  container-type: inline-size;
+
   background-color: var(--color-surface-lowest);
   border-radius: var(--radius-xl);
   overflow: hidden;
@@ -1945,6 +1956,34 @@ button {
 
 .btn-branch-sub:hover {
   background-color: var(--color-surface-high);
+}
+
+/* Cuando la tarjeta es más estrecha que ~470px, los tres botones no caben en
+   una sola fila y `flex-wrap` los reparte de forma irregular (dos arriba y uno
+   solo abajo). Se fuerza una retícula limpia: la acción principal ocupa la fila
+   entera y los dos secundarios se reparten la de abajo a mitades exactas.
+
+   `min-width: 0` es imprescindible: sin él, un flex item no baja de su ancho
+   de contenido y en pantallas muy estrechas (320px) los tres botones se
+   apilan en tres filas en lugar de dos. */
+@container (max-width: 470px) {
+  /* El gap tiene que casar con el `calc` de las mitades: 0.5rem de hueco +
+     dos mitades de (50% - 0.25rem) = 100% exactos. */
+  .branch-actions-row {
+    gap: 0.5rem;
+  }
+
+  .btn-branch-maps {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .btn-branch-sub {
+    flex: 1 1 calc(50% - 0.25rem);
+    min-width: 0;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }
 
 /* ==========================================================================

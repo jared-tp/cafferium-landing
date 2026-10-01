@@ -141,6 +141,80 @@ Breakpoints relevantes:
 Medido en Chrome en 15 anchos de 320 a 1920 px, en ambos idiomas: **0 solapes,
 0 overflow horizontal, 0 títulos truncados y offset de centrado 0 px**.
 
+### Los dos toggles del header
+
+`ES | EN` y claro/oscuro son controles independientes, cada uno con su propio
+thumb deslizante. La distancia que recorre el thumb **no está escrita en las
+reglas de estado** sino en el propio control:
+
+```css
+.theme-toggle-switch { --thumb-slide: 35px; }   /* 72px de pastilla */
+.lang-toggle-switch  { --lang-slide: 28px; }    /* 58px de pastilla */
+
+@media (max-width: 479px) {
+  .theme-toggle-switch { width: 62px; --thumb-slide: 26px; }
+  .lang-toggle-switch  { width: 50px; --lang-slide: 20px; }
+}
+```
+
+El valor se deriva del ancho: `ancho - 3 - 3 - thumb`. Si alguna vez se cambia
+el tamaño de una pastilla, solo hay que actualizar **una** línea.
+
+Esto no es cosmético. Antes el valor estaba repetido en tres sitios y en móvil
+había dos reglas que positioning el thumb del tema con `[data-lang]`: por
+especificidad ganaban a `[data-theme]`, así que **cambiar de idioma movía el
+toggle de tema**. Con la variable, esas reglas ya no existen y la trampa es
+estructuralmente imposible.
+
+Verificado en las 8 combinaciones ES/EN × claro/oscuro a 375 px y 1280 px.
+
+---
+
+## Botones de las tarjetas de sucursal
+
+Cuando la tarjeta es más estrecha que 470 px, los tres botones no caben en una
+fila y `flex-wrap` los repartía de forma irregular (dos arriba y uno solo
+abajo). Se usa un **container query** sobre `.branch-card`:
+
+```css
+.branch-card { container-type: inline-size; }
+
+@container (max-width: 470px) {
+  .branch-actions-row { gap: 0.5rem; }              /* debe casar con el calc */
+  .btn-branch-maps { flex: 1 1 100%; min-width: 0; } /* acción principal, fila entera */
+  .btn-branch-sub  { flex: 1 1 calc(50% - 0.25rem); min-width: 0; }
+}
+```
+
+Se eligió un container query y no un media query porque la restricción depende
+del ancho de la **tarjeta**, no de la ventana: se estrecha por dos motivos
+distintos (móvil a una columna, y retícula de dos columnas a media pantalla) y
+un solo regla cubre ambos sin números mágicos de viewport.
+
+Dos detalles que importan:
+- `min-width: 0` es imprescindible. Un flex item no baja de su ancho de
+  contenido por defecto, y sin esto a 320 px los tres botones se apilan en tres
+  filas en vez de dos.
+- El `gap` tiene que coincidir con el `calc`: dos mitades de `50% - 0.25rem`
+  más un hueco de `0.5rem` suman exactamente 100 %.
+
+Medido de 320 a 1920 px: 0 filas irregulares, 0 overflow, mitades exactas.
+
+---
+
+## Iconos de marca
+
+Instagram y Facebook usan SVG inline con los glifos oficiales (Simple Icons,
+CC0) en lugar de los ligatures genéricos de Material Symbols (`photo_camera` y
+`public`). El SVG lleva `fill="currentColor"`, así que hereda el color del
+contenedor y el hover turquesa del footer sigue funcionando sin reglas extra.
+
+Se usa la clase `.brand-icon`, calcada de `.whatsapp-icon` (`flex-shrink: 0`).
+Siguen siendo SVG inline: cero dependencias, cero fuente de iconos.
+
+Ocurren en tres sitios: los dos del footer y el CTA "Ver perfil de Instagram"
+de la sección de Reseñas.
+
 ---
 
 ## Notas sobre las imágenes
