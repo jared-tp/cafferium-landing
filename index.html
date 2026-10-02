@@ -425,13 +425,21 @@
          1. HERO SECTION
          ========================================================================= -->
     <section class="hero-section" id="inicio">
-      <!-- LCP Image with high fetch priority -->
+      <!-- Imagen LCP: local, prioritaria y con srcset para no descargar de más.
+           Es el fondo a sangre completa, así que `sizes` es 100vw.
+           No lleva loading="lazy" (delayaría el LCP) ni decoding="async"
+           (puede retrasar el pintado). El width/height declara la proporción
+           2:1 del original para no provocar salto de layout. -->
       <img
-        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnimzW5-Vl9z-JwuwNiVGagqek2Mc2_Oq2EqswWJz6b9KpXipzNAYnrlIDUzkxR02lSDwUZ9WgPzKsJYAH_LE8Mc3LVvmFAiqkYrcZab8qFcYS7IiRpQMZq6vJ52YUH8eef-JN-LGERzTxDya-GVA0mcFy0mN9t4Pp_WAEfxy0DIzCpP5CSdpfjONxVlo8foHF76AkojIiJJHZ2Kmu7sUGvPkZlDSj5ylYGQPbJCdCT4DLhInttBN2"
-        alt="Atardecer dramático en el malecón de Mazatlán sobre el Océano Pacífico con el sello dorado de Poseidón y Cafferium"
-        data-alt-es="Atardecer dramático en el malecón de Mazatlán sobre el Océano Pacífico con el sello dorado de Poseidón y Cafferium"
-        data-alt-en="Dramatic sunset over the Mazatlán boardwalk on the Pacific Ocean, with the golden Poseidon and Cafferium seal"
-        class="hero-bg-img" fetchpriority="high" width="1920" height="1080">
+        src="/img/hero-mazatlan-1280.jpg"
+        srcset="/img/hero-mazatlan-768.jpg 768w,
+                /img/hero-mazatlan-1280.jpg 1280w,
+                /img/hero-mazatlan-1774.jpg 1774w"
+        sizes="100vw"
+        alt="Atardecer sobre el mar con la silueta de Mazatlán al fondo y el sello dorado de laurel de Cafferium en el centro"
+        data-alt-es="Atardecer sobre el mar con la silueta de Mazatlán al fondo y el sello dorado de laurel de Cafferium en el centro"
+        data-alt-en="Sunset over the sea with the Mazatlán skyline in the background and the golden Cafferium laurel seal at the centre"
+        class="hero-bg-img" fetchpriority="high" width="1280" height="640">
       <div class="hero-scrim-gradient"></div>
       <div class="hero-scrim-radial"></div>
 
@@ -502,17 +510,29 @@
           </p>
         </div>
 
-        <!-- Visual Mosaic Grid -->
+        <!-- Visual Mosaic Grid
+             Las 4 fotos son locales con `srcset`. Tres vienen en retrato y las
+             cajas son apaisadas, así que el recorte se fija con
+             `object-position` en cada una para que sobreviva el sujeto:
+               fachada  100% visible, no hay recorte
+               cafe-olla 37% visible -> el jarro cae al centro-abajo
+               interior  45% visible -> la gente y las mesas al centro-abajo
+             La terraza NO usa object-position: el archivo ya viene recortado a
+             la banda visible (3.2:1). Descargar el retrato entero para pintar
+             1214x380 desperdiciaba el 77% de los píxeles. -->
         <div class="mosaic-grid">
           <!-- Main Facade -->
           <div class="mosaic-card reveal">
             <div class="mosaic-card-img-wrapper" style="aspect-ratio: 16/14;">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP3vAB54DWQJ-RvlpzynUggz7B235SqeRoHiUgX5cHQLEDJ5UhetZFozwsiIAxD3VxKJ9zbNPeneYW29PSvqfELm6ZLnYtYJwYkrVOMu30hNLRyFGHVo4uMAocCCKI2157HZo3B7EqETFMYMsRjDDIRMCh6clw_UvAVauKJNM15c5s3RE9Xa94SAkkKV1WBSehs8TqPxyuvoT7Rra1IklnXMZKrkcRocuz2_ST0guCuXBiUUGKldCCO950P6lzXSfkngvMWnW9WNcigA"
-                alt="Fachada colonial turquesa de Cafferium en Belisario Domínguez Centro Histórico"
-                data-alt-es="Fachada colonial turquesa de Cafferium en Belisario Domínguez Centro Histórico"
+                src="/img/esencia-fachada-centro-700.jpg"
+                srcset="/img/esencia-fachada-centro-700.jpg 700w,
+                        /img/esencia-fachada-centro-1343.jpg 1343w"
+                sizes="(min-width: 900px) 700px, 100vw"
+                alt="Fachada colonial turquesa de Cafferium en Belisario Domínguez, Centro Histórico"
+                data-alt-es="Fachada colonial turquesa de Cafferium en Belisario Domínguez, Centro Histórico"
                 data-alt-en="Cafferium's turquoise colonial facade on Belisario Domínguez, Centro Histórico" loading="lazy"
-                width="800" height="550">
+                decoding="async" width="700" height="610">
             </div>
             <div class="mosaic-caption">
               <span data-es="Fachada icónica en Belisario Domínguez" data-en="Iconic facade on Belisario Domínguez">Fachada icónica en Belisario Domínguez</span>
@@ -525,11 +545,15 @@
             <div class="mosaic-card reveal reveal-delay-1">
               <div class="mosaic-card-img-wrapper" style="aspect-ratio: 16/9;">
                 <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTGzmwQ5U51z4C_0qhvswHbPn48Gm6Lf5lUGh2t-wfP-FopLXq3AzzVWAwQyp1BkBTAwKC7oXawSg8TZd9NTJbF1rp2Dk2rdN9XyQ57LhgFAPn1QFuAZ4ptUJ_dEFqjCkOVc5of2-kE5yQ_33NZ5xOzcW-0RDZs7KMuf0__mUUItY3mwEQ84uSAMewBwn1VOuNdhrlEYRJWDqBnfeLQLEGxAvzpv9oS3PXV1O1LDQWgaf03cbUpqIai_jc7oqexSBLQaD41ABmEW0ATQ"
-                  alt="Café de olla tradicional con especias locales en jarro de barro"
-                  data-alt-es="Café de olla tradicional con especias locales en jarro de barro"
-                  data-alt-en="Traditional Mexican clay-pot coffee with local spices" loading="lazy" width="600"
-                  height="338">
+                  src="/img/esencia-cafe-olla-500.jpg"
+                  srcset="/img/esencia-cafe-olla-500.jpg 500w,
+                          /img/esencia-cafe-olla-1365.jpg 1365w"
+                  sizes="(min-width: 900px) 500px, 100vw"
+                  style="object-position: 50% 65%;"
+                  alt="Café de olla serviéndose en un jarro de barro con canela y piloncillo"
+                  data-alt-es="Café de olla serviéndose en un jarro de barro con canela y piloncillo"
+                  data-alt-en="Clay-pot coffee being served into a clay jug with cinnamon and piloncillo" loading="lazy"
+                  decoding="async" width="500" height="750">
               </div>
               <div class="mosaic-caption">
                 <span data-es="Café de olla tradicional." data-en="Traditional clay-pot coffee.">Café de olla tradicional.</span>
@@ -540,11 +564,15 @@
             <div class="mosaic-card reveal reveal-delay-2">
               <div class="mosaic-card-img-wrapper" style="aspect-ratio: 16/9;">
                 <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvkZ-uRABPLBY1yhkIiLY1s_KOxoo-dkxB-JuJd90SMadHghfhye_aGdzJypMpLSRs4cOinndxLwEbUgBaZ63lF9ab5NhPeLF-bLNynTqJ68F9DnGzxqzo38gEKjA1pByfpmMpSSROWws1bjbgnvIZm7ZCdDRRrRYMk1QkayEgYfGFZZ07eyWG_3QbFQ8jAyspnHqJH4-y_V--2cTCHJD0l6IYjcwPhXJAVgHib75fySW69uETiQipvW74dme1lD-YbBRNYEZQfbPZsw"
-                  alt="Salón interior de Cafferium con papel picado, ladrillo y biblioteca"
-                  data-alt-es="Salón interior de Cafferium con papel picado, ladrillo y biblioteca"
-                  data-alt-en="Cafferium's interior with papel picado, brickwork and a library" loading="lazy" width="600"
-                  height="338">
+                  src="/img/esencia-interior-500.jpg"
+                  srcset="/img/esencia-interior-500.jpg 500w,
+                          /img/esencia-interior-697.jpg 697w"
+                  sizes="(min-width: 900px) 500px, 100vw"
+                  style="object-position: 50% 62%;"
+                  alt="Salón interior de Cafferium con plantas, barra y personas sentadas a una mesa"
+                  data-alt-es="Salón interior de Cafferium con plantas, barra y personas sentadas a una mesa"
+                  data-alt-en="Cafferium's interior with plants, the bar counter and people seated at a table" loading="lazy"
+                  decoding="async" width="500" height="626">
               </div>
               <div class="mosaic-caption">
                 <span data-es="Espacio climatizado para leer y disfrutar" data-en="Air-conditioned space to read and unwind">Espacio climatizado para leer y disfrutar</span>
@@ -557,14 +585,17 @@
           <div class="mosaic-card mosaic-banner reveal">
             <div class="mosaic-card-img-wrapper" style="aspect-ratio: 21/9; max-height: 380px;">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMxJRnKHLCTcXLI8IMNbNAA5O95LpC8lq2IfOf584_h-o3j64ESmduoel3iBjE7womX0Dybp9EfXZJhnok2Ic-GlpyhyEz6XTF_SIACPp9IHSiPBJE39bjk2BTcBCw5gjhLLoIzW33rLA-lL5rhSVw5P7BOBzScG_RM9-_z1h6hbJR3lTwHD6woS9OjxWrbabJUXbB7dS-kdU9aekyY_JTqP2ti-j2RIfRWWtrdpClAq4v7WFuQ8f5"
-                alt="Terraza exterior de Cafferium en Torre Central con sombrillas turquesa frente a la laguna"
-                data-alt-es="Terraza exterior de Cafferium en Torre Central con sombrillas turquesa frente a la laguna"
-                data-alt-en="Cafferium's outdoor terrace at Torre Central with turquoise umbrellas facing the lagoon"
-                loading="lazy" width="1280" height="550">
+                src="/img/esencia-terraza-800.jpg"
+                srcset="/img/esencia-terraza-800.jpg 800w,
+                        /img/esencia-terraza-1536.jpg 1536w"
+                sizes="(min-width: 1280px) 1216px, 100vw"
+                alt="Mesas y sillas de madera con barandal y vegetación en la terraza de Cafferium en Torre Central"
+                data-alt-es="Mesas y sillas de madera en la terraza de Cafferium en Torre Central, con barandal y vegetación"
+                data-alt-en="Wooden tables and chairs on Cafferium's terrace at Torre Central, with a railing and greenery"
+                loading="lazy" decoding="async" width="800" height="250">
             </div>
             <div class="mosaic-caption">
-              <span data-es="Terraza Torre Central frente al malecón y laguna" data-en="Torre Central terrace overlooking the boardwalk and lagoon">Terraza Torre Central frente al malecón y laguna</span>
+              <span data-es="Terraza Torre Central frente al malecóncito" data-en="Torre Central terrace overlooking the boardwalk">Terraza Torre Central frente al malecón</span>
               <span class="tag" data-es="Pet Friendly &amp; Brisa Marina" data-en="Pet Friendly &amp; Sea Breeze">Pet Friendly &amp; Brisa Marina</span>
             </div>
           </div>
