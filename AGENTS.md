@@ -27,6 +27,7 @@ Reglas duras:
 - **NO introduzcas** código innecesario, solo lo estrictamente necesario.
 - **NO introduzcas** código que no esté alineado con el estilo del proyecto.
 - Si algo se convierte en una regla permanente, propón moverlo a `AGENTS.md` en lugar de dejarlo en la memoria.
+- **NO hagas** cambios en la repo como mover, crear o eliminar archivos sin consultarme antes.
 
 ## Comandos
 

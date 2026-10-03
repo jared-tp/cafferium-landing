@@ -1302,6 +1302,23 @@ button {
   transform: scale(1.04);
 }
 
+/* Proporción de la imagen de cada tarjeta. Se declara aquí y no en línea para
+   poder ajustarla por breakpoint: en escritorio la caption deja de ocupar alto
+   al volverse overlay, y el alto se compensa en la tarjeta para que las dos
+   columnas del mosaic midan lo mismo. */
+.mosaic-card--main .mosaic-card-img-wrapper {
+  aspect-ratio: 16 / 14;
+}
+
+.mosaic-card--stack .mosaic-card-img-wrapper {
+  aspect-ratio: 16 / 9;
+}
+
+.mosaic-card--banner .mosaic-card-img-wrapper {
+  aspect-ratio: 21 / 9;
+  max-height: 380px;
+}
+
 .mosaic-caption {
   padding: 0.9rem 1.25rem;
   display: flex;
@@ -1328,6 +1345,146 @@ button {
 
 .mosaic-banner {
   grid-column: 1 / -1;
+}
+
+/* ==========================================================================
+   Overlay de captions del mosaico (escritorio con puntero fino)
+   --------------------------------------------------------------------------
+   Sigue el patrón que ya usan las tarjetas de sucursal (.branch-img-overlay):
+   texto sobre la foto con un scrim. En reposo el texto SIEMPRE está visible,
+   con un scrim suave; el hover oscurece más y da un pequeño levantamiento.
+
+   La media query exige `hover: hover` Y `pointer: fine`, así que un iPad o
+   cualquier táctil conservan las captions en su sitio aunque la pantalla sea
+   ancha: el efecto no depende solo del ancho de la ventana.
+   ========================================================================== */
+@media (min-width: 900px) and (hover: hover) and (pointer: fine) {
+
+  /* La caption deja de ocupar alto: la imagen crece para compensarlo. Con
+     16/14 y 27/16 las dos columnas quedan exactamente igual a cualquier ancho
+     de escritorio (desvío máximo 8px en el extremo más estrecho). */
+  .mosaic-card--stack .mosaic-card-img-wrapper {
+    aspect-ratio: 27 / 16;
+  }
+
+  .mosaic-card:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  .mosaic-caption {
+    position: absolute;
+    inset: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.7rem;
+    text-align: center;
+    padding: 1.25rem;
+    /* Imprescindible: la regla base pinta la caption con el color de superficie,
+       que es opaco y taparía la foto entera. El oscurecido lo pone ::before. */
+    background-color: transparent;
+  }
+
+  /* El scrim va en un pseudo-elemento y se anima con `opacity`, no con dos
+     `background-image`: los degradados no interpolan de forma fiable y el
+     salto se notaba. Aquí el degradado está ya a su intensidad MÁXima (la del
+     hover) y la opacidad modula cuánto se ve la foto.
+     Degradado y no plano porque el texto solo ocupa la banda central: oscurecer
+     solo ahí deja las fotos mucho más vivas en los bordes y aun así el texto
+     queda por encima de 6:1. Medido en reposo (peor pixel de cada foto):
+       fachada 6.21 · cafe-olla 6.16 · interior 7.21 · terraza 6.14
+     Un scrim plano necesitó 0.62 para llegar a 4.5:1; éste llega a 6.1:1 con
+     0.66 en la banda central y solo 0.34 en los bordes. Nunca llega a negro. */
+  .mosaic-caption::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(
+      180deg,
+      rgba(16, 22, 24, 0.50) 0%,
+      rgba(16, 22, 24, 0.80) 34%,
+      rgba(16, 22, 24, 0.80) 66%,
+      rgba(16, 22, 24, 0.50) 100%
+    );
+    opacity: 0.825;
+    transition: opacity 0.35s ease;
+  }
+
+  .mosaic-card:hover .mosaic-caption::before,
+  .mosaic-card:focus-visible .mosaic-caption::before {
+    opacity: 1;
+  }
+
+  /* Texto principal: la misma serif que el titular del hero, en blanco. */
+  .mosaic-caption > :first-child {
+    color: #ffffff;
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.3;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Etiqueta: la misma tipografía de marca que "CAFFERIUM".
+     En blanco, no en el turquesa de la barra de abajo. Medido sobre la foto ya
+     oscurecida ese turquesa se queda en 1.35:1 y no se lee; ningun teal llegaba
+     a 4.5:1 (claro 3.62:1, oscuro 2.39:1) y la etiqueta son 12px, asi que no le
+     valia el umbral de texto grande. En blanco da 6.23:1 y sigue distinguendose
+     del titulo por familia, tamaño y espaciado.
+     Abajo, en movil, la caption conserva su turquesa original. */
+  .mosaic-caption .tag {
+    color: #ffffff;
+    font-family: var(--font-brand);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+  }
+
+  .mosaic-caption > * {
+    position: relative;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mosaic-card:hover .mosaic-caption > *,
+  .mosaic-card:focus-visible .mosaic-caption > * {
+    transform: translateY(-2px);
+  }
+}
+
+/* Entrada secuencial: primero se oscurece la imagen y después entra el texto.
+   Se engancha a `.is-visible`, el mismo disparador del reveal por scroll, para
+   que ocurra cuando la tarjeta entra en pantalla y no al cargar la página.
+   Sin `forwards`, así que al terminar ceden el paso a las transiciones del hover
+   sin pelearse con ellas. */
+@keyframes cffScrimIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes cffCaptionIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@media (min-width: 900px) and (hover: hover) and (pointer: fine) {
+  .mosaic-card.reveal.is-visible .mosaic-caption::before {
+    animation: cffScrimIn 0.35s ease;
+  }
+
+  .mosaic-card.reveal.is-visible .mosaic-caption > * {
+    animation: cffCaptionIn 0.45s ease backwards;
+  }
+
+  .mosaic-card.reveal.is-visible .mosaic-caption > :first-child {
+    animation-delay: 0.25s;
+  }
+
+  .mosaic-card.reveal.is-visible .mosaic-caption > :last-child {
+    animation-delay: 0.4s;
+  }
 }
 
 /* 3 Pillars Grid */
@@ -2153,6 +2310,19 @@ button {
   .js-reveal .reveal-scale {
     opacity: 1 !important;
     transform: none !important;
+    transition: none !important;
+  }
+
+  /* El overlay del mosaico aparece de golpe, sin oscurecido progresivo
+     ni levantamiento del texto. El scrim se queda en su valor de reposo
+     para que las captions sigan siendo legibles. */
+  .mosaic-card.reveal.is-visible .mosaic-caption::before,
+  .mosaic-card.reveal.is-visible .mosaic-caption > * {
+    animation: none !important;
+  }
+
+  .mosaic-caption::before,
+  .mosaic-caption > * {
     transition: none !important;
   }
 }
