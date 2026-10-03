@@ -205,6 +205,35 @@ español del servidor. `applyLanguage()` actualiza `<title>` y
 Dominio asumido **`https://cafferium.com.mx`**, presente en `index.html`,
 `public/robots.txt` y `public/sitemap.xml`. Si cambia, replace en los tres.
 
+## 9. Contraste sobre foto: mide con dos capturas
+
+Texto sobre una imagen no se valida leyendo el CSS. El scrim necesario depende
+del **píxel más claro de la foto**, y eso solo se sabe mirando píxeles.
+
+**Dos capturas, siempre.** Si mides el `boundingBox` del texto con la letra
+puesta, el píxel más claro que encuentras es **la propia letra**, no el fondo, y
+sale un ratio de 1:1 que parece un bug. Correcto: captura la tarjeta con
+`visibility: hidden` en los hijos del caption y usa esa captura como fondo puro.
+Repite por tarjeta y quédate con el **peor caso**, no con el promedio.
+
+**Si todas las tarjetas dan el MISMO número, estás midiendo algo que no varía.**
+Fotos distintas no pueden dar la misma luminancia. Casi siempre es que un
+`background` opaco está tapando la imagen.
+
+Al pasar un elemento a overlay, **pon `background-color: transparent`
+explícito**: si hay una regla base que le asigna color de superficie, ese color
+queda debajo del overlay y tapa la foto entera.
+
+Pon el scrim en degradado, no plano, cuando el texto solo ocupa la banda
+central: oscurecer solo ahí deja las fotos vivas en los bordes. Pero **los
+degradados no interpolan** en CSS, así que va en un `::before` con la intensidad
+máxima y se modula con `opacity`.
+
+No fixes el color de un texto pequeño sin medirlo antes. Sobre foto oscurecida
+un tono medio como el turquesa de marca puede caer a **1.35:1** y ser ilegible,
+aunque en la barra de abajo se lea bien. Ningún teal llegó a 4.5:1: acabó en
+blanco.
+
 ---
 
 # Convenciones
@@ -312,3 +341,9 @@ Para que no se repita:
 - Dejé dos archivos temporales en la raíz y acabarons en un commit.
 - Asumí números de layout a partir del CSS en lugar de medirlos, y el margen
   real resultó bastante más ajustado de lo previsto.
+- Medí el contraste del texto sobre la foto **con la letra puesta**, así que
+  leí el píxel más claro y era la propia letra: 1:1. Parecía un bug de render y
+  era un bug de medición. Ver invariante 9.
+- Al medir cuatro tarjetas me salieron **cuatro valores idénticos**, que es
+  imposible con fotos distintas. Era el `background-color` opaco de la regla
+  base tapando la imagen. Ese número raro era la señal, y no la dejé pasar.
