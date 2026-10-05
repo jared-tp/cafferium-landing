@@ -82,13 +82,19 @@ aparejados; si añades uno, revisa que no rompas la paridad:
 
 | Atributo | Conteo actual | Se aplica a |
 |---|---|---|
-| `data-es` / `data-en` | 119 / 119 | texto visible |
-| `data-alt-es` / `data-alt-en` | 16 / 16 | `alt` de imágenes |
-| `data-aria-es` / `data-aria-en` | 7 / 7 | `aria-label` |
-| `data-wa-es` / `data-wa-en` | 12 / 12 | mensajes de WhatsApp |
+| `data-es` / `data-en` | 124 / 124 | texto visible |
+| `data-alt-es` / `data-alt-en` | 18 / 18 | `alt` de imágenes |
+| `data-aria-es` / `data-aria-en` | 9 / 9 | `aria-label` |
+| `data-wa-es` / `data-wa-en` | 11 / 11 | mensajes de WhatsApp |
+| `data-img-es` / `data-img-en` | 4 / 4 | assets que cambian con el idioma |
 
 Los `<link>` de WhatsApp también se reconstruyen con `encodeURIComponent` a
 partir de `data-wa-*`. El texto va **sin codificar** en el atributo.
+
+`data-img-*` lo applyLanguage() aplica **según la etiqueta**: `src` en una `<img>`
+y `href` en un `<a>`. Existe para que solo se descargue el asset del idioma
+activo: las 4 fotos del menú son 1132×1600 y 1.1 MB en total, y con dos `<img>`
+alternas por `display:none` se descargarían las cuatro.
 
 ## 2. i18n: el idioma se resuelve antes del primer pintado
 
@@ -233,6 +239,30 @@ No fixes el color de un texto pequeño sin medirlo antes. Sobre foto oscurecida
 un tono medio como el turquesa de marca puede caer a **1.35:1** y ser ilegible,
 aunque en la barra de abajo se lea bien. Ningún teal llegó a 4.5:1: acabó en
 blanco.
+
+## 10. El modal del menú: el foco y el click fuera
+
+`.menu-modal` es un diálogo modal (`aria-modal="true"`) y clona la estructura
+del drawer: overlay + panel con la clase `.open`, cierre por X / ESC / backdrop.
+
+Dos cosas que el drawer NO hace y este sí, porque aquí son obligatorias:
+
+- **Gestiona el foco.** Se guarda el elemento que lo tenía, se pasa al botón de
+  cerrar, el `Tab` cicla dentro del diálogo y al cerrar se le devuelve el foco.
+  Un `aria-modal` sin esto deja al usuario de teclado atrapado o perdido.
+- **El click fuera se escucha en `.menu-modal`, no en el overlay.** `.menu-modal`
+  es `position: fixed; inset: 0` con un z-index **mayor** que el del overlay, así
+  que es el que recibe los clics de alrededor del panel y el overlay nunca los ve.
+  El filtro `e.target === modal` descarta los clics que llegan del card, que es lo
+  que mantiene el modal abierto al interactuar con el menú.
+
+Usa `visibility: hidden` en vez de `display: none` para que la apertura sea
+animable. Pero **`visibility: hidden` no evita la descarga de las `<img>`**: se
+comprobó que al cargar se baja la del idioma activo (303 KB) y la otra solo cuando
+se abre su pestaña. Con `display: none` + `loading="lazy"` no se bajaría ninguna.
+
+Y no olvides el bloque `prefers-reduced-motion`: sin él el panel seguía
+interpolando su `transform`.
 
 ---
 

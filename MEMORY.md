@@ -9,6 +9,24 @@ permanentes viven en `AGENTS.md`. Si algo se repite, va allí.
 - Imágenes: migradas a local el hero y las 4 de `#esencia`. Quedan 11 como hotlinks de Google a 512px.
 - Mosaico de `#esencia`: la caption ya no es una barra; en escritorio el texto va centrado sobre la
   foto. Sigue el patrón de `.branch-img-overlay`, que ya existía.
+- **Modal del menú**: "Ver menú completo" ya no manda un WhatsApp, abre un modal con las 4 fotos
+  del menú por pestañas (Desayunos / Comida y cena). Clona la estructura del drawer.
+  `public/img/` ya traía esas 4 fotos **sin referenciar en ninguna parte**: se estaban publicando
+  1.1 MB muertos en `dist/`.
+
+## Modal del menú (decisiones)
+- Las reglas de foco, click fuera y `prefers-reduced-motion`: **AGENTS.md invariante 10.**
+- El idioma de las fotos va con **`data-img-es` / `data-img-en`**, un par nuevo que applyLanguage()
+  aplica como `src` en `<img>` y como `href` en `<a>`. Motivo: solo se descarga la del idioma
+  activo. Medido: **303 KB** al cargar (una sola foto); la otra baja al abrir su pestaña.
+- Las fotos son **A4 verticales de 1132×1600**. Ajustadas a la altura del panel el cuerpo del texto
+  sale a ~11px: se lee, pero justo. De ahí el enlace **"Ver a tamaño real"** debajo, que abre el
+  JPEG completo en pestaña nueva. Decisión consciousa: se descartó hacer zoom con scroll por
+  añadir estado y comportamiento en móvil.
+- **El CTA de WhatsApp se quitó de este botón** (12 → 11 enlaces `data-wa-*`). El modal es solo de
+  consulta por ahora. Ver pendientes.
+- La pestaña inactiva da **4.49:1** en tema claro, con `#6e797a` (`--color-on-surface-muted`), un
+  token que usa el sitio entero en 10+ sitios. No se tocó: arreglarlo es otra tarea.
 
 ## Imágenes locales (en curso)
 - `public/img/` — patrón ya montado: variantes con `srcset` + `sizes`, `alt` traducible con
@@ -52,9 +70,18 @@ decisiones de una vez, que es lo que no se deduce del código.
   y volver. **Al editar copy revisa que `textContent` coincida con su `data-es`.**
 
 ## Tareas pendientes
+- **Añadir un CTA de WhatsApp al pie del modal del menú** si algún momento se decide: el botón
+  "Ver menú completo" antes mandaba un WhatsApp prellenado y ahora solo consulta. Serían 12/12
+  otra vez. Decidido posponerlo, no descartado.
+- **Revisar el contraste de `--color-on-surface-muted` (`#6e797a`)**: da 4.49:1 en tema claro sobre
+  blanco, justo por debajo de 4.5:1. Lo usan 10+ sitios, así que el arreglo es global y conviene
+  como tarea propia, no deambulando en otro cambio.
 - Recibir las 4 tandas de imágenes (6 menú, 2 sucursales, 2 Instagram, 1 logo) y repetirlas con
   `srcset` + `sizes` + alt traducible. El patrón está arriba y en AGENTS.md; los maestros a
   `_originales/`.
+- **Variantes de 600px para las 4 fotos del menú**: opcional, ahorraría ~200 KB en móvil. Se
+  decidió NO hacerlo porque son `loading="lazy"` y solo bajan al abrir el modal. Si algún día se
+  hacen, mantener el patrón `srcset` del resto.
 - Reemplazar las fotos de los platillos por productos reales.
 - En el mapa de Google, cambiar el ícono por una versión editable del logo.
 - El banner de la **sucursal Torre Central** dice "frente a la laguna" en el `alt` (línea ~1204) y

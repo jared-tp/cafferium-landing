@@ -1143,6 +1143,11 @@ button {
   font-size: 0.95rem;
   box-shadow: var(--shadow-lg);
   transition: all 0.3s ease;
+  /* El botón del modal es un <button>, no un <a>. Sin esto hereda el borde y la
+     tipografía por defecto del navegador y se ve distinto al resto de CTAs. */
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .btn-primary:hover {
@@ -2144,6 +2149,215 @@ button {
 }
 
 /* ==========================================================================
+   Modal del Menú completo
+   --------------------------------------------------------------------------
+   Clona la estructura del drawer: overlay + panel con la clase `.open`, y el
+   cierre por ESC / backdrop / botón lo resuelve initMenuModal(). Mismo criterio
+   de z-index: por encima del drawer (1050/1100) y del botón flotante (990).
+   ========================================================================== */
+.menu-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 1200;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.menu-modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1250;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  /* `visibility` en vez de `display:none` para que la apertura sea animable.
+     Ojo: visibility:hidden NO evita la descarga de las <img>, así que las del
+     menú cargan aunque el modal esté cerrado. Se comprobó que solo baja la del
+     idioma activo (~270 KB), no las cuatro. */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.menu-modal.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* El panel de verdad. El transformación va aquí y no en `.menu-modal`: si
+   escalara el contenedor a pantalla completa, el fondo del overlay se vería
+   escalado también. */
+.menu-modal-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 780px;
+  /* 92vh deja sitio para que el panel entre sin scroll de página detrás */
+  max-height: 92vh;
+  background-color: var(--color-surface-lowest);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+  transform: translateY(14px) scale(0.98);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menu-modal.open .menu-modal-card {
+  transform: translateY(0) scale(1);
+}
+
+.menu-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--color-surface-container);
+  flex: 0 0 auto;
+}
+
+.menu-modal-title {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.menu-modal-tabs {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem 0;
+  flex: 0 0 auto;
+}
+
+.menu-tab {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--color-surface-container);
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  color: var(--color-on-surface-muted);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.menu-tab:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.menu-tab[aria-selected="true"] {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.menu-tab:focus-visible,
+.menu-modal-fullsize:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* `hidden` no basta: una regla de autor con `display` gana al estilo de agente
+   de usuario, así que el atributo se anularía y los dos paneles se verían. */
+.menu-modal-panel[hidden] {
+  display: none;
+}
+
+.menu-modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem 1.5rem;
+  overflow: auto;
+  min-height: 0;
+}
+
+.menu-modal-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+/* El menú es A4 (0.708). Ajustado a la altura del panel el texto sale a ~11px:
+   se lee, pero de ahí el enlace a tamaño real de abajo. */
+.menu-modal-shot {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  min-height: 0;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+}
+
+.menu-modal-fullsize {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.menu-modal-fullsize:hover {
+  text-decoration: underline;
+}
+
+.menu-modal-fullsize .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* En pantallas bajas el título y las tabs se apilan para no robar altura a la
+   imagen, que es lo único que se quiere ver. */
+@media (max-width: 480px) {
+  .menu-modal {
+    padding: 0.75rem;
+  }
+
+  .menu-modal-header {
+    padding: 0.9rem 1rem;
+  }
+
+  .menu-modal-title {
+    font-size: 1.2rem;
+  }
+
+  .menu-modal-tabs {
+    padding: 0.75rem 1rem 0;
+  }
+
+  .menu-tab {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .menu-modal-body {
+    padding: 0.9rem 1rem 1rem;
+  }
+}
+
+/* ==========================================================================
    Floating WhatsApp Button
    ========================================================================== */
 .floating-whatsapp {
@@ -2323,6 +2537,14 @@ button {
 
   .mosaic-caption::before,
   .mosaic-caption > * {
+    transition: none !important;
+  }
+
+  /* El modal del menú aparece de golpe. Sin esto seguía interpolando el
+     transform del panel y el fade del overlay. */
+  .menu-modal,
+  .menu-modal-overlay,
+  .menu-modal-card {
     transition: none !important;
   }
 }

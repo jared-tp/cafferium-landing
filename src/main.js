@@ -105,6 +105,15 @@ function applyLanguage(lang) {
     if (msg) el.setAttribute('href', I18N.whatsappBase + encodeURIComponent(msg));
   }
 
+  // --- Assets que cambian con el idioma (las 4 fotos del menú) ---
+  // Un mismo par de atributos, aplicado según la etiqueta: `src` en una <img> y
+  // `href` en un <a>. Existe para que solo se descargue la imagen del idioma
+  // activo. Con dos <img> alternas por CSS se descargarían las cuatro.
+  for (const el of document.querySelectorAll('[data-img-es]')) {
+    const url = el.getAttribute('data-img-' + k);
+    if (url) el.setAttribute(el.tagName === 'IMG' ? 'src' : 'href', url);
+  }
+
   // --- Metadatos del documento ---
   document.title = I18N.docTitle[k];
   const desc = document.querySelector('meta[name="description"]');
@@ -164,6 +173,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 6. Dark / Light Theme Toggle
   initThemeToggle();
+
+  // 7. Modal del Menú completo
+  initMenuModal();
 });
 
 /**
@@ -349,6 +361,124 @@ function initScrollReveal() {
   );
 
   revealElements.forEach((el) => observer.observe(el));
+}
+
+/** Elemento que tenía el foco al abrir el modal, para devolvérselo al cerrar. */
+let menuModalOpener = null;
+
+/**
+ * Cierra el modal del menú. A nivel de módulo por la misma razón que
+ * closeMobileDrawer(): otros inicializadores necesitan poder invocarlo.
+ */
+function closeMenuModal() {
+  const modal = document.getElementById('menuModal');
+  const overlay = document.getElementById('menuModalOverlay');
+
+  if (!modal || !modal.classList.contains('open')) return;
+
+  modal.classList.remove('open');
+  overlay.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+
+  // Devuelve el foco a quien abrió el modal. Sin esto el foco se queda en un
+  // nodo invisible y el siguiente Tab empieza a ciegas desde arriba.
+  if (menuModalOpener) menuModalOpener.focus();
+}
+
+/**
+ * Modal del menú: pestañas de categorías, cierre por X / ESC / backdrop y
+ * gestión del foco.
+ *
+ * El foco sí se gestiona aquí a diferencia de initMobileDrawer(): este declara
+ * aria-modal="true", y un diálogo modal que no mueve el foco ni lo devuelve deja
+ * al usuario de teclado atrapado o perdido.
+ */
+function initMenuModal() {
+  const openBtn = document.getElementById('menuModalOpen');
+  const modal = document.getElementById('menuModal');
+  const overlay = document.getElementById('menuModalOverlay');
+  const closeBtn = document.getElementById('menuModalClose');
+  const tabs = Array.from(modal.querySelectorAll('[role="tab"]'));
+
+  if (!openBtn || !modal || !overlay) return;
+
+  function openMenuModal() {
+    menuModalOpener = document.activeElement;
+    modal.classList.add('open');
+    overlay.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    // El foco va al botón de cerrar, que es lo primero accionable del diálogo.
+    closeBtn.focus();
+  }
+
+  openBtn.addEventListener('click', openMenuModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeMenuModal);
+
+  // El click fuera se escucha en `.menu-modal`, NO en el overlay. `.menu-modal`
+  // es `position: fixed; inset: 0` a un z-index MAYOR que el del overlay, así
+  // que es el que recibe los clics de alrededor del panel y el overlay nunca los
+  // ve. El filtro `e.target === modal` descarta los clics que vienen del card,
+  // que es lo que mantiene abierto el modal al interactuar con el menú.
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeMenuModal();
+  });
+
+  // --- Cambio de pestaña ---
+  function selectTab(tab, focus = false) {
+    tabs.forEach((t) => {
+      const selected = t === tab;
+      t.setAttribute('aria-selected', selected ? 'true' : 'false');
+      // Sólo la pestaña activa entra en el recorrido de tabulación: el patrón
+      // de tablist lo exige, si no el Tab recorre las dos y se pierde el grupo.
+      t.tabIndex = selected ? 0 : -1;
+      const panel = document.getElementById(t.getAttribute('aria-controls'));
+      if (panel) panel.hidden = !selected;
+    });
+    if (focus) tab.focus();
+  }
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => selectTab(tab));
+    tab.addEventListener('keydown', (e) => {
+      const map = { ArrowRight: i + 1, ArrowLeft: i - 1, ArrowDown: i + 1, ArrowUp: i - 1 };
+      let target = null;
+      if (e.key in map) target = tabs[(map[e.key] + tabs.length) % tabs.length];
+      else if (e.key === 'Home') target = tabs[0];
+      else if (e.key === 'End') target = tabs[tabs.length - 1];
+      if (!target) return;
+      e.preventDefault();
+      selectTab(target, true);
+    });
+  });
+
+  // --- Teclado ---
+  document.addEventListener('keydown', (e) => {
+    if (!modal.classList.contains('open')) return;
+
+    if (e.key === 'Escape') {
+      closeMenuModal();
+      return;
+    }
+
+    // Trampa de foco: el Tab cicla dentro del diálogo mientras esté abierto.
+    if (e.key !== 'Tab') return;
+    const focusables = Array.from(
+      modal.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])')
+    ).filter((el) => el.offsetParent !== null);
+    if (!focusables.length) return;
+
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
 }
 
 /**
