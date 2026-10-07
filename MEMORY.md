@@ -13,6 +13,40 @@ permanentes viven en `AGENTS.md`. Si algo se repite, va allí.
   del menú por pestañas (Desayunos / Comida y cena). Clona la estructura del drawer.
   `public/img/` ya traía esas 4 fotos **sin referenciar en ninguna parte**: se estaban publicando
   1.1 MB muertos en `dist/`.
+  El enlace de "tamaño real" **dice "Abrir en una pestaña nueva" / "Open in a new tab"**, no
+  "Ver a tamaño real": lo cambió el usuario a mano, no yo. Si alguna vez documentamos este
+  texto, es ese.
+- **Menú de especialidad: 4 de las 6 tarjetas renombradas** siguiendo el recetario nuevo. Los
+  precios de los cuatro platillos suben a $225 y el Italiano queda en $195. **Dirty Chai y Café de
+  Olla no se tocaron**, como se pidió.
+  | Antes | Ahora | ES / EN | Precio |
+  |---|---|---|---|
+  | Ensalada César con Pollo | Ensalada de pollo y pasta | Chicken & Pasta Salad | 130 → 225 |
+  | Banquete Brunch Cafferium | Huevos Cafferium | Cafferium Eggs | 290 → 225 |
+  | French Toast de Frutos Rojos | Pan francés frutos rojos | **Berry French Toast** (el EN no cambió) | 145 → 225 |
+  | Grilled Cheese Gourmet | Italiano | **Italian** | 135 → 195 |
+  - Los **4 mensajes de WhatsApp** se actualizaron al nombre nuevo: el cliente ya no pide un plato
+    que no existe.
+  - **Los cuerpos de las 6 tarjetas: solo los 4 platos llevan copy nuevo, y es TEXTO DEL USUARIO.**
+  Dirty Chai y Café de Olla conservan su texto original, el de antes de tocar nada. **No volver a
+  "mejorarlos": ya se probó una reescritura para las bebidas y el usuario la revirtió.**
+    - **Motivo del copy largo:** los ingredientes YA están en la línea `.menu-card-spec` de arriba,
+      así que el cuerpo puede describir textura y forma sin repetir la lista.
+    - **No son inventados:** son del usuario. Lo único que se tocó fue una errata de concordancia
+      en el de la Ensalada: "un cremoso aderezo coronada" → **"coronado"**, para que cuadrara con
+      "aderezo". El inglés es traducción de su texto, no literal.
+    - Mezcla de registros deliberada: "Disfruta de un exquisito mix…" tira a carta publicitaria y
+      el plato italiano cierra con enumeración. Conviven bien en la misma retícula.
+    - Medido: los botones de las dos filas caen a **0px de diferencia** en ES y EN, y a 375px las
+      6 tarjetas van de 521 a 542px sin desbordes. Aguanta porque `.menu-card-body` lleva
+      `justify-content: space-between` y el grid estira las tarjetas de cada fila.
+  - Se quitaron las **etiquetas del footer de las 6 tarjetas** ("Saludable", "Más vendido",
+    "Crujiente", "2-3 Personas", "Tueste Medio", "100% Orgánico"). Por eso `.menu-card-footer`
+    pasó de `justify-content: space-between` a **`center`**: con un solo hijo el `space-between`
+    lo dejaba pegado a la izquierda con ~140px de aire a la derecha. Medido: las 6 botones
+    centradas con 0.0px de desvío, en claro y en oscuro, y sin salirse en 320-1920px.
+  - **Las fotos NO coinciden con los platos nuevos**: la del Italiano sigue siendo un grilled
+    cheese y la de Huevos Cafferium sigue siendo el banquete. Pendiente de rehacer.
 
 ## Modal del menú (decisiones)
 - Las reglas de foco, click fuera y `prefers-reduced-motion`: **AGENTS.md invariante 10.**
@@ -89,6 +123,10 @@ decisiones de una vez, que es lo que no se deduce del código.
   la laguna aparece. **Pendiente de decidir** si se ajusta el texto o la foto. No confundir con la
   terraza del mosaico, que es otra imagen.
 - Buscar una mejor foto para la terraza de `#esencia`.
+- **Cambiar las 4 fotos de los platillos renombrados**: Italiano (ahora muestra un grilled cheese) y
+  Huevos Cafferium (muestra el banquete) están claramente mal. También conviene revisar Pan
+  francés y Ensalada de pollo y pasta, que ya encajan mejor. Es lo que pedía el usuario al
+  renombrar: "las fotos después las modificamos".
 
 ## Aprendizajes (los de imagen; el resto está en AGENTS.md)
 - **`naturalWidth` en Chromium devuelve el valor ajustado por densidad**, no los píxeles reales: con
@@ -102,3 +140,19 @@ decisiones de una vez, que es lo que no se deduce del código.
   Genera una hoja comparativa con las posiciones candidatas y mírala grande antes de decidir.
 - Contraste sobre foto, `background` opaco y degradados que no interpolan: **AGENTS.md invariante 9.**
   Este archivo es el estado del proyecto, no el manual: lo que sea regla permanente va a AGENTS.md.
+- **Una clase CSS sin usar esconde bugs que nadie ha visto.** `.menu-card-tag.gold` existía desde
+  hacía tiempo y estaba bien escrita, pero `--color-secondary-container` en tema oscuro es
+  `#483800` y se empareja con un texto `#241a00`: **1.51:1**, ilegible. Al empezar a usarla saltó
+  el fallo. Con `--color-secondary-gold` (brillante en ambos temas) quedó en 8.17:1 claro y 10.31:1
+  oscuro. **Antes de confiar en un par de tokens, compruébalo en los DOS temas.**
+- **Con `--card-tag-bg` y similares: un token puede ser transparente.** `.menu-card-tag` usa
+  `rgba(255,255,255,0.92)`, así que el contraste real depende de lo que haya detrás (la foto).
+  Para texto sobre foto, el CSS no basta: hay que medir píxeles (invariante 9).
+- **Que el copy sea "mejorable" es opinión, y el cliente manda.** Escribí una versión más sobria de
+  los cuerpos de las tarjetas y el usuario la rechazó y puso la suya, que es más larga y más
+  "de carta". La buena práctica aquí es **no mantener la versión propia por defecto**: cuando el
+  cliente da texto, ese texto gana. Revertí lo de las bebidas a lo que había.
+- **Una captura en blanco no es un bug: es el reveal sin disparar.** Las `.menu-card` arrancan en
+  `opacity: 0` y solo se revelan al entrar en pantalla. Si haces `screenshot()` de una tarjeta sin
+  hacer scroll hasta ella primero, sale vacía. Haz `scrollIntoViewIfNeeded()` sobre la TARJETA
+  concreta y espera ~1.6s. Pasa igual con las del mosaico (y su `translateY(32px)` inicial).

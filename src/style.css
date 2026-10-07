@@ -1695,8 +1695,13 @@ button {
   border: 1px solid var(--card-border);
 }
 
+/* `--color-secondary-gold` y NO `--color-secondary-container`: en tema oscuro el
+   container pasa a #483800 (marrón muy oscuro) y se empareja con un texto casi
+   negro, #241a00. Medido: 1.51:1, la píldora quedaba ilegible en oscuro. Los dos
+   tokens `--color-secondary-gold` son dorados brillantes en ambos temas, así que
+   el texto oscuro de `--color-on-secondary-fixed` contrasta siempre. */
 .menu-card-tag.gold {
-  background-color: var(--color-secondary-container);
+  background-color: var(--color-secondary-gold);
   color: var(--color-on-secondary-fixed);
 }
 
@@ -1757,7 +1762,10 @@ button {
 .menu-card-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* Antes era `space-between` para separar la etiqueta corta del botón. Al
+     quitarle la etiqueta a las 6 tarjetas quedó un solo hijo y el aire de la
+     derecha. Ahora se centra, que es lo que se busca. */
+  justify-content: center;
   padding-top: 1rem;
   border-top: 1px solid var(--color-surface-container);
 }
