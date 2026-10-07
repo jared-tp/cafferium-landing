@@ -1377,11 +1377,16 @@ button {
     outline-offset: 3px;
   }
 
+  /* Abajo, no centrada. En la tarjeta de la fachada el letrero de CAFFERIUM cae
+     en el centro geométrico de la foto (x 270-400, y 300-352 sobre 700x610), así
+     que con el texto centrado la etiqueta "Centro Histórico" se leía encima del
+     nombre. Abajo hay 245px limpios bajo el letrero. Medido, no estimado: la
+     posicion se sacó de un mapa de líneas sobre el archivo. */
   .mosaic-caption {
     position: absolute;
     inset: 0;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     gap: 0.7rem;
     text-align: center;
@@ -1395,22 +1400,21 @@ button {
      `background-image`: los degradados no interpolan de forma fiable y el
      salto se notaba. Aquí el degradado está ya a su intensidad MÁXima (la del
      hover) y la opacidad modula cuánto se ve la foto.
-     Degradado y no plano porque el texto solo ocupa la banda central: oscurecer
-     solo ahí deja las fotos mucho más vivas en los bordes y aun así el texto
-     queda por encima de 6:1. Medido en reposo (peor pixel de cada foto):
-       fachada 6.21 · cafe-olla 6.16 · interior 7.21 · terraza 6.14
-     Un scrim plano necesitó 0.62 para llegar a 4.5:1; éste llega a 6.1:1 con
-     0.66 en la banda central y solo 0.34 en los bordes. Nunca llega a negro. */
+     Baja de banda, igual que `.branch-img-overlay`, porque el texto también va
+     abajo: oscurecer el centro tapaba justo el letrero que la tarjeta existe
+     para mostrar. Degradado y no plano porque el texto solo ocupa la franja
+     final: oscurecer solo ahí deja la foto —y el letrero— mucho más vivas.
+     Nunca llega a negro. */
   .mosaic-caption::before {
     content: '';
     position: absolute;
     inset: 0;
     background-image: linear-gradient(
       180deg,
-      rgba(16, 22, 24, 0.50) 0%,
-      rgba(16, 22, 24, 0.80) 34%,
-      rgba(16, 22, 24, 0.80) 66%,
-      rgba(16, 22, 24, 0.50) 100%
+      rgba(16, 22, 24, 0) 0%,
+      rgba(16, 22, 24, 0.26) 40%,
+      rgba(16, 22, 24, 0.64) 68%,
+      rgba(16, 22, 24, 0.88) 100%
     );
     opacity: 0.825;
     transition: opacity 0.35s ease;
@@ -1970,17 +1974,8 @@ button {
   transform: scale(1.05);
 }
 
-.insta-photo-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 50%, rgba(25, 28, 31, 0.8) 100%);
-  display: flex;
-  align-items: flex-end;
-  padding: 0.75rem;
-  color: #ffffff;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
+/* No hay overlay sobre las fotos de la galería. Oscurecer la mitad inferior sin
+   texto encima solo restaba foto; la regla se ido con los dos <div> vacíos. */
 
 /* ==========================================================================
    Section: Sucursales & Ubicaciones
@@ -2034,10 +2029,20 @@ button {
   object-fit: cover;
 }
 
+/* Scrim con un tope intermedio. Con solo `transparente 40%` -> `0.8` al pie, el
+   título se quedaba corto de contraste: medido píxel a píxel, 4.42:1 en el banner
+   de Centro Histórico y 4.00:1 en el de Torre Central, los dos por debajo de 4.5.
+   Los dos títulos ocupan la misma franja (y 165-200 de 220), y ahí el degradado solo
+   llegaba a ~0.49 de opacidad sobre pared turquesa, que es un píxel muy claro. El
+   tope de 0.58 al 62% sube esa zona a ~0.70 y deja los dos por encima de 7:1 sin
+   oscurecer más el resto de la foto, que sigue viéndose igual de viva arriba. */
 .branch-img-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(25, 28, 31, 0.8) 100%);
+  background: linear-gradient(180deg,
+      transparent 40%,
+      rgba(25, 28, 31, 0.58) 62%,
+      rgba(25, 28, 31, 0.88) 100%);
   display: flex;
   align-items: flex-end;
   padding: 1.25rem;

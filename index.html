@@ -288,7 +288,10 @@
       <a href="#" class="brand-logo-link" aria-label="Cafferium Inicio" data-aria-es="Cafferium Inicio"
         data-aria-en="Cafferium Home">
         <img
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA2zNKUDj0zruH5BoL0iuZB9VQyJoKKj-vtMAaFRKph8yo-4MlGWyBPkhYZPeYms8pIExYxF5Dkf8tKz61IRf2nAAXRXHD5DG2MTtcjSh6Fb94ugo80JTlgpmoUDinpmg9u1xT4n2A6taWXTfHaiYLCLGWu2R0k6r53-EQ3-ssuqcQVYFGMnRynmKzBQDal-aNgKH7QqZ4gKYfPhiCktTOhR4ADi8ujPjUc-e6mzT9LykhQYYlkOCaZCbeZ7tsyaKXfQ"
+          src="/img/logo-sello-80.png"
+          srcset="/img/logo-sello-80.png 80w,
+                  /img/logo-sello-96.png 96w"
+          sizes="(max-width: 999px) 38px, 44px"
           alt="Cafferium Sello Poseidón y Laurel" data-alt-es="Cafferium Sello Poseidón y Laurel"
           data-alt-en="Cafferium Poseidon and Laurel seal" class="brand-logo-img" width="44" height="44">
         <div class="brand-text">
@@ -362,8 +365,11 @@
     <div class="drawer-header">
       <div class="brand-logo-link">
         <img
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA2zNKUDj0zruH5BoL0iuZB9VQyJoKKj-vtMAaFRKph8yo-4MlGWyBPkhYZPeYms8pIExYxF5Dkf8tKz61IRf2nAAXRXHD5DG2MTtcjSh6Fb94ugo80JTlgpmoUDinpmg9u1xT4n2A6taWXTfHaiYLCLGWu2R0k6r53-EQ3-ssuqcQVYFGMnRynmKzBQDal-aNgKH7QqZ4gKYfPhiCktTOhR4ADi8ujPjUc-e6mzT9LykhQYYlkOCaZCbeZ7tsyaKXfQ"
-          alt="Logo" class="brand-logo-img" width="36" height="36">
+          src="/img/logo-sello-80.png"
+          srcset="/img/logo-sello-80.png 80w,
+                  /img/logo-sello-96.png 96w"
+          sizes="44px"
+          alt="Logo" class="brand-logo-img" width="44" height="44">
         <span class="brand-title" style="font-size: 1.1rem;">CAFFERIUM</span>
       </div>
       <button type="button" class="icon-btn" id="mobileDrawerClose" aria-label="Cerrar menú"
@@ -581,23 +587,25 @@
         </div>
 
         <!-- Visual Mosaic Grid
-             Las 4 fotos son locales con `srcset`. Tres vienen en retrato y las
-             cajas son apaisadas, así que el recorte se fija con
-             `object-position` en cada una para que sobreviva el sujeto:
-               fachada  100% visible, no hay recorte
-               cafe-olla 37% visible -> el jarro cae al centro-abajo
-               interior  45% visible -> la gente y las mesas al centro-abajo
-             La terraza NO usa object-position: el archivo ya viene recortado a
-             la banda visible (3.2:1). Descargar el retrato entero para pintar
-             1214x380 desperdiciaba el 77% de los píxeles. -->
+             Las 3 fotos son locales con `srcset`, cada una recortada a la
+             proporción de SU caja para que el sujeto sobreviva:
+               fachada  la caja es 16:14 y el maestro 1.1469, así que encajan
+                        casi exactos y NO hay recorte: se usa la foto entera
+               latte    la caja es 27:16 y el maestro es vertical, así que el
+                        archivo ya viene recortado a la banda
+               interior la caja es 27:16 y el maestro es vertical; con
+                        `object-position: 50% 62%` sobrevive el 45% de su alto
+             Recortar por adelantado no es opcional: descargar un retrato entero
+             para pintar una caja apaisada desperdicia la mayor parte de los
+             píxeles, y sin recortar el sujeto se salía de cuadro. -->
         <div class="mosaic-grid">
           <!-- Main Facade -->
           <div class="mosaic-card mosaic-card--main reveal" tabindex="0">
             <div class="mosaic-card-img-wrapper">
               <img
-                src="/img/esencia-fachada-centro-700.jpg"
-                srcset="/img/esencia-fachada-centro-700.jpg 700w,
-                        /img/esencia-fachada-centro-1343.jpg 1343w"
+                src="/img/esencia-fachada-belisario-v2-700.jpg"
+                srcset="/img/esencia-fachada-belisario-v2-700.jpg 700w,
+                        /img/esencia-fachada-belisario-v2-1343.jpg 1343w"
                 sizes="(min-width: 900px) 700px, 100vw"
                 alt="Fachada colonial turquesa de Cafferium en Belisario Domínguez, Centro Histórico"
                 data-alt-es="Fachada colonial turquesa de Cafferium en Belisario Domínguez, Centro Histórico"
@@ -613,20 +621,23 @@
           <!-- Vertical Stack -->
           <div class="mosaic-stack">
             <div class="mosaic-card mosaic-card--stack reveal reveal-delay-1" tabindex="0">
+              <!-- Antes era el Café de Olla. La foto llega PRE-RECORTADA a 27:16
+                   (la caja de .mosaic-card--stack en escritorio) con y=464, para
+                   que la taza y el plato salgan enteros: el maestro es vertical
+                   (848x1264) y con cover conservaba solo el 40% de su alto. -->
               <div class="mosaic-card-img-wrapper">
                 <img
-                  src="/img/esencia-cafe-olla-500.jpg"
-                  srcset="/img/esencia-cafe-olla-500.jpg 500w,
-                          /img/esencia-cafe-olla-1365.jpg 1365w"
+                  src="/img/esencia-especialidad-500.jpg"
+                  srcset="/img/esencia-especialidad-500.jpg 500w,
+                          /img/esencia-especialidad-848.jpg 848w"
                   sizes="(min-width: 900px) 500px, 100vw"
-                  style="object-position: 50% 65%;"
-                  alt="Café de olla serviéndose en un jarro de barro con canela y piloncillo"
-                  data-alt-es="Café de olla serviéndose en un jarro de barro con canela y piloncillo"
-                  data-alt-en="Clay-pot coffee being served into a clay jug with cinnamon and piloncillo" loading="lazy"
-                  decoding="async" width="500" height="750">
+                  alt="Latte con arte de leche en taza negra sobre la barra de Cafferium"
+                  data-alt-es="Latte con arte de leche en taza negra sobre la barra de Cafferium"
+                  data-alt-en="Latte with milk art in a black cup on Cafferium's bar counter" loading="lazy"
+                  decoding="async" width="500" height="296">
               </div>
               <div class="mosaic-caption">
-                <span data-es="Café de olla tradicional." data-en="Traditional clay-pot coffee.">Café de olla tradicional.</span>
+                <span data-es="Latte de la casa" data-en="House Latte">Latte de la casa</span>
                 <span class="tag" data-es="Café de especialidad" data-en="Specialty coffee">Café de especialidad</span>
               </div>
             </div>
@@ -651,24 +662,9 @@
             </div>
           </div>
 
-          <!-- Banner Full Width -->
-          <div class="mosaic-card mosaic-card--banner mosaic-banner reveal" tabindex="0">
-            <div class="mosaic-card-img-wrapper">
-              <img
-                src="/img/esencia-terraza-800.jpg"
-                srcset="/img/esencia-terraza-800.jpg 800w,
-                        /img/esencia-terraza-1536.jpg 1536w"
-                sizes="(min-width: 1280px) 1216px, 100vw"
-                alt="Mesas y sillas de madera en la terraza de Cafferium en Torre Central, con barandal y vegetación"
-                data-alt-es="Mesas y sillas de madera en la terraza de Cafferium en Torre Central, con barandal y vegetación"
-                data-alt-en="Wooden tables and chairs on Cafferium's terrace at Torre Central, with a railing and greenery"
-                loading="lazy" decoding="async" width="800" height="250">
-            </div>
-            <div class="mosaic-caption">
-              <span data-es="Terraza Torre Central frente al malecón" data-en="Torre Central terrace overlooking the boardwalk">Terraza Torre Central frente al malecón</span>
-              <span class="tag" data-es="Pet Friendly &amp; Brisa Marina" data-en="Pet Friendly &amp; Sea Breeze">Pet Friendly &amp; Brisa Marina</span>
-            </div>
-          </div>
+          <!-- La tarjeta de la terraza se eliminó: no había foto que se viera bien en
+               esa banda ancha. Sus imágenes NO se tocan, el banner de la sucursal
+               de Torre Central sigue usando esencia-terraza-*. -->
         </div>
 
         <!-- 3 Pillars -->
@@ -811,8 +807,8 @@
             <div class="menu-card-body">
               <div>
                 <div class="menu-card-top">
-                  <h3 class="menu-card-title" data-es="Café de Olla Mazatleco"
-                    data-en="Mazatlán Clay-Pot Coffee">Café de Olla Mazatleco</h3>
+                  <h3 class="menu-card-title" data-es="Café de Olla"
+                    data-en="Clay-Pot Coffee">Café de Olla</h3>
                   <span class="menu-card-price">$55 <small>MXN</small></span>
                 </div>
                 <div class="menu-card-spec" data-es="BARRO TRADICIONAL • CANELA EN RAJA • PILONCILLO"
@@ -1168,27 +1164,43 @@
             </a>
           </div>
 
+          <!-- Fotos de la galería, ya locales con `srcset`. Antes venían hotlink de Google
+               a 512px, así que llegaban pixeladas y dependían de un tercero. La caja
+               es `aspect-ratio: 4/5` y los dos archivos nacen a 4:5 exacto (320x400 y
+               640x800), así que `cover` no tiene que recortar nada. `noche` es
+               1440x1800, que ya era 4:5, así que va entera; `escultura` era 3:4
+               (1536x2048) y está pre-recortada con y0=100, poniendo el centro del
+               sujeto (cabeza a pedestal) en el medio.
+               Sin overlay encima: las fotos ya no se oscurecen por abajo. -->
+          <!-- El `sizes` sale de medir el ancho real de la tarjeta, no de suponerlo. Puntos de
+               corte: 105px a 320 de viewport, 133 a 375, 179 a 480, 319 a 760 (cruza
+               los 320 en ~797) y 377 a 899; en la banda de escritorio el contenedor
+               crece desde 233px a 900 hasta 359px y se queda ahí, cruzando los 320 en
+               ~1170. Cada corte es el punto donde "320 basta" deja de ser cierto y hace
+               falta la de 640, así que la foto pesa lo mínimo en cada ancho. -->
           <div class="insta-photos-grid">
             <div class="insta-photo-card">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUtyYswF29WqNh7PTmM3YBRjHUor-5Ob_Hwky5xd1cZUh69l6FBmBo1WhinRoxoMXXSytgo-EJGm0VkR987w9s1Q6Ztq-m1ovDdcKEBEtLWfoef5_uxiiHdH7pzG8X8ZUNyGojvFBOHpKxhJwa9SU-1d01_8vAxphFhyGbL70Jasw0C-IwNGd7bKLjmjvLtX-j8cnV3UDDLYjEy5Ku4-dGLC064DddFFATUkUKftwjKATC6wPsn7PXGFndAeYqbXhwoA"
+                src="/img/instagram-noche-320.jpg"
+                srcset="/img/instagram-noche-320.jpg 320w,
+                        /img/instagram-noche-640.jpg 640w"
+                sizes="(max-width: 795px) 40vw, (max-width: 899px) 360px, (max-width: 1166px) 320px, 359px"
                 alt="Ambiente nocturno íntimo en cafetería Cafferium"
                 data-alt-es="Ambiente nocturno íntimo en cafetería Cafferium"
-                data-alt-en="Cosy evening atmosphere inside Cafferium" loading="lazy" width="300" height="375">
-              <div class="insta-photo-overlay">
-                <!-- <span>Noches en Cafferium ✨</span> -->
-              </div>
+                data-alt-en="Cosy evening atmosphere inside Cafferium" loading="lazy" decoding="async"
+                width="320" height="400">
             </div>
 
             <div class="insta-photo-card">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOIcfA6FTU5wMswJmmbqy6OrUNQD7I6Wtwwe_pW0xbnWNXFL1miy6QWtwhud8xklmujLv8ooadiNwi0n488XjKenqJw0vkGWCYgV3Xrv2ht9DryNzJLEBrGQxYzP5dml-HyF-RbiyvqLA3GkOgyDGanqAeC85yfi2MF1Yk2iflSFrQ7Hm3OdASXnFgrmv9JdaqlOYo-1ny8VludRdu2rS1AjDqv-K2vz_eRhV0wEh8ej6juJcU03FS0CvbiEDVQ3isUw"
+                src="/img/instagram-escultura-320.jpg"
+                srcset="/img/instagram-escultura-320.jpg 320w,
+                        /img/instagram-escultura-640.jpg 640w"
+                sizes="(max-width: 795px) 40vw, (max-width: 899px) 360px, (max-width: 1166px) 320px, 359px"
                 alt="Escultura helénica marina de arte en patio de Cafferium"
                 data-alt-es="Escultura helénica marina de arte en patio de Cafferium"
-                data-alt-en="Grecian maritime sculpture in Cafferium's courtyard" loading="lazy" width="300" height="375">
-              <div class="insta-photo-overlay">
-                <!-- <span>Arte & Escultura Marina 🏛️</span> -->
-              </div>
+                data-alt-en="Grecian maritime sculpture in Cafferium's courtyard" loading="lazy" decoding="async"
+                width="320" height="400">
             </div>
           </div>
         </div>
@@ -1214,26 +1226,27 @@
 
         <div class="branches-grid">
           <!-- Sucursal 1: Centro Histórico.
-               La foto llega PRE-RECORTADA a 2.69:1 en vez de dejar el retrato
-               entero: la caja del banner es `height: 220px` a todo el ancho con
-               `object-fit: cover`, y un 652x871 (vertical) conservaba solo el 28%
-               de su alto en escritorio. Recortada, no se pierde nada.
-               La franja elegida deja el reloj y las plantas arriba, que es donde
-               el scrim de `.branch-img-overlay` apenas oscurece.
-
-               OJO: la foto muestra el INTERIOR de la barra y la descripción de abajo
-               habla de la FACHADA. A propósito: el usuario decidió dejar el texto como
-               estaba porque es probable que la imagen del banner vuelva a cambiar. -->
+               Reutiliza la MISMA foto que la tarjeta principal de `#esencia`, la
+               fachada turquesa con el letrero. Así por fin la descripción de abajo
+               ("fachada colonial azul turquesa con rejas de hierro forjado...")
+               coincide con lo que se ve; antes mostraba el interior.
+               PRE-RECORTADA a 2.69:1, la proporción real de la caja del banner
+               (`height: 220px` fijo a todo el ancho con `object-fit: cover`), con
+               y=336 para que el letrero quede entero. Ese y sale de un mapa de
+               líneas sobre el maestro, no de memoria.
+               Los nombres llevan "-v2" a propósito: al reemplazar una foto con el
+               mismo nombre de archivo la URL no cambia y el navegador la saca de
+               caché, así que se seguía viendo el letrero de la versión anterior. -->
           <article class="branch-card reveal reveal-delay-1">
             <div class="branch-img-header">
               <img
-                src="/img/sucursal-centro-652.jpg"
-                srcset="/img/sucursal-centro-652.jpg 652w,
-                        /img/sucursal-centro-1184.jpg 1184w"
+                src="/img/sucursal-centro-fachada-v2-652.jpg"
+                srcset="/img/sucursal-centro-fachada-v2-652.jpg 652w,
+                        /img/sucursal-centro-fachada-v2-1184.jpg 1184w"
                 sizes="(min-width: 900px) 594px, 100vw"
-                alt="Interior de Cafferium Centro Histórico: barra de café con reloj de pared, pizarra del menú y plantas"
-                data-alt-es="Interior de Cafferium Centro Histórico: barra de café con reloj de pared, pizarra del menú y plantas"
-                data-alt-en="Inside Cafferium Centro Histórico: coffee bar with a wall clock, menu board and plants" loading="lazy"
+                alt="Fachada turquesa de Cafferium Centro Histórico con rejas de hierro forjado y el letrero de la casa"
+                data-alt-es="Fachada turquesa de Cafferium Centro Histórico con rejas de hierro forjado y el letrero de la casa"
+                data-alt-en="Cafferium Centro Histórico's turquoise facade with wrought-iron grilles and the shop sign" loading="lazy"
                 width="652" height="242">
               <div class="branch-img-overlay">
                 <h3 class="branch-badge-title" data-es="Sucursal Centro Histórico"
@@ -1363,8 +1376,11 @@
       <div>
         <div class="brand-logo-link" style="margin-bottom: 0.75rem;">
           <img
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA2zNKUDj0zruH5BoL0iuZB9VQyJoKKj-vtMAaFRKph8yo-4MlGWyBPkhYZPeYms8pIExYxF5Dkf8tKz61IRf2nAAXRXHD5DG2MTtcjSh6Fb94ugo80JTlgpmoUDinpmg9u1xT4n2A6taWXTfHaiYLCLGWu2R0k6r53-EQ3-ssuqcQVYFGMnRynmKzBQDal-aNgKH7QqZ4gKYfPhiCktTOhR4ADi8ujPjUc-e6mzT9LykhQYYlkOCaZCbeZ7tsyaKXfQ"
-            alt="Logo Cafferium" class="brand-logo-img" width="40" height="40">
+            src="/img/logo-sello-80.png"
+            srcset="/img/logo-sello-80.png 80w,
+                    /img/logo-sello-96.png 96w"
+            sizes="44px"
+            alt="Logo Cafferium" class="brand-logo-img" width="44" height="44">
           <span class="brand-title" style="font-size: 1.15rem;">CAFFERIUM</span>
         </div>
         <p style="font-size: 0.85rem; color: var(--color-on-surface-variant); margin-bottom: 1rem;"

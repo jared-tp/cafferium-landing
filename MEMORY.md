@@ -1,4 +1,4 @@
-# MEMORY.md - Cafferium Landing
+?# MEMORY.md - Cafferium Landing
 
 Memoria del proyecto entre sesiones. Este archivo es el **estado**, no el manual: las reglas
 permanentes viven en `AGENTS.md`. Si algo se repite, va allí.
@@ -6,7 +6,9 @@ permanentes viven en `AGENTS.md`. Si algo se repite, va allí.
 ## Estado Actual
 - v7 funcionando: enlaces de WhatsApp, animaciones de scroll, i18n ES/EN, toggle de tema claro/oscuro.
 - SEO técnico completo: canonical, JSON-LD con un nodo por sucursal, favicon, sitemap, robots.
-- Imágenes: migradas a local el hero y las 4 de `#esencia`. Quedan 11 como hotlinks de Google a 512px.
+- **Imágenes: no queda ni una hotlink de Google.** Todo local, con `srcset` + `sizes` + `alt`
+  traducible. Se hicieron por tandas: hero, 4 de `#esencia`, 6 del menú, 2 de sucursales, 2 de
+  Instagram y el logo. `public/img` tiene 35 archivos.
 - Mosaico de `#esencia`: la caption ya no es una barra; en escritorio el texto va centrado sobre la
   foto. Sigue el patrón de `.branch-img-overlay`, que ya existía.
 - **Modal del menú**: "Ver menú completo" ya no manda un WhatsApp, abre un modal con las 4 fotos
@@ -74,8 +76,9 @@ permanentes viven en `AGENTS.md`. Si algo se repite, va allí.
     - **Menú, 4:3** (`.menu-card-img-wrap`): los maestros iban de 0.62 a 0.80, así que `cover` conservaba
       entre el **47% y el 60%** de su alto. Las 6 del menú quedan ya pre-recortadas a 4:3, con 400 y
       800 px. De 12.55 MB de PNG a 0.73 MB de JPEG.
-    - **Mosaico**: `object-position` en línea, imagen por imagen. % visible: fachada 100%, café de olla
-      37%, interior 45%, terraza 23%.
+    - **Mosaico**: el latte llega **pre-recortado** a 27:16; la fachada **no lleva recorte** (el
+      maestro y la caja casi coinciden) y el interior sigue con `object-position` en línea
+      (`50% 62%`, 45% visible).
     - **Terraza PRE-RECORTADA a 3.2:1**: descargar el retrato entero para pintar 1214×380 desperdiciaba
       el 77% de los píxeles (563 KB → 196 KB con el mismo resultado visual).
     - **Banner de sucursal, 2.69:1**: `.branch-img-header` es `height: 220px` fijo, así que la
@@ -95,8 +98,47 @@ permanentes viven en `AGENTS.md`. Si algo se repite, va allí.
   Se movieron porque Vite copia `public/` tal cual a `dist/`: dejarlos ahí publicaba **4.7 MB
   sin usar**, descargables por URL directa. El PNG del hero ya no existe.
   `public/img/` queda solo con las 11 variantes que el `srcset` usa: **1.5 MB.**
-- Faltan 4 tandas: 6 de menú, 2 de sucursales, 2 de Instagram, 1 logo.
+- **Ya no faltan tandas de imágenes.** Las 6 de menú, 2 de sucursales, 2 de Instagram y el logo
+  entraronlocal en la misma tanda.
   Cuando lleguen, se repite el patrón y los maestros van a `_originales/`.
+
+## El mosaico de #esencia ahora tiene 3 tarjetas
+- **Fachada** (`mosaic-card--main`) · **Latte de la casa** · **Espacio climatizado**.
+- **Se quitó la terraza**: no había foto que se viera bien en esa banda ancha. Sus imágenes NO se
+  tocaron: `esencia-terraza-800/1536.jpg` las sigue usando el banner de Torre Central, y como son
+  3.2:1 encajan mejor ahí que en el mosaico. `.mosaic-card--banner` y `.mosaic-banner` quedan en el
+  CSS sin usarse; **no borrarlos** sin consultar.
+- **La foto de la fachada se reemplazó DOS veces y ya no da más vueltas.** El letrero vigente es el de
+  **"CAFETERÍA · PANADERÍA · ARTE"**, maestro `_originales/fachada-belisario.png` (1343x1171). Se
+  comprobó con la imagen ampliada x5, no leyendo de memoria: ya se confundió una vez al revés.
+  Los JPEG son `esencia-fachada-belisario-v2-700/1343.jpg` para el mosaico y
+  `sucursal-centro-fachada-v2-652/1184.jpg` para el banner. **El "-v2" es deliberado**: la versión
+  anterior tenía el letrero de CAFÉ, y al reutilizar nombres el navegador sacaba esa de caché.
+  **Mosaico y banner salen del mismo maestro, así que no pueden verse distintos.**
+  - **La foto NO lleva recorte, y no debe llevar ninguno.** El maestro es 1.1469 y la caja del
+    mosaico `16/14` = 1.1429: encajan casi exactos y `cover` recorta un 0.18% por los lados. Se
+    redimensiona la foto entera y ya. Una versión anterior del repo era un **recorte más cerrado**
+    (unos 755x658 del maestro) que cortaba el letrero contra el borde y se comía el auto de la
+    esquina; salía de pasar el recorte por un rectángulo de otra medida. **El defecto estaba en el
+    archivo, no en el CSS**, así que medir solo en el navegador no lo detectaba: hay que comparar
+    el archivo contra un resize completo del maestro.
+  - **El letrero cae en el centro geométrico de la foto** (x 270-400; "CAFFERIUM" en y 304-337 y
+    la sublínea en y 341-352, sobre 700x610), así que la caption centrada lo tapaba. Se movió
+    abajo; ver la sección del overlay. Debajo del letrero quedan 245px limpios y el texto queda
+    a **161px** de distancia de él.
+  - El banner sí va pre-recortado, a **2.69:1 con y=336** (banda de 499px). Ese y sale de un mapa
+    de líneas sobre el maestro. El título del banner ocupa y 165-200 de 220, así que el letrero
+    tiene que caber por encima de ~y 160.
+- **La tarjeta del Café de Olla pasó a ser "Latte de la casa"**, con la etiqueta "Café de especialidad"
+  que ya estaba. La foto es un latte con rosetta en taza negra, pre-recortada a **27:16 con y=464**
+  para que la taza y el plato salgan enteros (el maestro era vertical 848x1264 y `cover` conservaba
+  solo el 40% de su alto). El `object-position` en línea desapareció por eso. Sus variantes son de 500
+  y 848 px, y el maestro es de 848: en retina se verá algo más suave que el resto.
+- `esencia-cafe-olla-500/1365.jpg` se **borraron**: quedaron huérfanas al salir del mosaico. La
+  tarjeta de menú del Café de Olla usa otras (`cafe-de-olla-400/800.jpg`), que siguen vivas.
+- Medido: main y stack miden **612px los dos, bottoms a 1100 → 0.0px de desajuste**. Ojo al
+  comprobarlo por filas: las dos tarjetas apiladas están en filas distintas del grid, así que
+  comparar sus bottoms da un falso positivo.
 
 ## Overlay del mosaico
 Las **reglas de por qué** están en AGENTS.md invariante 9. Aquí solo los números y las
@@ -105,11 +147,18 @@ decisiones de una vez, que es lo que no se deduce del código.
   Los dos últimos criterios son los que importan: un iPad en horizontal cumple el ancho pero no
   esos, así que conserva la caption de abajo. Sin ellos el overlay se activa en táctil y se pierde
   el texto. Verificado a 1024px con `hasTouch`: `pos=static`, caption intacta.
-- Scrim en degradado, central 0.80 y bordes 0.50, en `::before`; la opacidad modula
-  (0.825 reposo → 1 hover). Contraste medido del texto **6.14:1** en el peor caso (terraza);
-  la etiqueta quedó en 6.23:1. Un scrim plano habría necesitado 0.62 para llegar a 4.5:1.
+- **El texto va ABAJO, no centrado.** No es aesthetic: en la tarjeta de la fachada el letrero de
+  CAFFERIUM cae en el centro geométrico de la foto, así que centrado la etiqueta le pisaba el
+  nombre. Es el mismo patrón de `.branch-img-overlay`. Abajo hay 245px libres bajo el letrero y
+  el texto queda a 170px de distancia de él. Centrado solo se vería bien con otro encuadre, y el
+  único recorte posible (900x741 desde y=430) se come el arco y media fachada: no compensa.
+- Scrim en degradado **bajo**, en `::before`: 0 hasta arriba, 0.26 al 40%, 0.64 al 68% y 0.88 al
+  pie; la opacidad modula (0.825 reposo → 1 hover). Contraste medido píxel a píxel con las dos
+  capturas (texto visible / texto en `visibility: hidden` como fondo puro): mosaico **7.15:1** el
+  título y 8.28:1 la etiqueta.
 - **El texto principal es blanco en Playfair (`--font-serif`), la etiqueta en Cinzel
-  (`--font-brand`), ambas centradas.** La etiqueta **también quedó en blanco**: `#00828a` daba
+  (`--font-brand`), centradas en horizontal y alineadas al pie.** La etiqueta **también quedó en
+  blanco**: `#00828a` daba
   1.35:1, y ningún teal llegaba a 4.5:1 (claro 3.62, oscuro 2.39). En móvil conserva su turquesa,
   porque el overlay no aplica ahí. **No lo "corrijas" sin medir.**
 - Las tarjetas llevan `tabindex="0"` y el overlay responde a `:focus-visible`. Con el texto siempre
@@ -140,21 +189,58 @@ decisiones de una vez, que es lo que no se deduce del código.
   bajó de 11 a 9.
 
 ## Fotos de las sucursales (banner)
-- Centro Histórico: `sucursal-centro-652.jpg` y `-1184.jpg`. **Pre-recortada a 2.69:1**, que es la
-  proporción real de la caja en escritorio (`.branch-img-header` es `height: 220px` fijo a todo el
-  ancho con `object-fit: cover`). El original era un **652x871 vertical**: sin recortar conservaba
-  solo el **28%** de su alto. De 1.3 MB PNG a 67 KB.
-  - La franja se eligió mirando la foto renderizada a x3, no calculando: reloj + plantas arriba,
-    que es donde el scrim de `.branch-img-overlay` apenas oscurece.
-  - El maestro quedó en `_originales/sucursal-centro-historico.png`.
-  - **Aviso:** el original es de 652px de ancho. La variante de 1184 va **escalada con bicúbico**,
-    no tiene detalle real. En pantallas retina se verá más suave que la terraza (1536px nativos).
-    Reexportar el original a ≥1200px lo arreglaría.
-- Torre Central: **reutiliza `esencia-terraza-800/1536.jpg`** a propósito; se repetirá hasta que se
-  sustituya la foto de `#esencia`.
+- Centro Histórico: `sucursal-centro-fachada-v2-652.jpg` y `-1184.jpg`. **Pre-recortada a 2.69:1**,
+  que es la proporción real de la caja en escritorio (`.branch-img-header` es `height: 220px` fijo
+  a todo el ancho con `object-fit: cover`). El maestro es `_originales/fachada-belisario.png`, el
+  mismo del mosaico, así que **el banner y el mosaico nunca deben verse distintos**.
+  - La franja es **y=336** (banda de 499px), elegida con un mapa de líneas sobre el maestro, no
+    de memoria. El título del banner ocupa y 165-200 de 220: el letrero tiene que caber por encima.
+  - **Aviso:** el maestro es de 1343px de ancho, así que la variante de 1184 sale de la original
+    sin escalar (bien), pero la de 652 es la que se descarga en móvil.
+- Torre Central: **reutiliza `esencia-terraza-800/1536.jpg`**, y como la terraza ya no está en
+  `#esencia` ya no se repite: esa foto vive solo aquí, que es donde mejor encaja por su proporción.
+- **Centro Histórico ahora usa la FACHADA, no el interior.** El banner se pasó a un recorte a
+  2.69:1 y **y=336** de la misma foto de la fachada. **Esto resolvió el desajuste que llevaba
+  abierto**: la descripción ("fachada colonial azul turquesa con rejas de hierro forjado, plantas
+  tropicales") por fin coincide con la imagen.
+- **El scrim de `.branch-img-overlay` estaba corto de contraste y NO lo sabíamos.** Con solo
+  `transparent 40%` → `0.8` al pie, medido píxel a píxel, daba **4.42:1** en Centro Histórico y
+  **4.00:1** en Torre Central: los dos por debajo de 4.5. Los dos títulos ocupan la misma franja
+  (y 165-200 de 220) y ahí el degradado solo llegaba a ~0.49 de opacidad, sobre pared turquesa que
+  es un píxel muy claro. Añadido un tope intermedio de 0.58 al 62%: **7.83:1** y **7.26:1**. No
+  hace falta oscurecer más el resto, que sigue viéndose igual de viva.
+  **Lo más incómodo es que el fallo venía de antes y ninguna revisión lo había medido.**
 - Ambas son locales ahora, con `srcset` + `sizes="(min-width: 900px) 594px, 100vw"`. Antes eran
   **capturas de Google Maps** de 600x220 y sus `alt` describían una "ubicación y fachada" que no
   se veía.
+
+## Galería de Instagram y logo (locales)
+
+- **Las dos fotos de la galería ya son locales**: `instagram-noche-320/640.jpg` e
+  `instagram-escultura-320/640.jpg`, a **4:5 exacto** (320x400 y 640x800) para que case con la caja
+  `aspect-ratio: 4/5` sin que `cover` recorte nada. Maestros: `cafferium-instagram-1.jpg` y `-2.jpg`.
+  - `noche` es 1440x1800, ya era 4:5, así que va **entera, sin recorte**.
+  - `escultura` era **3:4** (1536x2048). A 4:5 pide alto 1920, sobran 128px. Con un mapa de líneas
+    el sujeto (cabeza y~370 a pedestal y~1750) tiene centro en ~1060, así que **`y0 = 1060 − 960 =
+    100`**. Centrar a lo bruto (64) habría dejado más techo vacío arriba del sujeto.
+  - **El `sizes` sale de medir el ancho real de la tarjeta**, no de suponerlo: 105px a 320 de
+    viewport, 133 a 375, 179 a 480, 319 a 760, 377 a 899; y en la banda de escritorio el contenedor
+    crece de 233px a 900 hasta 359px y ahí se queda. **Cruza los 320px en ~797 y otra vez en ~1170**,
+    y esos dos cruces son los cortes del `sizes`, porque son justo donde "320 basta" deja de ser
+    cierto. Medido en 13 anchos, cero elecciones erróneas: en móvil baja la de 320 (45 KB) en vez de
+    la de 640 (148 KB).
+  - **Se quitó el overlay.** Los dos `<div class="insta-photo-overlay">` tenían el `<span>`
+    comentado, así que oscurecían la mitad inferior de cada foto sin texto encima. Se fueron los div
+    y **la regla `.insta-photo-overlay`**, ya sin uso.
+- **El logo (`logo-sello-80.png` y `logo-sello-96.png`) sustituye al hotlink del sello en los TRES
+  sitios**: header, drawer y footer. Va en `srcset` con `sizes` de 44px, salvo el header, que son
+  38px por debajo de 1000px (`.nav-container .brand-logo-img`). Con DPR 1 baja el de 80 y con DPR 2
+  el de 96, comprobado.
+  - **El usuario eligió el sello COMPLETO de Poseidón**, aunque medido a 38–44px la cara es una
+    mancha y el invariante 7 dice que de 16 a 48px va la corona. Es decisión de marca suya. La
+    variante de corona (`logo-laurel-*`) quedó generada y **sin usar**, por si se cambia de opinión.
+  - El sello sale del maestro `cafferium-logo.jpg` (756x756, **JPEG con fondo blanco**) desmarcando
+    el alfa contra el blanco. Es lo que arregla el círculo blanco del header oscuro.
 
 ## Tareas pendientes
 - **Añadir un CTA de WhatsApp al pie del modal del menú** si algún momento se decide: el botón
@@ -163,23 +249,30 @@ decisiones de una vez, que es lo que no se deduce del código.
 - **Revisar el contraste de `--color-on-surface-muted` (`#6e797a`)**: da 4.49:1 en tema claro sobre
   blanco, justo por debajo de 4.5:1. Lo usan 10+ sitios, así que el arreglo es global y conviene
   como tarea propia, no deambulando en otro cambio.
-- Recibir las 4 tandas de imágenes (6 menú, 2 sucursales, 2 Instagram, 1 logo) y repetirlas con
-  `srcset` + `sizes` + alt traducible. El patrón está arriba y en AGENTS.md; los maestros a
-  `_originales/`.
+- Faltan 4 tandas de imágenes → **hecho**. Queda como aprendizaje: **para sacar transparencia de un
+  JPEG hay que desmezclar contra el blanco, no recortar por umbral.** Se calcula el alfa que minimiza
+  |p − (a·tinta + (1−a)·255)| por canal. Y hace falta además una **puerta de color**: el turquesa de
+  la corona tiene `g − r = 96` y el taupe del rostro `g − r = 0`, así que `g − r ≤ 45` descarta el
+  píxel sin mirar el residuo. Sin esa puerta el halo del JPEG alrededor del rostro se colaba como
+  turquesa de alfa baja y dejaba un fantasma en el centro de la corona; se detectó midiendo el alfa
+  acumulada dentro del círculo (0 = limpio). El maestro `cafferium-logo.jpg` es JPEG con fondo blanco,
+  así que usarlo tal cual habría dado **un círculo blanco** en el header oscuro, que es justo lo que
+  pasaba con el PNG de Google.
 - **Variantes de 600px para las 4 fotos del menú**: opcional, ahorraría ~200 KB en móvil. Se
   decidió NO hacerlo porque son `loading="lazy"` y solo bajan al abrir el modal. Si algún día se
   hacen, mantener el patrón `srcset` del resto.
 - Reemplazar las fotos de los platillos por productos reales.
 - En el mapa de Google, cambiar el ícono por una versión editable del logo.
 - El banner de la **sucursal Torre Central** decía "frente a la laguna" en el `alt` y en el texto
-  de playa, pero su foto es una captura de mapa y no se comprobó si la laguna aparece. Ese copy se
-  reemplazó por el texto nuevo del cliente ("terraza con mesas de madera frente a la laguna,
-  sombrillas turquesa y vista al estadio"), así que la pregunta sigue abierta solo para el `alt`
-  y para la foto. No confundir con la terraza del mosaico, que es otra imagen.
-- Buscar una mejor foto para la terraza de `#esencia` (está repetida en la tarjeta de Torre Central).
-- Buscar una mejor foto para el café de olla de `#esencia` (está repetida en la tarjeta del menú).
-- **Reexportar a ≥1200px** el original del banner de Centro Histórico: son 652px y la variante de
-  1184 va escalada con bicúbico, sin detalle real. En retina se nota junto a la terraza.
+  de playa; el copy se reemplazó por el del cliente ("terraza con mesas de madera frente a la
+  laguna, sombrillas turquesa y vista al estadio"). Sigue sin comprobarse si la foto —que es la
+  terraza de `#esencia`— muestra la laguna.
+- **Confirmar cuál fachada es la buena**: resuelto. El maestro vigente es
+  `_originales/fachada-belisario.png` y su letrero dice "ARTE".
+- **El maestro del latte de `#esencia` son 848px** y la caja pide ~1000 en retina: se verá más suave
+  que el resto en pantallas de alta densidad. Reexportar a 1200px lo arreglaría.
+- **Reexportar a ≥1200px** el original de la fachada si se quiere nitidez en retina: el maestro es
+  1343px, así que la variante de 1184 va algo escalada.
 
 ## Aprendizajes (los de imagen; el resto está en AGENTS.md)
 - **`naturalWidth` en Chromium devuelve el valor ajustado por densidad**, no los píxeles reales: con
@@ -219,6 +312,25 @@ decisiones de una vez, que es lo que no se deduce del código.
   central de la foto. Cuando el sujeto no está centrado, **mide dónde está con un mapa de líneas
   sobre la foto completa** y de ahí saca el `y` que lo centra en la banda. La cuenta es
   `y = centro_del_platillo - alto_de_la_banda / 2`.
+- **NUNCA sobreescribir una foto con el mismo nombre de archivo.** La URL no cambia, así que el
+  navegador la saca de caché y quien ya visitó la página sigue viendo la vieja. Pasó con la fachada
+  de `#esencia`: el archivo en disco era el nuevo (verificado byte a byte) y el usuario siguió
+  viendo el letrero con el error. **Cuando cambie una foto, cámbiale también el nombre.**
+- **Al generar variantes, recorta a tamaño COMPLETO y luego redimensiona; nunca dibujes una franja
+  de una medida dentro de un destino de otra.** Para la variante de 500px del latte se recortaba
+  848×296 y se aplastaba a 500×296: escala 0.59 en horizontal y 1.0 en vertical. La taza salía
+  estirada y sin plato, y como `sizes` pedía 500px en escritorio, **el navegador cargaba justo la
+  variante deformada**. **Verifica la proporción de cada archivo generado contra la del destino.**
+- **Un archivo mal recortado no se arregla desde el CSS.** Con `object-fit: cover` el navegador
+  nunca deforma: si algo se ve cortado, la culpa es del archivo, y cambiar la caja no lo arregla.
+  La prueba: **genera un resize completo del maestro y compáralo con el archivo publicado**. Si
+  difieren, el publicado tiene un recorte horneado. Pasó con la fachada del mosaico: un recorte
+  de ~755x658 sobre un maestro de 1343x1171 hacía desaparecer el letrero y el auto, y el CSS
+  estaba impecable.
+- **El texto del overlay compite con lo que la foto enseña.** Una tarjeta puede tener la foto
+  perfecta y aun así no cumplir su función si el rótulo de la foto queda debajo del texto. Antes
+  de aceptar un overlay, **mide dónde está el elemento que la foto existe para mostrar** (con un
+  mapa de líneas) y comprueba que no cae bajo la caja del texto.
 - **Antes de reportar una "discrepancia" de datos, pregunta: puede que sea intencional.** Señalé
   que había dos números de teléfono distintos como si fuera un bug, y no lo era: uno es de
   WhatsApp y el otro solo de llamadas. Preguntar costó una pregunta y evitó "arreglar" algo
@@ -232,3 +344,4 @@ decisiones de una vez, que es lo que no se deduce del código.
   `opacity: 0` y solo se revelan al entrar en pantalla. Si haces `screenshot()` de una tarjeta sin
   hacer scroll hasta ella primero, sale vacía. Haz `scrollIntoViewIfNeeded()` sobre la TARJETA
   concreta y espera ~1.6s. Pasa igual con las del mosaico (y su `translateY(32px)` inicial).
+
