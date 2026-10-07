@@ -392,7 +392,7 @@
     </nav>
 
     <div class="drawer-footer">
-      <a href="https://wa.me/526691054810" target="_blank" rel="noopener noreferrer" class="btn-primary"
+      <a href="https://wa.me/526691591505" target="_blank" rel="noopener noreferrer" class="btn-primary"
         style="width: 100%; justify-content: center; gap: 0.6rem;">
         <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"
           fill="currentColor" aria-hidden="true">
@@ -1197,15 +1197,28 @@
         </div>
 
         <div class="branches-grid">
-          <!-- Sucursal 1: Centro Histórico -->
+          <!-- Sucursal 1: Centro Histórico.
+               La foto llega PRE-RECORTADA a 2.69:1 en vez de dejar el retrato
+               entero: la caja del banner es `height: 220px` a todo el ancho con
+               `object-fit: cover`, y un 652x871 (vertical) conservaba solo el 28%
+               de su alto en escritorio. Recortada, no se pierde nada.
+               La franja elegida deja el reloj y las plantas arriba, que es donde
+               el scrim de `.branch-img-overlay` apenas oscurece.
+
+               OJO: la foto muestra el INTERIOR de la barra y la descripción de abajo
+               habla de la FACHADA. A propósito: el usuario decidió dejar el texto como
+               estaba porque es probable que la imagen del banner vuelva a cambiar. -->
           <article class="branch-card reveal reveal-delay-1">
             <div class="branch-img-header">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6y4paMq3QgtWzrNczvr7K0cgsTUqiPMyaukhDiFrLIOZbd2Vg9VCV4m4ZEbNT0ECwFLLiLgmYqSwJ1Q3AeS3g75NqqEw99T5hDnbZrVp1dfkNjOKvdHoIdbf9j0qOQHMyjyIc29thLmX3D3RoSgPQWsCgtGmyvZQHD31cKDHIDJppmx4_OaRWtSwFA2DDQCPSbbD-dxXQLWif52HrUIuH-FipnL60AITqbujYrDwPrbc1XBjZKNEs"
-                alt="Ubicación y fachada de Cafferium Centro Histórico en Mazatlán"
-                data-alt-es="Ubicación y fachada de Cafferium Centro Histórico en Mazatlán"
-                data-alt-en="Location and facade of Cafferium Centro Histórico in Mazatlán" loading="lazy" width="600"
-                height="220">
+                src="/img/sucursal-centro-652.jpg"
+                srcset="/img/sucursal-centro-652.jpg 652w,
+                        /img/sucursal-centro-1184.jpg 1184w"
+                sizes="(min-width: 900px) 594px, 100vw"
+                alt="Interior de Cafferium Centro Histórico: barra de café con reloj de pared, pizarra del menú y plantas"
+                data-alt-es="Interior de Cafferium Centro Histórico: barra de café con reloj de pared, pizarra del menú y plantas"
+                data-alt-en="Inside Cafferium Centro Histórico: coffee bar with a wall clock, menu board and plants" loading="lazy"
+                width="652" height="242">
               <div class="branch-img-overlay">
                 <h3 class="branch-badge-title" data-es="Sucursal Centro Histórico"
                   data-en="Centro Histórico Branch">Sucursal Centro Histórico</h3>
@@ -1222,23 +1235,22 @@
                 <div class="branch-info-item">
                   <span class="material-symbols-outlined text-gold" aria-hidden="true">schedule</span>
                   <div>
-                    <p><strong data-es="Martes a Jueves:" data-en="Tuesday to Thursday:">Martes a Jueves:</strong> 8:00 AM – 10:00 PM</p>
-                    <p><strong data-es="Viernes a Domingo:" data-en="Friday to Sunday:">Viernes a Domingo:</strong> 8:00 AM – 11:00 PM</p>
+                    <p><strong data-es="Martes a Domingo:" data-en="Tuesday to Sunday:">Martes a Domingo:</strong> 8:00 AM – 10:00 PM</p>
                     <p style="color: var(--color-error); font-weight: 600;" data-es="Lunes: Cerrado" data-en="Monday: Closed">Lunes: Cerrado</p>
                   </div>
                 </div>
 
                 <div class="branch-info-item">
-                  <span class="material-symbols-outlined text-tertiary" aria-hidden="true">stars</span>
-                  <span data-es="Casona azul colonial, biblioteca interior, patio vegetal y venta de café en grano."
-                    data-en="Colonial blue mansion, indoor library, plant courtyard and whole-bean coffee for sale.">Casona azul colonial, biblioteca interior, patio vegetal y venta de café en grano.</span>
+                  <span class="material-symbols-outlined text-tertiary" aria-hidden="true">storefront</span>
+                  <span data-es="Fachada colonial azul turquesa con rejas de hierro forjado, plantas tropicales y accesibilidad de calle."
+                    data-en="Turquoise-blue colonial facade with wrought-iron grilles, tropical plants and street-level accessibility.">Fachada colonial azul turquesa con rejas de hierro forjado, plantas tropicales y accesibilidad de calle.</span>
                 </div>
               </div>
 
               <div class="branch-actions-row">
                 <a href="https://maps.app.goo.gl/tRSFdKBwfajnCT1H9" target="_blank" rel="noopener noreferrer"
                   class="btn-branch-maps">
-                  <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 18px;">map</span>
+                  <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 18px;">place</span>
                   <span data-es="Abrir en Google Maps" data-en="Open in Google Maps">Abrir en Google Maps</span>
                 </a>
                 <a href="tel:6691054810" class="btn-branch-sub">
@@ -1246,29 +1258,23 @@
                     style="font-size: 18px; color: var(--color-primary);">call</span>
                   <span data-es="Llamar" data-en="Call">Llamar</span>
                 </a>
-                <a href="https://wa.me/526691591505"
-                  data-wa-es="Hola Cafferium Centro Historico" data-wa-en="Hi Cafferium Centro Historico" target="_blank"
-                  rel="noopener noreferrer" class="btn-branch-sub" style="gap: 0.45rem;">
-                  <svg class="whatsapp-icon whatsapp-icon-green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                    width="18" height="18" fill="currentColor" aria-hidden="true">
-                    <path
-                      d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29" />
-                  </svg>
-                  WhatsApp
-                </a>
               </div>
             </div>
           </article>
 
-          <!-- Sucursal 2: Torre Central -->
+          <!-- Sucursal 2: Torre Central. Reutiliza la foto de la terraza de #esencia
+               a propósito: se repetirá hasta que se sustituya la de esa sección. -->
           <article class="branch-card reveal reveal-delay-2">
             <div class="branch-img-header">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjdq2G-WOdOd_kibCotNLK_pqBUGrNLjLBPPhOZnpPBdB_EgvnlSczv1rJH7SUW0kSmc9VwLfF3l-w8BXY3rCVRfqBHw5nYLTtG8T-fE7qRnEcCXO_sHGXjsGTySJISzdc0Oo7M5UnBjOtIWtPmClQJwNmDLUckMudqv3b9bPleAHcqVdoJSDTV9tAomb7sQCcQWnzy1hv_nhVDwEJlc4pxpqSFzrM5CUodJrdhu64NN0VO_QqNsIi"
-                alt="Terraza exterior de Cafferium Torre Central en Mazatlán frente a la laguna"
-                data-alt-es="Terraza exterior de Cafferium Torre Central en Mazatlán frente a la laguna"
-                data-alt-en="Cafferium's outdoor terrace at Torre Central in Mazatlán facing the lagoon" loading="lazy"
-                width="600" height="220">
+                src="/img/esencia-terraza-800.jpg"
+                srcset="/img/esencia-terraza-800.jpg 800w,
+                        /img/esencia-terraza-1536.jpg 1536w"
+                sizes="(min-width: 900px) 594px, 100vw"
+                alt="Terraza de Cafferium Torre Central con mesas de madera y sombrillas turquesa frente a la laguna"
+                data-alt-es="Terraza de Cafferium Torre Central con mesas de madera y sombrillas turquesa frente a la laguna"
+                data-alt-en="Cafferium's Torre Central terrace with wooden tables and turquoise umbrellas facing the lagoon"
+                loading="lazy" width="800" height="250">
               <div class="branch-img-overlay">
                 <h3 class="branch-badge-title" data-es="Sucursal Torre Central"
                   data-en="Torre Central Branch">Sucursal Torre Central</h3>
@@ -1286,39 +1292,28 @@
                 <div class="branch-info-item">
                   <span class="material-symbols-outlined text-gold" aria-hidden="true">schedule</span>
                   <div>
-                    <p><strong data-es="Martes a Jueves:" data-en="Tuesday to Thursday:">Martes a Jueves:</strong> 8:00 AM – 10:00 PM</p>
-                    <p><strong data-es="Viernes a Domingo:" data-en="Friday to Sunday:">Viernes a Domingo:</strong> 8:00 AM – 11:00 PM</p>
+                    <p><strong data-es="Martes a Domingo:" data-en="Tuesday to Sunday:">Martes a Domingo:</strong> 8:00 AM – 10:00 PM</p>
                     <p style="color: var(--color-error); font-weight: 600;" data-es="Lunes: Cerrado" data-en="Monday: Closed">Lunes: Cerrado</p>
                   </div>
                 </div>
 
                 <div class="branch-info-item">
-                  <span class="material-symbols-outlined text-tertiary" aria-hidden="true">beach_access</span>
-                  <span data-es="Terraza con sombrillas turquesa frente a la laguna, barra express y estacionamiento."
-                    data-en="Terrace with turquoise umbrellas facing the lagoon, express bar and parking.">Terraza con sombrillas turquesa frente a la laguna, barra express y estacionamiento.</span>
+                  <span class="material-symbols-outlined text-tertiary" aria-hidden="true">deck</span>
+                  <span data-es="Terraza con mesas de madera frente a la laguna, sombrillas turquesa y vista al estadio."
+                    data-en="Terrace with wooden tables facing the lagoon, turquoise umbrellas and a view of the stadium.">Terraza con mesas de madera frente a la laguna, sombrillas turquesa y vista al estadio.</span>
                 </div>
               </div>
 
               <div class="branch-actions-row">
-                <a href="https://maps.google.com/?q=Torre+Central+Mazatlan+Quirino+Ordaz" target="_blank"
+                <a href="https://maps.app.goo.gl/vYm7jU3DNjVARCRu5" target="_blank"
                   rel="noopener noreferrer" class="btn-branch-maps">
-                  <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 18px;">map</span>
+                  <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 18px;">place</span>
                   <span data-es="Abrir en Google Maps" data-en="Open in Google Maps">Abrir en Google Maps</span>
                 </a>
                 <a href="tel:6691054810" class="btn-branch-sub">
                   <span class="material-symbols-outlined" aria-hidden="true"
                     style="font-size: 18px; color: var(--color-primary);">call</span>
                   <span data-es="Llamar" data-en="Call">Llamar</span>
-                </a>
-                <a href="https://wa.me/526691591505" data-wa-es="Hola Cafferium Torre Central"
-                  data-wa-en="Hi Cafferium Torre Central" target="_blank" rel="noopener noreferrer"
-                  class="btn-branch-sub" style="gap: 0.45rem;">
-                  <svg class="whatsapp-icon whatsapp-icon-green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                    width="18" height="18" fill="currentColor" aria-hidden="true">
-                    <path
-                      d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 10.24c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.17-.47-.29" />
-                  </svg>
-                  WhatsApp
                 </a>
               </div>
             </div>
@@ -1414,8 +1409,7 @@
         <h3 class="footer-col-title" data-es="Horarios" data-en="Opening Hours">Horarios</h3>
         <ul
           style="list-style: none; font-size: 0.85rem; color: var(--color-on-surface-variant); display: flex; flex-direction: column; gap: 0.5rem;">
-          <li><strong data-es="Martes a Jueves:" data-en="Tuesday to Thursday:">Martes a Jueves:</strong> 8:00 AM – 10:00 PM</li>
-          <li><strong data-es="Viernes a Domingo:" data-en="Friday to Sunday:">Viernes a Domingo:</strong> 8:00 AM – 11:00 PM</li>
+          <li><strong data-es="Martes a Domingo:" data-en="Tuesday to Sunday:">Martes a Domingo:</strong> 8:00 AM – 10:00 PM</li>
           <li style="color: var(--color-error); font-weight: 600;" data-es="Lunes: Cerrado" data-en="Monday: Closed">Lunes: Cerrado</li>
         </ul>
       </div>

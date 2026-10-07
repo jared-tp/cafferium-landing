@@ -167,20 +167,29 @@ columnas a media pantalla) y una sola regla cubre ambos.
 .branch-card { container-type: inline-size; }
 
 @container (max-width: 470px) {
-  .branch-actions-row { gap: 0.5rem; }              /* debe casar con el calc */
+  .branch-actions-row { gap: 0.5rem; }
   .btn-branch-maps { flex: 1 1 100%; min-width: 0; }
-  .btn-branch-sub  { flex: 1 1 calc(50% - 0.25rem); min-width: 0; }
+  .btn-branch-sub  { flex: 1 1 100%; min-width: 0; }
 }
 ```
 
+**Ahora son DOS botones** (Maps y Llamar), no tres: se quitó el de WhatsApp.
+Antes los dos secundarios se repartían la fila de abajo a mitades con
+`calc(50% - 0.25rem)`, y con uno solo ese `calc` lo dejaba a medio ancho con
+media fila vacía al lado. **Si añades un tercer botón**, vuelve al
+`calc(50% - 0.25rem)` para los dos secundarios.
+
+Medido: 2 filas con anchos iguales a 320/375/480/900/1024px, y 1 fila
+(431px + 104px) a 640/768/1280/1920px. Sin desbordes ni scroll horizontal.
+
 Dos trampas ya pisadas:
 
-- El **`gap` tiene que coincidir con el `calc`**: dos mitades de
-  `50% - 0.25rem` más un hueco de `0.5rem` suman exactamente 100%. Con el gap
-  en `0.6rem` sobran 1.6px, los dos secundarios no caben juntos y se apilan en
-  tres filas.
 - **`min-width: 0` es imprescindible.** Un flex item no baja de su ancho de
-  contenido por defecto; sin esto, a 320px los tres botones van a tres filas.
+  contenido por defecto; sin esto, a 320px el botón puede desbordar la tarjeta.
+- El `gap` del bloque vale `0.5rem` **porque ya no hay mitades que cuadrar**.
+  Con dos mitades de `50% - 0.25rem` el hueco tenía que ser `0.5rem` exacto;
+  con dos botones a `100%` cualquier gap sirve, pero no lo cambies sin volver a
+  medir.
 
 ## 6. `public/` es fuente, no build
 
@@ -263,6 +272,25 @@ se abre su pestaña. Con `display: none` + `loading="lazy"` no se bajaría ningu
 
 Y no olvides el bloque `prefers-reduced-motion`: sin él el panel seguía
 interpolando su `transform`.
+
+## 11. Un icono de Material Symbols puede no existir
+
+`Material Symbols Outlined` es una fuente con ligatures: el texto `place` se
+dibuja como el glifo `place`. **Si el nombre no está en la fuente, no sale un
+cuadro vacío: sale la PALABRA escrita**, y en el HTML se ve correcto.
+
+Se comprueba midiendo. Un icono de 18px mide ~18-20px; un ligature inexistente
+mide cientos. Renderiza el nombre en un `<span>` con la misma clase y mide:
+
+```js
+probe.textContent = 'place';              // ~18px  -> existe
+probe.textContent = 'nombre_inventado';   // ~540px -> NO existe
+```
+
+Comprobados para las tarjetas de sucursal: `place` (botón de Maps), `storefront`
+(fachada de Centro Histórico) y `deck` (terraza de Torre Central), los tres a
+18px. Nota: `location_on` ya se usa en la fila de dirección de la misma tarjeta,
+así que para el botón de Maps se eligió `place` para no repetir glifo.
 
 ---
 

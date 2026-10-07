@@ -2128,17 +2128,18 @@ button {
   background-color: var(--color-surface-high);
 }
 
-/* Cuando la tarjeta es más estrecha que ~470px, los tres botones no caben en
-   una sola fila y `flex-wrap` los reparte de forma irregular (dos arriba y uno
-   solo abajo). Se fuerza una retícula limpia: la acción principal ocupa la fila
-   entera y los dos secundarios se reparten la de abajo a mitades exactas.
+/* Cuando la tarjeta es más estrecha que ~470px, los dos botones no caben en una
+   sola fila y `flex-wrap` los reparte de forma irregular. Se fuerza que cada uno
+   ocupe su propia fila: la acción principal arriba, el secundario abajo.
 
-   `min-width: 0` es imprescindible: sin él, un flex item no baja de su ancho
-   de contenido y en pantallas muy estrechas (320px) los tres botones se
-   apilan en tres filas en lugar de dos. */
+   Antes eran TRES botones y los dos secundarios se repartían la fila de abajo a
+   mitades con `calc(50% - 0.25rem)`. Al quitar el de WhatsApp quedó uno solo, y
+   ese `calc` lo dejaba a medio ancho con media fila vacía al lado. Por eso los dos
+   van ahora a `100%`.
+
+   `min-width: 0` es imprescindible: sin él, un flex item no baja de su ancho de
+   contenido y en pantallas muy estrechas (320px) el botón puede desbordar. */
 @container (max-width: 470px) {
-  /* El gap tiene que casar con el `calc` de las mitades: 0.5rem de hueco +
-     dos mitades de (50% - 0.25rem) = 100% exactos. */
   .branch-actions-row {
     gap: 0.5rem;
   }
@@ -2149,7 +2150,7 @@ button {
   }
 
   .btn-branch-sub {
-    flex: 1 1 calc(50% - 0.25rem);
+    flex: 1 1 100%;
     min-width: 0;
     padding-left: 0.5rem;
     padding-right: 0.5rem;

@@ -103,6 +103,39 @@ decisiones de una vez, que es lo que no se deduce del código.
   y el `alt` no coincidía con su `data-alt-es`. Ambas habrían salido alteradas al cambiar de idioma
   y volver. **Al editar copy revisa que `textContent` coincida con su `data-es`.**
 
+## Sucursales (información del cliente)
+- **Los DOS números son a propósito, no es una errata.** WhatsApp es **669 159 1505** y el de
+  llamadas es **669 105 4810**. Los `tel:` usan el segundo y casi todos los `wa.me` el primero.
+  No los "normalices".
+- Horario **único para las dos**: Martes a Domingo 8:00 AM – 10:00 PM, Lunes cerrado. Se cambió en
+  las 2 tarjetas **y en el footer**, que tenía su propia copia con elVie-Dom hasta las 11 PM. Si
+  vuelve a cambiar el horario, hay que tocar los tres sitios.
+- Descripciones: Centro Histórico habla de la **fachada** turquesa con rejas (`storefront`); Torre
+  Central de la terraza con mesas y vista al estadio (`deck`).
+  **La foto del banner de Centro es el INTERIOR (barra, reloj, pizarra) y no encaja con esa
+  descripción.** Se comprobó y el usuario decidió dejarla así: es probable que la imagen vuelva a
+  cambiar. **No lo "arregles" por tu cuenta.** Antes también se ofrecían café en grano, biblioteca,
+  barra express y estacionamiento, y eso ya no está en ninguna parte.
+- Se quitó el botón de WhatsApp de las tarjetas: quedan Maps (con `place`) y Llamar. `data-wa-*`
+  bajó de 11 a 9.
+
+## Fotos de las sucursales (banner)
+- Centro Histórico: `sucursal-centro-652.jpg` y `-1184.jpg`. **Pre-recortada a 2.69:1**, que es la
+  proporción real de la caja en escritorio (`.branch-img-header` es `height: 220px` fijo a todo el
+  ancho con `object-fit: cover`). El original era un **652x871 vertical**: sin recortar conservaba
+  solo el **28%** de su alto. De 1.3 MB PNG a 67 KB.
+  - La franja se eligió mirando la foto renderizada a x3, no calculando: reloj + plantas arriba,
+    que es donde el scrim de `.branch-img-overlay` apenas oscurece.
+  - El maestro quedó en `_originales/sucursal-centro-historico.png`.
+  - **Aviso:** el original es de 652px de ancho. La variante de 1184 va **escalada con bicúbico**,
+    no tiene detalle real. En pantallas retina se verá más suave que la terraza (1536px nativos).
+    Reexportar el original a ≥1200px lo arreglaría.
+- Torre Central: **reutiliza `esencia-terraza-800/1536.jpg`** a propósito; se repetirá hasta que se
+  sustituya la foto de `#esencia`.
+- Ambas son locales ahora, con `srcset` + `sizes="(min-width: 900px) 594px, 100vw"`. Antes eran
+  **capturas de Google Maps** de 600x220 y sus `alt` describían una "ubicación y fachada" que no
+  se veía.
+
 ## Tareas pendientes
 - **Añadir un CTA de WhatsApp al pie del modal del menú** si algún momento se decide: el botón
   "Ver menú completo" antes mandaba un WhatsApp prellenado y ahora solo consulta. Serían 12/12
@@ -118,10 +151,11 @@ decisiones de una vez, que es lo que no se deduce del código.
   hacen, mantener el patrón `srcset` del resto.
 - Reemplazar las fotos de los platillos por productos reales.
 - En el mapa de Google, cambiar el ícono por una versión editable del logo.
-- El banner de la **sucursal Torre Central** dice "frente a la laguna" en el `alt` (línea ~1204) y
-  en el texto de playa (línea ~1233), pero su foto es un hotlink de 512px y no se ha comprobado si
-  la laguna aparece. **Pendiente de decidir** si se ajusta el texto o la foto. No confundir con la
-  terraza del mosaico, que es otra imagen.
+- El banner de la **sucursal Torre Central** decía "frente a la laguna" en el `alt` y en el texto
+  de playa, pero su foto es una captura de mapa y no se comprobó si la laguna aparece. Ese copy se
+  reemplazó por el texto nuevo del cliente ("terraza con mesas de madera frente a la laguna,
+  sombrillas turquesa y vista al estadio"), así que la pregunta sigue abierta solo para el `alt`
+  y para la foto. No confundir con la terraza del mosaico, que es otra imagen.
 - Buscar una mejor foto para la terraza de `#esencia`.
 - **Cambiar las 4 fotos de los platillos renombrados**: Italiano (ahora muestra un grilled cheese) y
   Huevos Cafferium (muestra el banquete) están claramente mal. También conviene revisar Pan
@@ -152,6 +186,24 @@ decisiones de una vez, que es lo que no se deduce del código.
   los cuerpos de las tarjetas y el usuario la rechazó y puso la suya, que es más larga y más
   "de carta". La buena práctica aquí es **no mantener la versión propia por defecto**: cuando el
   cliente da texto, ese texto gana. Revertí lo de las bebidas a lo que había.
+- **Cuando conviertes una foto para un banner, recorta a la proporción de la CAJA, no a la de la
+  foto.** `.branch-img-header` es `height: 220px` fijo, así que la proporción de la caja cambia con
+  el viewport: 1.32 a 320px, 2.69 a 1280px y 3.19 a 768px. Recorta a la del caso más común
+  (escritorio) y acepta que en móvil `cover` recorte más. Igual que se hizo con la terraza.
+- **`npm` NUNCA en la raíz del proyecto.** Al borrar el directorio temporal y no volver a crearlo
+  antes de `npm init`, el install corrió en el repo y metió `playwright-core` y 5 paquetes más como
+  dependencias de runtime en `package.json`. Se revirtió con `git checkout`, pero es exactamente
+  el fallo de "Lo que salió mal aquí". Crea SIEMPRE el temporal y verifica con `git status` que
+  `package.json` no se movió antes de instalar nada.
+- **Antes de reportar una "discrepancia" de datos, pregunta: puede que sea intencional.** Señalé
+  que había dos números de teléfono distintos como si fuera un bug, y no lo era: uno es de
+  WhatsApp y el otro solo de llamadas. Preguntar costó una pregunta y evitó "arreglar" algo
+  correcto. Lo que sí era bug salió **precisamente por** preguntar: el botón de WhatsApp del drawer
+  (`index.html:395`) y el del `site.webmanifest` apuntan al número de llamadas. El usuario lo
+  cambia por su cuenta.
+- **Un icono de Material Symbols inexistente se pinta como su PALABRA**, no como un cuadro
+  vacío, así que en el HTML se ve bien. Se detecta midiendo el ancho: 18px = icono, cientos de px
+  = texto. El método, con su control, está en **AGENTS.md invariante 11**.
 - **Una captura en blanco no es un bug: es el reveal sin disparar.** Las `.menu-card` arrancan en
   `opacity: 0` y solo se revelan al entrar en pantalla. Si haces `screenshot()` de una tarjeta sin
   hacer scroll hasta ella primero, sale vacía. Haz `scrollIntoViewIfNeeded()` sobre la TARJETA
