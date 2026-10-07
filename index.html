@@ -748,33 +748,39 @@
 
         <!-- Menu Grid -->
         <div class="menu-grid" id="menuItemsGrid">
-          <!-- Item 1: Dirty Chai -->
+          <!-- Item 1: Café Latte (antes Dirty Chai & Cold Brew).
+               Todas las fotos del menú llegan PRE-RECORTADAS a 4:3, que es la
+               proporción real de `.menu-card-img-wrap`. Los maestros venían
+               verticales (0.62 a 0.80) y con `object-fit: cover` conservaban
+               entre el 47% y el 60% de su alto. -->
           <article class="menu-card reveal" data-category="cafe">
             <div class="menu-card-img-wrap">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeWn6GQ3lC_4nkjwe53psEtLNEL81ra_MLTG_C9piuqijwDLTRDY_AVbqVVjwmLMaqavoo4HnSjHQjX7A125O5uDn7ooCmiiRede9mbRgyHfWMNRG3IxS-wfT7rTRPdL-kElT_MDvRoeoqeQqu4SIlgXK37YRnyWtmlgY5wT2X1Y_YeGX2lWImfxvjtJ9YkY6CgdGTOahghcezGU250D6lq4jl5vB6eOBB1UWWR_LGVna8oUafFtU7eEF6-OUEryNFmw"
-                alt="Dirty Chai y Cold Brew servido con hielo en vaso artesanal"
-                data-alt-es="Dirty Chai y Cold Brew servido con hielo en vaso artesanal"
-                data-alt-en="Dirty Chai and Cold Brew served over ice in an artisan glass" loading="lazy" width="400"
+                src="/img/cafe-latte-400.jpg"
+                srcset="/img/cafe-latte-400.jpg 400w,
+                        /img/cafe-latte-800.jpg 800w"
+                sizes="(min-width: 1000px) 390px, (min-width: 700px) 45vw, 92vw"
+                alt="Café latte con hielo en vaso alto, con espresso vertiéndose sobre la leche"
+                data-alt-es="Café latte con hielo en vaso alto, con espresso vertiéndose sobre la leche"
+                data-alt-en="Iced latte in a tall glass, with espresso pouring over the milk" loading="lazy" width="400"
                 height="300">
             </div>
             <div class="menu-card-body">
               <div>
                 <div class="menu-card-top">
-                  <h3 class="menu-card-title" data-es="Dirty Chai &amp; Cold Brew"
-                    data-en="Dirty Chai &amp; Cold Brew">Dirty Chai &amp; Cold Brew</h3>
-                  <span class="menu-card-price">$75 <small>MXN</small></span>
+                  <h3 class="menu-card-title" data-es="Café Latte" data-en="Café Latte">Café Latte</h3>
+                  <span class="menu-card-price">$80 <small>MXN</small></span>
                 </div>
-                <div class="menu-card-spec" data-es="ESPRESSO DOBLE • ESPECIAS CHAI • 18 HRS REPOSO"
-                  data-en="DOUBLE ESPRESSO • CHAI SPICES • 18 HR STEEP">ESPRESSO DOBLE • ESPECIAS CHAI • 18 HRS REPOSO</div>
+                <div class="menu-card-spec" data-es="ESPRESSO DOBLE • LECHE SEDOSA • HIELO"
+                  data-en="DOUBLE ESPRESSO • SILKY MILK • ICE">ESPRESSO DOBLE • LECHE SEDOSA • HIELO</div>
                 <p class="menu-card-desc"
-                  data-es="Espresso doble infusionado con mezcla artesanal de especias masala chai y leche sedosa, o cold brew de extracción en frío por 18 horas."
-                  data-en="Double espresso steeped with our house masala chai spice blend and silky milk, or an 18-hour cold brew.">Espresso doble infusionado con mezcla artesanal de especias masala chai y
-                  leche sedosa, o cold brew de extracción en frío por 18 horas.</p>
+                  data-es="Espresso de nuestro tueste propio con leche sedosa y hielo, servido en vaso alto."
+                  data-en="Espresso from our own roast with silky milk and ice, served in a tall glass.">Espresso de nuestro tueste propio con leche sedosa y hielo, servido en vaso
+                  alto.</p>
               </div>
               <div class="menu-card-footer">
-                <a href="https://wa.me/526691591505" data-wa-es="Hola Cafferium, quisiera pedir un Dirty Chai"
-                  data-wa-en="Hi Cafferium, I'd like to order a Dirty Chai" target="_blank" rel="noopener noreferrer"
+                <a href="https://wa.me/526691591505" data-wa-es="Hola Cafferium, quisiera pedir un Café Latte"
+                  data-wa-en="Hi Cafferium, I'd like to order a Latte" target="_blank" rel="noopener noreferrer"
                   class="menu-order-btn">
                   <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16"
                     height="16" fill="currentColor" aria-hidden="true">
@@ -788,14 +794,18 @@
             </div>
           </article>
 
-          <!-- Item 2: Cafe de Olla -->
+          <!-- Item 2: Café de Olla. Reutiliza la foto de `#esencia` recortada a 4:3;
+               se repetirá hasta que se sustituya la de esa sección. -->
           <article class="menu-card reveal reveal-delay-1" data-category="cafe">
             <div class="menu-card-img-wrap">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq0ikznxWo6SBr6CTIl2-kY6dN_R9baRYIhBoQkP0cM4RWSOLdh-XUunpMbIVZ4A9-zGrffrL-ksNjzJsKetjvGXaIsyL_dAfGs_is6_f3BixqR4JUm3PuZW-mg9xTwfbu6Errw7sKt4DAgW6XM4KuXkrw36o4mOLvRD9XTHRexpPRoEaSUH8gMNpRXtNE3gC8WSGVyjhBkgyt2IGKjHIiJemE80bq3B-lvrvgZg7BB0eYL-B_z4-I"
-                alt="Café de olla con canela en raja y piloncillo en jarrito de barro"
-                data-alt-es="Café de olla con canela en raja y piloncillo en jarrito de barro"
-                data-alt-en="Clay-pot coffee with Ceylon cinnamon and piloncillo in an earthenware jug" loading="lazy"
+                src="/img/cafe-de-olla-400.jpg"
+                srcset="/img/cafe-de-olla-400.jpg 400w,
+                        /img/cafe-de-olla-800.jpg 800w"
+                sizes="(min-width: 1000px) 390px, (min-width: 700px) 45vw, 92vw"
+                alt="Café de olla servido desde una jarra de barro, con canela y piloncillo"
+                data-alt-es="Café de olla servido desde una jarra de barro, con canela y piloncillo"
+                data-alt-en="Clay-pot coffee served from an earthenware jug, with cinnamon and piloncillo" loading="lazy"
                 width="400" height="300">
             </div>
             <div class="menu-card-body">
@@ -808,9 +818,9 @@
                 <div class="menu-card-spec" data-es="BARRO TRADICIONAL • CANELA EN RAJA • PILONCILLO"
                   data-en="TRADITIONAL CLAY • CEYLON CINNAMON • PILONCILLO">BARRO TRADICIONAL • CANELA EN RAJA • PILONCILLO</div>
                 <p class="menu-card-desc"
-                  data-es="Elaborado en olla de barro sinaloense con canela en raja de Ceilán, piloncillo regional y notas aromáticas de anís estrella."
-                  data-en="Brewed in a Sinaloan clay pot with Ceylon cinnamon, regional piloncillo and aromatic star anise notes.">Elaborado en olla de barro sinaloense con canela en raja de Ceilán, piloncillo
-                  regional y notas aromáticas de anís estrella.</p>
+                  data-es="Café de Olla con receta de casa y tueste propio, preparado en barro sinaloense con canela en raja, piloncillo y anís estrella."
+                  data-en="Clay-pot coffee with our own recipe and roast, prepared in Sinaloan clay with Ceylon cinnamon, piloncillo and star anise.">Café de Olla con receta de casa y tueste propio, preparado en barro
+                  sinaloense con canela en raja, piloncillo y anís estrella.</p>
               </div>
               <div class="menu-card-footer">
                 <a href="https://wa.me/526691591505" data-wa-es="Hola Cafferium, quisiera pedir un Café de Olla"
@@ -832,10 +842,13 @@
           <article class="menu-card reveal reveal-delay-2" data-category="panaderia">
             <div class="menu-card-img-wrap">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq1DVHNHjeeDXVvyGAZizuli6b7rTM7WHqlxDnotjnsAGW18_bAyb3prV1JMml-jq7DON4oZgQKajQ34gsK3LB926ZnwrRtytAMN7S8wQ87zsR8Q5glmQUz3ozaZiy7_CtRWxtlj_wE4S-A6m_3JfgllgY0LYSOo1Qt8MjAooabWLMNbt_L8zPe5uI9_9YEAha9oUlQhzGBF32Fzfb-orHVgY34ibDCsDGWzgTEfkmO3zJFkK9VAjf"
-                alt="French Toast gourmet de pan brioche con coulis de frutos rojos y crema montada"
-                data-alt-es="French Toast gourmet de pan brioche con coulis de frutos rojos y crema montada"
-                data-alt-en="Gourmet brioche French toast with berry coulis and whipped cream" loading="lazy"
+                src="/img/pan-frances-400.jpg"
+                srcset="/img/pan-frances-400.jpg 400w,
+                        /img/pan-frances-800.jpg 800w"
+                sizes="(min-width: 1000px) 390px, (min-width: 700px) 45vw, 92vw"
+                alt="Pan francés de brioche con compota de frutos rojos, ganache montada y frutos rojos frescos"
+                data-alt-es="Pan francés de brioche con compota de frutos rojos, ganache montada y frutos rojos frescos"
+                data-alt-en="French toast with brioche, berry compote, whipped ganache and fresh berries" loading="lazy"
                 width="400" height="300">
             </div>
             <div class="menu-card-body">
@@ -868,39 +881,40 @@
             </div>
           </article>
 
-          <!-- Item 4: Italiano (antes Grilled Cheese Gourmet). OJO: la foto sigue siendo
-     la del grilled cheese; hay que cambiarla cuando se atacen las imágenes. -->
+          <!-- Item 4: Chilaquiles (antes Italiano) -->
           <article class="menu-card reveal" data-category="brunch">
             <div class="menu-card-img-wrap">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYC0_-C3vGHlJpGLkRnu99vpKFkDgoZJzplgm0frdOlDXGqsjx_xGTh5m_pw28iDeeewn25fkWpPINNwMbZro6_hjrWwrI3dJ2FOhuRwS39St-GKGre5FQkVcbFRKGe4V2s4ItBYEaS176f32lzeYAs9eZ_H48a5r3Qhi0FaB0KWu0szA838iCldf7d79kyvid_9QIYKFH8CBlpRG5fbFQnuX7pnTzPjo2gFeRH9jcu6gVGV6mQmHP"
-                alt="Grilled Cheese artesanal con triple queso derretido en pan de masa madre con papas gajo"
-                data-alt-es="Grilled Cheese artesanal con triple queso derretido en pan de masa madre con papas gajo"
-                data-alt-en="Artisan grilled cheese with three melted cheeses on sourdough bread and potato wedges"
+                src="/img/chilaquiles-400.jpg"
+                srcset="/img/chilaquiles-400.jpg 400w,
+                        /img/chilaquiles-800.jpg 800w"
+                sizes="(min-width: 1000px) 390px, (min-width: 700px) 45vw, 92vw"
+                alt="Chilaquiles en totopos crocantes con crema, queso Cotija, cebolla morada, cilantro y aguacate"
+                data-alt-es="Chilaquiles en totopos crocantes con crema, queso Cotija, cebolla morada, cilantro y aguacate"
+                data-alt-en="Chilaquiles with crispy tortilla chips, cream, Cotija cheese, red onion, cilantro and avocado"
                 loading="lazy" width="400" height="300">
-              <!-- Píldora NUEVO. Para quitarla: borra este <span> entero.
-                   La clase .menu-card-tag ya existía en el CSS y no se usaba;
-                   .menu-card-img-wrap ya traía position:relative. -->
-              <span class="menu-card-tag gold" data-es="Nuevo" data-en="New">Nuevo</span>
             </div>
             <div class="menu-card-body">
               <div>
                 <div class="menu-card-top">
-                  <h3 class="menu-card-title" data-es="Italiano"
-                    data-en="Italian">Italiano</h3>
-                  <span class="menu-card-price">$195 <small>MXN</small></span>
+                  <h3 class="menu-card-title" data-es="Chilaquiles"
+                    data-en="Chilaquiles">Chilaquiles</h3>
+                  <!-- Precio variable por topping (pollo, huevo, naturales...). `white-space:
+                       nowrap` impide partirlo, así que "Desde" va en el <small> para no
+                       comerse el ancho del título. -->
+                  <span class="menu-card-price">Desde $175 <small>MXN</small></span>
                 </div>
-                <div class="menu-card-spec" data-es="CIABATTA • MOSTAZA ANTIGUA • PESTO"
-                  data-en="CIABATTA • DIAL MUSTARD • PESTO">CIABATTA • MOSTAZA ANTIGUA • PESTO</div>
+                <div class="menu-card-spec" data-es="TOTOPOS • SALSA A ELECCIÓN • COTIJA"
+                  data-en="TORTILLA CHIPS • SAUCE OF CHOICE • COTIJA">TOTOPOS • SALSA A ELECCIÓN • COTIJA</div>
                 <p class="menu-card-desc"
-                  data-es="Pan ciabatta artesanal relleno de jamón serrano y jugosa pierna selva negra, realzado con el toque profundo de la mostaza antigua, pesto rústico, tomates deshidratados y la frescura inconfundible de la arúgula."
-                  data-en="Artisan ciabatta bread filled with serrano ham and juicy black forest ham, enhanced by the deep note of dial mustard, rustic pesto, sun-dried tomatoes and the unmistakable freshness of arugula.">Pan ciabatta artesanal relleno de jamón serrano y jugosa pierna selva negra,
-                  realzado con el toque profundo de la mostaza antigua, pesto rústico, tomates deshidratados y la frescura inconfundible de la arúgula.</p>
+                  data-es="Crujientes totopos bañados en la salsa de tu elección (poblana, cremosa suiza, roja tradicional o verde). Coronados con crema fresca, auténtico queso Cotija, aros de cebolla morada, cilantro y aguacate, acompañados de una rica guarnición de frijoles negros."
+                  data-en="Crispy tortilla chips bathed in the sauce of your choice (poblano, creamy Swiss, traditional red or green). Topped with fresh cream, authentic Cotija cheese, red onion rings, cilantro and avocado, served with a rich side of black beans.">Crujientes totopos bañados en la salsa de tu elección (poblana, cremosa suiza,
+                  roja tradicional o verde). Coronados con crema fresca, auténtico queso Cotija, aros de cebolla morada, cilantro y aguacate, acompañados de una rica guarnición de frijoles negros.</p>
               </div>
               <div class="menu-card-footer">
                 <a href="https://wa.me/526691591505"
-                  data-wa-es="Hola Cafferium, quisiera pedir el Italiano"
-                  data-wa-en="Hi Cafferium, I'd like to order the Italian" target="_blank" rel="noopener noreferrer"
+                  data-wa-es="Hola Cafferium, quisiera pedir los Chilaquiles"
+                  data-wa-en="Hi Cafferium, I'd like to order the Chilaquiles" target="_blank" rel="noopener noreferrer"
                   class="menu-order-btn">
                   <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16"
                     height="16" fill="currentColor" aria-hidden="true">
@@ -918,10 +932,13 @@
           <article class="menu-card reveal reveal-delay-1" data-category="brunch">
             <div class="menu-card-img-wrap">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwLVheZuZfu7bbhAl0dTMABqqEfKPpnuZB8-e4kYH87dV5ymqw0tCFtzi6M1YxlzdlQ6F5gK_F0xhXxwYl-7g6U-g8m_i-RnbNFW1Qogq13K7yaXjJkTBF09VJJsuL3sASDyfIojjYnYGcQCIZMXzawuYxNiL5cSdbB0wmCFSfs7_veXb9h6dPoz8fpXbiYdDKW9bQNX3_F8bAgWTLCeNkt2gKTPS1hKp806hQ1Pq1ityhXb12_MM6jwXVmE5q8ImIMw"
-                alt="Ensalada César con pechuga asada, crutones de brioche y parmesano"
-                data-alt-es="Ensalada César con pechuga asada, crutones de brioche y parmesano"
-                data-alt-en="Caesar salad with grilled chicken, brioche croutons and parmesan" loading="lazy" width="400"
+                src="/img/ensalada-400.jpg"
+                srcset="/img/ensalada-400.jpg 400w,
+                        /img/ensalada-800.jpg 800w"
+                sizes="(min-width: 1000px) 390px, (min-width: 700px) 45vw, 92vw"
+                alt="Ensalada de pollo y pasta con hojas verdes, crutones y queso parmesano"
+                data-alt-es="Ensalada de pollo y pasta con hojas verdes, crutones y queso parmesano"
+                data-alt-en="Chicken and pasta salad with greens, croutons and parmesan cheese" loading="lazy" width="400"
                 height="300">
             </div>
             <div class="menu-card-body">
@@ -955,37 +972,36 @@
             </div>
           </article>
 
-          <!-- Item 6: Huevos Cafferium (antes Banquete Brunch Cafferium). OJO: la foto
-     sigue siendo la del banquete; hay que cambiarla cuando se ataquen las
-     imágenes. -->
+          <!-- Item 6: Omelette de claras (antes Huevos Cafferium) -->
           <article class="menu-card reveal reveal-delay-2" data-category="brunch">
             <div class="menu-card-img-wrap">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCAzgkO4Ecj2ww_s0FxRZI0UhAEyo2TJPNDFwW1CYnkP5rvRj3paMQhHYTivwKZX-T8n3aCxvRDnIq3EcgRUdcSQwC35hslj4U_7GfuBbn_enYH1yhSy7BUcIdgTiqLTPPmI9FekKU-SfUH33QfeoQw_ptDsIYkHPqpsqo6C7_TaImH0V9nP_pAWu3pA_zlrsxS_ALqwpLMdfQqpOU-iYihfHI817jZNBCmSp5qind1XH5VklyPVk5"
-                alt="Banquete de brunch completo con french toast, huevos de campo y café americano"
-                data-alt-es="Banquete de brunch completo con french toast, huevos de campo y café americano"
-                data-alt-en="Full brunch feast with French toast, farm eggs and American coffee" loading="lazy"
-                width="400" height="300">
-              <!-- Píldora NUEVO. Para quitarla: borra este <span> entero. -->
-              <span class="menu-card-tag gold" data-es="Nuevo" data-en="New">Nuevo</span>
+                src="/img/omelette-400.jpg"
+                srcset="/img/omelette-400.jpg 400w,
+                        /img/omelette-800.jpg 800w"
+                sizes="(min-width: 1000px) 390px, (min-width: 700px) 45vw, 92vw"
+                alt="Omelette de claras relleno de espinacas y tomates cherry, con ensalada, aguacate y papas cambray"
+                data-alt-es="Omelette de claras relleno de espinacas y tomates cherry, con ensalada, aguacate y papas cambray"
+                data-alt-en="Egg white omelette filled with spinach and cherry tomatoes, served with salad, avocado and potato wedges"
+                loading="lazy" width="400" height="300">
             </div>
             <div class="menu-card-body">
               <div>
                 <div class="menu-card-top">
-                  <h3 class="menu-card-title" data-es="Huevos Cafferium"
-                    data-en="Cafferium Eggs">Huevos Cafferium</h3>
-                  <span class="menu-card-price">$225 <small>MXN</small></span>
+                  <h3 class="menu-card-title" data-es="Omelette de claras"
+                    data-en="Egg White Omelette">Omelette de claras</h3>
+                  <span class="menu-card-price">$185 <small>MXN</small></span>
                 </div>
-                <div class="menu-card-spec" data-es="SALMÓN EN CUBOS • PAPA CAMBRAY • ENSALADA FRESCA"
-                  data-en="SALMON CUBES • CAMBRAY POTATO • FRESH SALAD">SALMÓN EN CUBOS • PAPA CAMBRAY • ENSALADA FRESCA</div>
+                <div class="menu-card-spec" data-es="ESPINACAS • TOMATES CHERRY • CHAMPIÑONES"
+                  data-en="SPINACH • CHERRY TOMATOES • MUSHROOMS">ESPINACAS • TOMATES CHERRY • CHAMPIÑONES</div>
                 <p class="menu-card-desc"
-                  data-es="Suaves y esponjosos huevos revueltos integrados con delicados cubos de salmón, acompañados de papas cambray y una fresca ensalada de la casa para equilibrar cada bocado."
-                  data-en="Soft and fluffy scrambled eggs combined with delicate cubes of salmon, served with cambray potatoes and a fresh house salad to balance every bite.">Suaves y esponjosos huevos revueltos integrados con delicados cubos de
-                  salmón, acompañados de papas cambray y una fresca ensalada de la casa para equilibrar cada bocado.</p>
+                  data-es="Esponjoso omelette perfectamente cocinado, relleno de espinacas tiernas, jugosos tomates cherry y champiñones. Se sirve acompañado de una refrescante ensalada de la casa, finas láminas de aguacate y nuestras clásicas papas cambray."
+                  data-en="Fluffy, perfectly cooked omelette filled with tender spinach, juicy cherry tomatoes and mushrooms. Served with a refreshing house salad, fine avocado slices and our classic potato wedges.">Esponjoso omelette perfectamente cocinado, relleno de espinacas tiernas, jugosos
+                  tomates cherry y champiñones. Se sirve acompañado de una refrescante ensalada de la casa, finas láminas de aguacate y nuestras clásicas papas cambray.</p>
               </div>
               <div class="menu-card-footer">
-                <a href="https://wa.me/526691591505" data-wa-es="Hola Cafferium, quisiera pedir los Huevos Cafferium"
-                  data-wa-en="Hi Cafferium, I'd like to order the Cafferium Eggs" target="_blank" rel="noopener noreferrer"
+                <a href="https://wa.me/526691591505" data-wa-es="Hola Cafferium, quisiera pedir el Omelette de claras"
+                  data-wa-en="Hi Cafferium, I'd like to order the Egg White Omelette" target="_blank" rel="noopener noreferrer"
                   class="menu-order-btn">
                   <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16"
                     height="16" fill="currentColor" aria-hidden="true">

@@ -27,26 +27,30 @@ permanentes viven en `AGENTS.md`. Si algo se repite, va allí.
   | Grilled Cheese Gourmet | Italiano | **Italian** | 135 → 195 |
   - Los **4 mensajes de WhatsApp** se actualizaron al nombre nuevo: el cliente ya no pide un plato
     que no existe.
-  - **Los cuerpos de las 6 tarjetas: solo los 4 platos llevan copy nuevo, y es TEXTO DEL USUARIO.**
-  Dirty Chai y Café de Olla conservan su texto original, el de antes de tocar nada. **No volver a
-  "mejorarlos": ya se probó una reescritura para las bebidas y el usuario la revirtió.**
+  - **Los cuerpos de las 4 tarjetas de plato son TEXTO DEL USUARIO.** Ya se probó una reescritura
+    propia y la rechazó: **cuando el cliente da el texto, ese texto gana.**
     - **Motivo del copy largo:** los ingredientes YA están en la línea `.menu-card-spec` de arriba,
-      así que el cuerpo puede describir textura y forma sin repetir la lista.
-    - **No son inventados:** son del usuario. Lo único que se tocó fue una errata de concordancia
-      en el de la Ensalada: "un cremoso aderezo coronada" → **"coronado"**, para que cuadrara con
-      "aderezo". El inglés es traducción de su texto, no literal.
-    - Mezcla de registros deliberada: "Disfruta de un exquisito mix…" tira a carta publicitaria y
-      el plato italiano cierra con enumeración. Conviven bien en la misma retícula.
-    - Medido: los botones de las dos filas caen a **0px de diferencia** en ES y EN, y a 375px las
-      6 tarjetas van de 521 a 542px sin desbordes. Aguanta porque `.menu-card-body` lleva
-      `justify-content: space-between` y el grid estira las tarjetas de cada fila.
+      así que el cuerpo describe textura y forma en vez de repetir la lista.
+    - Lo único que se tocó fue una errata de concordancia en el de la Ensalada: "un cremoso aderezo
+      coronada" → **"coronado"**. El inglés es traducción del texto español, no literal.
+    - El Café de Olla **sí lleva reformulación**, pero corta y de las suyas: "receta de casa y
+      tueste propio, preparado en barro sinaloense con canela en raja, piloncillo y anís estrella".
+      Precedió a esto una versión larga que NO se usó.
   - Se quitaron las **etiquetas del footer de las 6 tarjetas** ("Saludable", "Más vendido",
     "Crujiente", "2-3 Personas", "Tueste Medio", "100% Orgánico"). Por eso `.menu-card-footer`
     pasó de `justify-content: space-between` a **`center`**: con un solo hijo el `space-between`
-    lo dejaba pegado a la izquierda con ~140px de aire a la derecha. Medido: las 6 botones
-    centradas con 0.0px de desvío, en claro y en oscuro, y sin salirse en 320-1920px.
-  - **Las fotos NO coinciden con los platos nuevos**: la del Italiano sigue siendo un grilled
-    cheese y la de Huevos Cafferium sigue siendo el banquete. Pendiente de rehacer.
+    lo dejaba pegado a la izquierda con ~140px de aire a la derecha.
+  - Se quitaron las **píldoras NUEVO**: ya ninguna tarjeta las lleva, así que `.menu-card-tag` vuelve
+    a quedar sin usarse. **No borrar el CSS**, la invariante 9 explica por qué `.gold` estaba roto.
+
+## Menú: la carta actual
+- **Café Latte $80** (antes Dirty Chai) · **Café de Olla $55** · **Pan francés $225** ·
+  **Chilaquiles Desde $175** · **Ensalada de pollo y pasta $225** · **Omelette de claras $185**.
+- Chilaquiles tiene **precio variable por topping**. Se muestra `Desde $175` con el "Desde" dentro del
+  `<small>MXN</small>`: `.menu-card-price` tiene `white-space: nowrap`, no se puede partir, y pegado
+  al precio el texto largo se comía el ancho del título.
+- **Los 6 `alt` se reescribieron**: los anteriores describían platos que ya no estaban (Grilled
+  Cheese bajo "Italiano", banquete bajo "Huevos Cafferium").
 
 ## Modal del menú (decisiones)
 - Las reglas de foco, click fuera y `prefers-reduced-motion`: **AGENTS.md invariante 10.**
@@ -65,12 +69,28 @@ permanentes viven en `AGENTS.md`. Si algo se repite, va allí.
 ## Imágenes locales (en curso)
 - `public/img/` — patrón ya montado: variantes con `srcset` + `sizes`, `alt` traducible con
   `data-alt-es/en`, `loading="lazy"` y `decoding="async"` en todo menos el hero (LCP).
-- **Las fotos llegan en retrato y las cajas son apaisadas.** El recorte va en un
-  `object-position` en línea, imagen por imagen. Porcentaje real de la foto que sobrevive:
-  fachada 100%, café de olla 37%, interior 45%, terraza 23%.
-- **La terraza se exporta PRE-RECORTADA a 3.2:1** en vez de usar `object-position`: descargar el
-  retrato entero para pintar 1214×380 desperdiciaba el 77% de los píxeles (563 KB → 196 KB con el
-  mismo resultado visual). Aplicar lo mismo a cualquier imagen con % visible muy bajo.
+- **PRE-RECORTAR al proporção de la CAJA, no usar `object-position` cuando la foto es muy vertical.**
+  Todo llega en retrato y las cajas son apaisadas. Medido por sección:
+    - **Menú, 4:3** (`.menu-card-img-wrap`): los maestros iban de 0.62 a 0.80, así que `cover` conservaba
+      entre el **47% y el 60%** de su alto. Las 6 del menú quedan ya pre-recortadas a 4:3, con 400 y
+      800 px. De 12.55 MB de PNG a 0.73 MB de JPEG.
+    - **Mosaico**: `object-position` en línea, imagen por imagen. % visible: fachada 100%, café de olla
+      37%, interior 45%, terraza 23%.
+    - **Terraza PRE-RECORTADA a 3.2:1**: descargar el retrato entero para pintar 1214×380 desperdiciaba
+      el 77% de los píxeles (563 KB → 196 KB con el mismo resultado visual).
+    - **Banner de sucursal, 2.69:1**: `.branch-img-header` es `height: 220px` fijo, así que la
+      proporción de la caja **cambia con el viewport** (1.32 a 320px, 2.69 a 1280px, 3.19 a 768px).
+      Se recorta a la del caso más común y se acepta que en móvil `cover` recorte más.
+  - **La franja se elige MIRANDO, no calculando.** Se renderizaron hojas con 3 bandas por imagen
+    (15% / 50% / 85% del recorrido) a tamaño grande y se compararon antes de recortar. En las cinco
+    últimas ganó la del 50%, **pero en el Pan Francés fue un error**: la tostada se cortaba arriba.
+    **El 50% no basta cuando el plato ocupa menos de la mitad de la foto.**
+  - **El Pan Francés va en y=750, no al 50%.** Medido sobre el maestro: la tostada ocupa y≈843-1595 y
+    el plato y≈866-1709, así que el centro del platillo es ~1287. La banda 4:3 mide 1066, y centrarla
+    en el platillo da `y = 1287 - 533 = 754`. Con y=750 entra el plato entero y el centro del platillo
+    coincide con el centro de la banda. Volver a mirarlo si se cambia esa foto.
+  - Herramienta: `System.Drawing` desde PowerShell (ya está en Windows). Recorta y guarda JPEG q90
+    sin añadir ninguna dependencia. Es lo que se usó para el menú, la terraza y los banners.
 - **PESO:** los maestros originales están en `_originales/` (fuera del repo y fuera de `public/`).
   Se movieron porque Vite copia `public/` tal cual a `dist/`: dejarlos ahí publicaba **4.7 MB
   sin usar**, descargables por URL directa. El PNG del hero ya no existe.
@@ -156,11 +176,10 @@ decisiones de una vez, que es lo que no se deduce del código.
   reemplazó por el texto nuevo del cliente ("terraza con mesas de madera frente a la laguna,
   sombrillas turquesa y vista al estadio"), así que la pregunta sigue abierta solo para el `alt`
   y para la foto. No confundir con la terraza del mosaico, que es otra imagen.
-- Buscar una mejor foto para la terraza de `#esencia`.
-- **Cambiar las 4 fotos de los platillos renombrados**: Italiano (ahora muestra un grilled cheese) y
-  Huevos Cafferium (muestra el banquete) están claramente mal. También conviene revisar Pan
-  francés y Ensalada de pollo y pasta, que ya encajan mejor. Es lo que pedía el usuario al
-  renombrar: "las fotos después las modificamos".
+- Buscar una mejor foto para la terraza de `#esencia` (está repetida en la tarjeta de Torre Central).
+- Buscar una mejor foto para el café de olla de `#esencia` (está repetida en la tarjeta del menú).
+- **Reexportar a ≥1200px** el original del banner de Centro Histórico: son 652px y la variante de
+  1184 va escalada con bicúbico, sin detalle real. En retina se nota junto a la terraza.
 
 ## Aprendizajes (los de imagen; el resto está en AGENTS.md)
 - **`naturalWidth` en Chromium devuelve el valor ajustado por densidad**, no los píxeles reales: con
@@ -195,6 +214,11 @@ decisiones de una vez, que es lo que no se deduce del código.
   dependencias de runtime en `package.json`. Se revirtió con `git checkout`, pero es exactamente
   el fallo de "Lo que salió mal aquí". Crea SIEMPRE el temporal y verifica con `git status` que
   `package.json` no se movió antes de instalar nada.
+- **Comparar 3 bandas no basta si el sujeto está descentrado.** Con el Pan Francés las tres bandas
+  (15/50/85%) parecían razonables y aun así el 50% cortaba la tostada: el plato ocupa solo el 35%
+  central de la foto. Cuando el sujeto no está centrado, **mide dónde está con un mapa de líneas
+  sobre la foto completa** y de ahí saca el `y` que lo centra en la banda. La cuenta es
+  `y = centro_del_platillo - alto_de_la_banda / 2`.
 - **Antes de reportar una "discrepancia" de datos, pregunta: puede que sea intencional.** Señalé
   que había dos números de teléfono distintos como si fuera un bug, y no lo era: uno es de
   WhatsApp y el otro solo de llamadas. Preguntar costó una pregunta y evitó "arreglar" algo
