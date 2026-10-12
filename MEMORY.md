@@ -9,8 +9,20 @@ permanentes viven en `AGENTS.md`. Si algo se repite, va allí.
 - **Imágenes: no queda ni una hotlink de Google.** Todo local, con `srcset` + `sizes` + `alt`
   traducible. Se hicieron por tandas: hero, 4 de `#esencia`, 6 del menú, 2 de sucursales, 2 de
   Instagram y el logo. `public/img` tiene 35 archivos.
-- Mosaico de `#esencia`: la caption ya no es una barra; en escritorio el texto va centrado sobre la
-  foto. Sigue el patrón de `.branch-img-overlay`, que ya existía.
+- Mosaico de `#esencia`: la caption ya no es una barra; en escritorio el texto va **abajo** sobre
+  la foto, no centrado, porque centrado tapaba el letrero. Sigue el patrón de `.branch-img-overlay`.
+- **Top-bar del header en una sola línea.** Antes se partía en dos por debajo de ~490px, y el
+  texto entero no cabía ni bajando la letra: el español necesitaría 8.9px a 320px, ilegible.
+  El texto se partió en dos `<span>` traducibles (invariante 1: los dos son hojas de texto, sin
+  hijos) y **`.top-bar-sucursales` se oculta con `display: none` por debajo de 492px**. Así la
+  letra se queda en 12px, la prueba social (4.7★ y las 669 reseñas) no se parte, y **en
+  escritorio se ve el copy entero sin haberlo tocado**.
+  - **El corte es 492, no 490.** Al pasar el espacio inicial del texto a `margin-left` en CSS, el
+    ancho se mide distinto y 490 quedó a dos líneas. Buscar el punto por el **alto real de la
+    barra** (salta de 52px a 33px), no por un clon con `white-space: nowrap`: ese clon dio 546px
+    y era falso.
+  - **El ancho útil no es `ancho - padding`.** La barra es flex con un punto de 8px y `gap: 0.5rem`
+    (8px): son 16px que hay que descontar. Medir sin eso da un punto de corte equivocado.
 - **Modal del menú**: "Ver menú completo" ya no manda un WhatsApp, abre un modal con las 4 fotos
   del menú por pestañas (Desayunos / Comida y cena). Clona la estructura del drawer.
   `public/img/` ya traía esas 4 fotos **sin referenciar en ninguna parte**: se estaban publicando

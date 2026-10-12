@@ -312,6 +312,33 @@ button {
   display: inline-block;
 }
 
+/* La lista de sucursales del top-bar se oculta por debajo de 492px. El texto
+   entero ("en más de 669 reseñas en Google • Centro Histórico & Torre Central")
+   solo cabe en una línea a partir de ahí, y el punto se midió por el ALTO real de
+   la barra, que salta de 52px (dos líneas) a 33px (una). El español es el que
+   manda: el inglés entra en una línea desde 460.
+
+   Ojo, el primer cálculo dio 490 y estaba mal: al sacar el espacio inicial del
+   texto y pasarlo a `margin-left`, el ancho que hay que repartir es otro, y 490
+   quedó a dos líneas. El 492 es el punto bueno, con el margen ya dentro.
+
+   Por debajo se partía en dos y la prueba social, que es justo lo que un top-bar
+   tiene que vender, quedaba repartida en dos renglones.
+
+   **El copy no se toca y en escritorio se ve entero**: solo se oculta la parte que
+   no cabe. El margen de la lista va en CSS, no como espacio inicial dentro del
+   texto traducible, para no depender de que el navegador conserve ese espacio. */
+.top-bar-sucursales {
+  display: none;
+  margin-left: 0.4rem;
+}
+
+@media (min-width: 492px) {
+  .top-bar-sucursales {
+    display: inline;
+  }
+}
+
 /* El menú central se centra respecto al viewport con un grid de 3 columnas.
    Con `justify-content: space-between` en flex, el hijo del centro sólo queda
    alineado cuando la marca (izq.) y los controles (der.) miden lo mismo, y
