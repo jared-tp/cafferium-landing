@@ -112,8 +112,17 @@
   <!-- =========================================================================
        Datos estructurados (schema.org / JSON-LD)
        Un nodo por sucursal, según la recomendación de Google para negocios
-       multi-sucursal. review/aggregateRating refleja reseñas reales de Google
-       enlazadas desde la web de Google (no reseñas escritas en este sitio).
+       multi-sucursal.
+
+       SIN aggregateRating, por decisión del cliente y a propósito. Los datos eran
+       ciertos (4.7 de 669 reseñas de Google), pero Google no otorga rich result
+       a las reseñas propias sobre el propio negocio: es una reseña "autoservicio"
+       y queda fuera del producto de reseñas. Marcarla no daba ningún beneficio y
+       sí exponía a una acción manual.
+       La prueba social NO desaparece del sitio: los 4.7 y las 669 reseñas siguen
+       visibles en el top-bar del header y en la sección de reseñas. Lo único que
+       se dejó de afirmar es en los datos estructurados.
+       No la vuelvas a añadir sin consultar.
        ========================================================================= -->
   <script type="application/ld+json">
   {
@@ -145,13 +154,6 @@
         "sameAs": [
           "https://www.instagram.com/cafferium.mx/"
         ],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.7",
-          "reviewCount": "669",
-          "bestRating": "5",
-          "worstRating": "1"
-        },
         "brand": { "@id": "https://cafferium.com.mx/#brand" }
       },
       {
@@ -1187,9 +1189,9 @@
                 srcset="/img/instagram-noche-320.jpg 320w,
                         /img/instagram-noche-640.jpg 640w"
                 sizes="(max-width: 795px) 40vw, (max-width: 899px) 360px, (max-width: 1166px) 320px, 359px"
-                alt="Ambiente nocturno íntimo en cafetería Cafferium"
-                data-alt-es="Ambiente nocturno íntimo en cafetería Cafferium"
-                data-alt-en="Cosy evening atmosphere inside Cafferium" loading="lazy" decoding="async"
+                alt="Letrero de Cafferium entre plantas y buganvilla"
+                data-alt-es="Letrero de Cafferium entre plantas y buganvilla"
+                data-alt-en="Cafferium sign among plants and bougainvillea" loading="lazy" decoding="async"
                 width="320" height="400">
             </div>
 
@@ -1302,9 +1304,9 @@
                 srcset="/img/esencia-terraza-800.jpg 800w,
                         /img/esencia-terraza-1536.jpg 1536w"
                 sizes="(min-width: 900px) 594px, 100vw"
-                alt="Terraza de Cafferium Torre Central con mesas de madera y sombrillas turquesa frente a la laguna"
-                data-alt-es="Terraza de Cafferium Torre Central con mesas de madera y sombrillas turquesa frente a la laguna"
-                data-alt-en="Cafferium's Torre Central terrace with wooden tables and turquoise umbrellas facing the lagoon"
+                alt="Terraza de Cafferium Torre Central con mesas y sillas de madera, barandal metálico y plantas"
+                data-alt-es="Terraza de Cafferium Torre Central con mesas y sillas de madera, barandal metálico y plantas"
+                data-alt-en="Cafferium's Torre Central terrace with wooden tables and chairs, metal railing and plants"
                 loading="lazy" width="800" height="250">
               <div class="branch-img-overlay">
                 <h3 class="branch-badge-title" data-es="Sucursal Torre Central"
@@ -1330,8 +1332,8 @@
 
                 <div class="branch-info-item">
                   <span class="material-symbols-outlined text-tertiary" aria-hidden="true">deck</span>
-                  <span data-es="Terraza con mesas de madera frente a la laguna, sombrillas turquesa y vista al estadio."
-                    data-en="Terrace with wooden tables facing the lagoon, turquoise umbrellas and a view of the stadium.">Terraza con mesas de madera frente a la laguna, sombrillas turquesa y vista al estadio.</span>
+                  <span data-es="Terraza con mesas y sillas de madera, barandal metálico y plantas."
+                    data-en="Terrace with wooden tables and chairs, metal railing and greenery.">Terraza con mesas y sillas de madera, barandal metálico y plantas.</span>
                 </div>
               </div>
 

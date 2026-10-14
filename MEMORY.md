@@ -11,6 +11,9 @@ permanentes viven en `AGENTS.md`. Si algo se repite, va allí.
   Instagram y el logo. `public/img` tiene 35 archivos.
 - Mosaico de `#esencia`: la caption ya no es una barra; en escritorio el texto va **abajo** sobre
   la foto, no centrado, porque centrado tapaba el letrero. Sigue el patrón de `.branch-img-overlay`.
+- **Revisión previa al lanzamiento hecha por fases**: la fase 1 (exactitud de contenido) está
+  cerrada; las fases 2 a 5 y la fase 0 (solo en producción) siguen pendientes. Los tres fallos que
+  salieron los encontró **mirando las fotos**, no analizándolas.
 - **Top-bar del header en una sola línea.** Antes se partía en dos por debajo de ~490px, y el
   texto entero no cabía ni bajando la letra: el español necesitaría 8.9px a 320px, ilegible.
   El texto se partió en dos `<span>` traducibles (invariante 1: los dos son hojas de texto, sin
@@ -77,8 +80,10 @@ permanentes viven en `AGENTS.md`. Si algo se repite, va allí.
   añadir estado y comportamiento en móvil.
 - **El CTA de WhatsApp se quitó de este botón** (12 → 11 enlaces `data-wa-*`). El modal es solo de
   consulta por ahora. Ver pendientes.
-- La pestaña inactiva da **4.49:1** en tema claro, con `#6e797a` (`--color-on-surface-muted`), un
-  token que usa el sitio entero en 10+ sitios. No se tocó: arreglarlo es otra tarea.
+- La pestaña inactiva usa `#6e797a` (`--color-on-surface-muted`), un token que aparece en 10+ sitios.
+  **Medido en la revisión de lanzamiento: 4.488:1 sobre blanco y 4.050:1 sobre `--color-surface-low`,
+  así que falla en las dos superficies claras** (no solo en blanca, que es lo que decía antes). Sigue
+  sin tocarse: es un token global y su arreglo es la fase 2.
 
 ## Imágenes locales (en curso)
 - `public/img/` — patrón ya montado: variantes con `srcset` + `sizes`, `alt` traducible con
@@ -254,13 +259,83 @@ decisiones de una vez, que es lo que no se deduce del código.
   - El sello sale del maestro `cafferium-logo.jpg` (756x756, **JPEG con fondo blanco**) desmarcando
     el alfa contra el blanco. Es lo que arregla el círculo blanco del header oscuro.
 
+## Revisión previa al lanzamiento (13/10/2026)
+
+El sitio iba a publicarse y a compartirse en redes, así que se hizo una revisión completa. Se
+acordó ir **por fases**. **La fase 1 está hecha; las fases 2 a 5 están planificadas y pendientes.**
+
+### Fase 1 — Exactitud del contenido (HECHA)
+
+Tres correcciones, todas por **el texto describía otra cosa que la imagen**:
+
+1. **Torre Central era el caso grave, porque no era solo el `alt`.** El texto **visible** de la
+   tarjeta decía "frente a la laguna, sombrillas turquesa y vista al estadio", y el `alt` lo repetía.
+   Mirando `esencia-terraza-800.jpg`: **mesas y sillas de madera, barandal metálico, plantas y
+   textura. No hay laguna ni sombrillas turquesa.** El usuario pidió **corregir el texto y dejar la
+   foto**. Nuevo texto: "Terraza con mesas y sillas de madera, barandal metálico y plantas." /
+   "Terrace with wooden tables and chairs, metal railing and greenery."
+2. **La primera foto de la galería** decía "Ambiente nocturno íntimo en cafetería Cafferium" y es
+   **el letrero de CAFFERIUM entre plantas y buganvilla**. Corregido el `alt` en ambos idiomas.
+3. **`aggregateRating` fuera del JSON-LD**, por decisión del usuario y con criterio estricto: Google
+   no da rich result a las reseñas propias sobre el propio negocio (reseña "autoservicio"), así que
+   marcarla no daba beneficio y sí exponía a acción manual. **La prueba social sigue visible en el
+   sitio** (top-bar y sección de reseñas); lo único que se dejó de afirmar es en los datos
+   estructurados. El comentario del JSON-LD lo explica y pide no reañadirlo sin consultar.
+
+**Se dejó a propósito** la frase "la brisa abierta de la terraza lacustre" en la introducción de
+`#sucursales` (`index.html:1222`). Describe el carácter del lugar, **no promete una vista**, y la
+foto no la contradice. Corregirla sería pasarse de corrección, pero es un juicio: si el usuario
+prefiere que no aparezca la palabra laguna en ninguna parte, también se quita.
+
+### Fases 2 a 5 — planificadas, PENDIENTES
+
+**Fase 2 · Accesibilidad.** El token de contraste de antes, en los dos temas. Después, el resto de
+textos pequeños de las tarjetas con el método de dos capturas del invariante 9.
+
+**Fase 3 · SEO.** `sitemap.xml` tiene `lastmod` de `2026-09-29` y hay que poner la fecha del
+despliegue. Las coordenadas `geo` del JSON-LD **siguen siendo aproximadas**: no tocarlas sin que
+pasen las fichas de Google Maps, porque importan para el paquete local y peor que aproximadas es
+inventarlas. Los `alt` del drawer ("Logo") y del footer ("Logo Cafferium") son flojos.
+
+**Fase 4 · Peso.** Los 4 `menu_*.jpeg` son **1.08 MB en total a 1132x1600**; solo cargan al abrir el
+modal, así que no afectan a la primera pintura, pero se pueden reducir. Y el `.js.map` de 27.7 KB
+está en producción sin servir para nada.
+
+**Fase 5 · Regresión completa** antes de publicar: 13 anchos, i18n en ambos idiomas, teclado y foco
+del modal, `prefers-reduced-motion`, build y `grep` de que no queda ninguna URL rota.
+
+**Fase 0 — Solo se puede hacer en producción**, y falta por hacer: HTTPS real, contenido mixto, que
+resuelvan el `canonical` y el `og:image` absolutos, y **cómo queda la vista previa al compartir en
+WhatsApp e Instagram**, que es justo donde van a publicar. Ahí aparecen fallos que en local no se ven.
+
+### Lo que se revisó y está BIEN (no volver a hacerlo)
+
+- **Seguridad**: los 17 `target="_blank"` llevan `noopener`, y los externos `noopener noreferrer`.
+  Cero `innerHTML`, `outerHTML`, `eval`, `document.write` o `new Function` en `main.js`. Solo hay
+  tres `<script>`: el anti-FOUC del `<head>`, el JSON-LD y el módulo.
+- **Estructura**: 1 `h1`, 5 `h2`, 15 `h3`; `lang="es-MX"`; landmarks completos (header, nav x2, main,
+  footer, aside x2, section x5); todos los botones con texto o `aria-label`. El modal arranca con
+  `aria-hidden="true"`, así que su `h2` no molesta aunque en el DOM aparezca antes del `h1`.
+- **Imágenes**: 35 archivos en `public/img` (3.8 MB) y **los 35 están referenciados**. Cero URLs de
+  Google, cero 404. Ojo al buscar peso muerto: los 4 del menú se referencian por `data-img-*`, no
+  por `src`, así que una regex de `/img/…\.(jpg|png|webp)` los da por huérfanos. Incluir `jpeg`.
+- **JSON-LD**: válido, 4 nodos (WebSite, Organization y dos CafeOrCoffeeShop con `geo`, `address` y
+  `openingHoursSpecification`).
+- **Red social**: el `og-image.jpg` es de 1200x630 y está bien compuesto (sello, CAFFERIUM, maratón,
+  "4.7 · Más de 669 reseñas · 2 sucursales", dominio). Es la pieza que se verá al compartir.
+- **Peso de `dist`**: 4.27 MB en total, pero la primera pintura es mucho menor (HTML 21 KB gz, CSS
+  7 KB gz, JS 3 KB gz, hero 52 KB en móvil).
+
 ## Tareas pendientes
 - **Añadir un CTA de WhatsApp al pie del modal del menú** si algún momento se decide: el botón
   "Ver menú completo" antes mandaba un WhatsApp prellenado y ahora solo consulta. Serían 12/12
   otra vez. Decidido posponerlo, no descartado.
-- **Revisar el contraste de `--color-on-surface-muted` (`#6e797a`)**: da 4.49:1 en tema claro sobre
-  blanco, justo por debajo de 4.5:1. Lo usan 10+ sitios, así que el arreglo es global y conviene
-  como tarea propia, no deambulando en otro cambio.
+- **Revisar el contraste de `--color-on-surface-muted` (`#6e797a`)**: **medido en la revisión de
+  lanzamiento y es PEOR de lo que se anotaba antes.** Da 4.488:1 sobre `--color-surface-lowest`
+  (#ffffff) y **4.050:1 sobre `--color-surface-low` (#f2f3f8)**; en tema oscuro pasa (5.58 y 6.01).
+  Lo usan 10 sitios, así que es un token y el arreglo es global: oscurecerlo manteniendo el tono
+  hasta pasar 4.5:1 en las DOS superficies claras, y re-medir el oscuro porque son dos valores.
+  Sigue **pendiente**: es la fase 2.
 - Faltan 4 tandas de imágenes → **hecho**. Queda como aprendizaje: **para sacar transparencia de un
   JPEG hay que desmezclar contra el blanco, no recortar por umbral.** Se calcula el alfa que minimiza
   |p − (a·tinta + (1−a)·255)| por canal. Y hace falta además una **puerta de color**: el turquesa de
@@ -275,10 +350,8 @@ decisiones de una vez, que es lo que no se deduce del código.
   hacen, mantener el patrón `srcset` del resto.
 - Reemplazar las fotos de los platillos por productos reales.
 - En el mapa de Google, cambiar el ícono por una versión editable del logo.
-- El banner de la **sucursal Torre Central** decía "frente a la laguna" en el `alt` y en el texto
-  de playa; el copy se reemplazó por el del cliente ("terraza con mesas de madera frente a la
-  laguna, sombrillas turquesa y vista al estadio"). Sigue sin comprobarse si la foto —que es la
-  terraza de `#esencia`— muestra la laguna.
+- El banner de la **sucursal Torre Central** decía "frente a la laguna" → **resuelto en la fase 1 de
+  la revisión de lanzamiento**. Ver la sección de abajo.
 - **Confirmar cuál fachada es la buena**: resuelto. El maestro vigente es
   `_originales/fachada-belisario.png` y su letrero dice "ARTE".
 - **El maestro del latte de `#esencia` son 848px** y la caja pide ~1000 en retina: se verá más suave
@@ -287,6 +360,27 @@ decisiones de una vez, que es lo que no se deduce del código.
   1343px, así que la variante de 1184 va algo escalada.
 
 ## Aprendizajes (los de imagen; el resto está en AGENTS.md)
+- **Un `alt` que describe otra foto NO lo detecta ninguna herramienta.** Ni un linter, ni Lighthouse,
+  ni un validador. Solo se ve **mirando la imagen y el texto uno al lado**. Pasó dos veces seguidas
+  justo antes del lanzamiento: la foto de la terraza no tiene ni la laguna ni las sombrillas que el
+  texto prometía, y la foto de la galería es el letrero de la casa, no un ambiente nocturno. Y lo
+  segundo era **texto visible de cara al cliente**, no un `alt`: eso es peor, porque alguien va a la
+  sucursal esperando esa vista. **Antes de dar por buena una foto, abre el archivo y compáralo con
+  lo que dice el texto que lo acompaña.**
+- **Al buscar peso muerto, ojo con los `src` que no están en el atributo `src`.** Los 4 archivos del
+  menú se referencian con `data-img-*` (invariante 1), así que una regex que solo busque
+  `/img/…\.jpg|png|webp` los marca como huérfanos. Include `jpeg` y revisa los `data-img-*`.
+- **Un texto del cliente puede ser una promesa que la foto no sostiene.** Cuando eso pasa, decidir
+  con el usuario y no "arreglar" el copy por cuenta propia. Aquí se eligió corregir el texto y dejar la
+  foto, pero también había una tercera vía: pedir la foto correcta.
+- **Medí el contraste de un token y era peor de lo anotado.** Se decía 4.49:1 sobre blanco; al
+  medirlo contra las dos superficies donde se usa, la de `--color-surface-low` daba **4.05:1**.
+  Cuando un token de color se usa sobre varias superficies, **hay que medir contra la peor**, no
+  contra la primera que se te ocurra.
+- **Un cambio de un solo carácter puede invalidar un punto de corte medido.** Al sacar el espacio
+  inicial del texto del top-bar y pasarlo a `margin-left`, el ancho que había que repartir cambió y
+  el breakpoint de 490px se quedó a dos líneas: el bueno era 492. **Vuelve a medir después de
+  tocar**, no antes y para siempre.
 - **`naturalWidth` en Chromium devuelve el valor ajustado por densidad**, no los píxeles reales: con
   un `srcset` correcto siempre coincide con el ancho del viewport. Para saber qué variante se
   descarga usa **`currentSrc`** y compara **los bytes de la respuesta de red**.
