@@ -42,7 +42,11 @@ const I18N = {
  * Determina el idioma activo respetando, en este orden:
  * 1. Preferencia guardada por el usuario
  * 2. data-lang, ya resuelto por el script anti-FOUC del <head>
- * 3. Idioma del navegador
+ *
+ * **No se deriva de `navigator.language`.** Antes lo hacía y caía en inglés con
+ * cualquier idioma que no empezara por "es"; el de Googlebot es `en-US`, así que
+ * Google indexaba la URL española con el contenido en inglés. El español es el
+ * idioma por defecto; el toggle del header lo cambia si el visitante quiere.
  */
 function resolveLanguage() {
   let saved = null;
@@ -56,8 +60,7 @@ function resolveLanguage() {
   const fromHead = document.documentElement.getAttribute('data-lang');
   if (fromHead && I18N.supported.includes(fromHead)) return fromHead;
 
-  const nav = (navigator.language || 'es').toLowerCase();
-  return nav.startsWith('es') ? 'es' : 'en';
+  return 'es';
 }
 
 function getCurrentLanguage() {

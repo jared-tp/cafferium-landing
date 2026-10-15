@@ -38,8 +38,6 @@ out/
 .cache/
 .parcel-cache/
 .npm/
-.eslintcache
-.stylelintcache
 .temp/
 .turbo/
 coverage/
@@ -124,10 +122,29 @@ $RECYCLE.BIN/
 *.ntvs*
 *.njsproj
 *.project
-*.jshintrc
 .history/
-*.sublime-project
-*.sublime-workspace
+
+# ==========================================================================
+#  Documentos de trabajo internos
+#  El repo es PÚBLICO. Estos dos archivos son notas de trabajo: decisiones,
+#  mediciones, precios en borrador y opinión sobre lo que pidió el cliente. No
+#  contienen secretos (los teléfonos y horarios ya están en la web), pero no son
+#  documentación del proyecto y no tienen por qué estar a la vista.
+#  Siguen en el disco: se usan al trabajar y no se versionan.
+#  OJO: esto solo los saca a partir de ahora. Los que ya estaban en commits
+#  anteriores siguen visibles en el historial; para sacarlos del todo hay que
+#  reescribir la historia, y eso obliga a forzar el push.
+# ==========================================================================
+MEMORY.md
+AGENTS.md
+
+# ==========================================================================
+#  Plataformas de despliegue
+#  Este proyecto es estático y se publica con `npm run build`. Estas carpetas son
+#  configuración local de cada hosting y no van al repo.
+# ==========================================================================
+.vercel/
+.netlify/
 
 # ==========================================================================
 #  Configuración local por máquina

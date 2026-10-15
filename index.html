@@ -32,15 +32,20 @@
       }
 
       // ---------- Idioma (es / en) ----------
-      // Mandan las preferencias guardadas; si no hay, se deriva del idioma del
-      // navegador. El texto se intercambia en main.js, pero data-lang y <html
-      // lang> quedan listos aquí para que la primera pintada sea correcta.
+      // **El español es el idioma por defecto y el navegador NO lo decide.**
+      // Antes se derivaba de `navigator.language` y cualquier idioma que no
+      // empiece por "es" caía en inglés. El `navigator.language` de Googlebot es
+      // `en-US`, así que Google renderizaba la página en inglés y se terminaba
+      // indexando la URL española con el contenido en inglés: el title, la meta
+      // description y todo el texto visible. Como no hay `hreflang` ni URL
+      // alterna, no había ninguna señal de que esa URL fuera también la versión
+      // en español, y la clientela local es la que busca en español.
+      // Ahora solo manda la preferencia guardada. Un visitante anglófono llega en
+      // español y puede cambiar con el toggle, que está en el header.
       try {
         var SUPPORTED = ['es', 'en'];
         var savedLang = localStorage.getItem('cafferium-lang');
-        var lang = (savedLang && SUPPORTED.indexOf(savedLang) > -1)
-          ? savedLang
-          : ((navigator.language || 'es').toLowerCase().indexOf('es') === 0 ? 'es' : 'en');
+        var lang = (savedLang && SUPPORTED.indexOf(savedLang) > -1) ? savedLang : 'es';
         root.setAttribute('data-lang', lang);
         root.setAttribute('lang', lang === 'en' ? 'en' : 'es-MX');
       } catch (e) {
@@ -62,7 +67,12 @@
   <meta name="publisher" content="Cafferium Mazatlán">
   <meta name="geo.region" content="MX-SIN">
   <meta name="geo.placename" content="Centro Histórico y Torre Central, Mazatlán, Sinaloa">
-  <meta name="ICBM" content="23.2494, -106.4111">
+  <!-- Coordenadas reales de Google Maps (15/10/2026), redondeadas a 6 decimales.
+       Antes iban aproximadas a ojo y Centro Histórico se iba 5.5 km, que para
+       una sucursal es otro sitio y pesa en el paquete local. Las de cada
+       sucursal están en el JSON-LD de abajo; aquí va la de Centro Histórico, que
+       es a la que correspondía el valor anterior. -->
+  <meta name="ICBM" content="23.201525, -106.424263">
 
   <!-- theme-color: se adapta al tema del sistema operativo -->
   <meta name="theme-color" content="#f8f9fd" media="(prefers-color-scheme: light)">
@@ -185,8 +195,8 @@
         },
         "geo": {
           "@type": "GeoCoordinates",
-          "latitude": 23.2494,
-          "longitude": -106.4111
+          "latitude": 23.201525,
+          "longitude": -106.424263
         },
         "hasMap": "https://maps.app.goo.gl/tRSFdKBwfajnCT1H9",
         "areaServed": "Centro Histórico, Mazatlán",
@@ -234,8 +244,8 @@
         },
         "geo": {
           "@type": "GeoCoordinates",
-          "latitude": 23.2451,
-          "longitude": -106.4140
+          "latitude": 23.232007,
+          "longitude": -106.433346
         },
         "hasMap": "https://maps.google.com/?q=Torre+Central+Mazatlan+Quirino+Ordaz",
         "areaServed": "Malecón / Torre Central, Mazatlán",
@@ -296,8 +306,9 @@
           srcset="/img/logo-sello-80.png 80w,
                   /img/logo-sello-96.png 96w"
           sizes="(max-width: 999px) 38px, 44px"
-          alt="Cafferium Sello Poseidón y Laurel" data-alt-es="Cafferium Sello Poseidón y Laurel"
-          data-alt-en="Cafferium Poseidon and Laurel seal" class="brand-logo-img" width="44" height="44">
+          alt="Sello de Poseidón y laurel de Cafferium"
+          data-alt-es="Sello de Poseidón y laurel de Cafferium"
+          data-alt-en="Cafferium's Poseidon and laurel seal" class="brand-logo-img" width="44" height="44">
         <div class="brand-text">
           <span class="brand-title">CAFFERIUM</span>
           <span class="brand-subtitle" data-es="Cafetería • Panadería • Arte"
@@ -373,7 +384,10 @@
           srcset="/img/logo-sello-80.png 80w,
                   /img/logo-sello-96.png 96w"
           sizes="44px"
-          alt="Logo" class="brand-logo-img" width="44" height="44">
+          alt="Sello de Poseidón y laurel de Cafferium"
+          data-alt-es="Sello de Poseidón y laurel de Cafferium"
+          data-alt-en="Cafferium's Poseidon and laurel seal"
+          class="brand-logo-img" width="44" height="44">
         <span class="brand-title" style="font-size: 1.1rem;">CAFFERIUM</span>
       </div>
       <button type="button" class="icon-btn" id="mobileDrawerClose" aria-label="Cerrar menú"
@@ -1384,7 +1398,10 @@
             srcset="/img/logo-sello-80.png 80w,
                     /img/logo-sello-96.png 96w"
             sizes="44px"
-            alt="Logo Cafferium" class="brand-logo-img" width="44" height="44">
+            alt="Sello de Poseidón y laurel de Cafferium"
+            data-alt-es="Sello de Poseidón y laurel de Cafferium"
+            data-alt-en="Cafferium's Poseidon and laurel seal"
+            class="brand-logo-img" width="44" height="44">
           <span class="brand-title" style="font-size: 1.15rem;">CAFFERIUM</span>
         </div>
         <p style="font-size: 0.85rem; color: var(--color-on-surface-variant); margin-bottom: 1rem;"
