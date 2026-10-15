@@ -1399,10 +1399,12 @@ button {
     aspect-ratio: 27 / 16;
   }
 
-  .mosaic-card:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 3px;
-  }
+  /* Sin `outline` de foco: las tarjetas del mosaico ya no llevan `tabindex`, por
+     decisión del cliente. No son interactivas (no son enlaces ni botones), así que
+     meterlas en el recorrido del tabulador solo añadía ruido: el usuario de
+     teclado las iba encontrando y no había nada que activar. El texto de la
+     caption ya está siempre visible, así que el `:focus-visible` no aportaba
+     información: era énfasis de más, no de menos. */
 
   /* Abajo, no centrada. En la tarjeta de la fachada el letrero de CAFFERIUM cae
      en el centro geométrico de la foto (x 270-400, y 300-352 sobre 700x610), así
@@ -1447,8 +1449,7 @@ button {
     transition: opacity 0.35s ease;
   }
 
-  .mosaic-card:hover .mosaic-caption::before,
-  .mosaic-card:focus-visible .mosaic-caption::before {
+  .mosaic-card:hover .mosaic-caption::before {
     opacity: 1;
   }
 
@@ -1481,8 +1482,7 @@ button {
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .mosaic-card:hover .mosaic-caption > *,
-  .mosaic-card:focus-visible .mosaic-caption > * {
+  .mosaic-card:hover .mosaic-caption > * {
     transform: translateY(-2px);
   }
 }

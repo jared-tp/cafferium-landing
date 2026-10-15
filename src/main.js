@@ -410,7 +410,21 @@ function initMenuModal() {
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     // El foco va al botón de cerrar, que es lo primero accionable del diálogo.
-    closeBtn.focus();
+    // Hace falta esperar DOS frames. Medido con el modal abierto y comprobando
+    // si `closeBtn.focus()` lograba mover el foco: en el mismo tick NO, con un
+    // solo `requestAnimationFrame` NO, con dos SÍ. La apertura se anima con
+    // `opacity` y `visibility`, y hasta que la transición no ha avanzado lo
+    // bastante el botón no llega a ser enfocable. Con el foco fuera, la trampa
+    // no tenía dónde actuar y el Tab se iba de cabeza fuera del diálogo.
+    // Se probaron dos cosas que NO bastaron: un único rAF, y poner `visibility`
+    // con duración 0 en el CSS (medido aparte: así el modal computaba `visible`
+    // en el mismo tick y el foco seguía sin entrar, así que no era el `visibility`
+    // la única causa y el CSS se dejó como estaba).
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (closeBtn) closeBtn.focus();
+      });
+    });
   }
 
   openBtn.addEventListener('click', openMenuModal);
@@ -471,6 +485,14 @@ function initMenuModal() {
 
     const first = focusables[0];
     const last = focusables[focusables.length - 1];
+    // Red de seguridad: si el foco estuviera fuera del diálogo, la próxima
+    // pulsación de Tab lo devuelve dentro. Los bordes de por sí solo no bastan,
+    // porque si el foco nunca llegó a entrar la trampa no tiene dónde actuar.
+    if (!modal.contains(document.activeElement)) {
+      e.preventDefault();
+      first.focus();
+      return;
+    }
     if (e.shiftKey && document.activeElement === first) {
       e.preventDefault();
       last.focus();

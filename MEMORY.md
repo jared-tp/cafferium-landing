@@ -12,7 +12,7 @@ permanentes viven en `AGENTS.md`. Si algo se repite, va allí.
 - Mosaico de `#esencia`: la caption ya no es una barra; en escritorio el texto va **abajo** sobre
   la foto, no centrado, porque centrado tapaba el letrero. Sigue el patrón de `.branch-img-overlay`.
 - **Revisión previa al lanzamiento hecha por fases**: la fase 1 (exactitud de contenido) está
-  cerrada; las fases 2 a 5 y la fase 0 (solo en producción) siguen pendientes. Los tres fallos que
+  cerrada; las fases 3 a 5 y la fase 0 (solo en producción) siguen pendientes. Los tres fallos que
   salieron los encontró **mirando las fotos**, no analizándolas.
 - **Top-bar del header en una sola línea.** Antes se partía en dos por debajo de ~490px, y el
   texto entero no cabía ni bajando la letra: el español necesitaría 8.9px a 320px, ilegible.
@@ -178,9 +178,15 @@ decisiones de una vez, que es lo que no se deduce del código.
   blanco**: `#00828a` daba
   1.35:1, y ningún teal llegaba a 4.5:1 (claro 3.62, oscuro 2.39). En móvil conserva su turquesa,
   porque el overlay no aplica ahí. **No lo "corrijas" sin medir.**
-- Las tarjetas llevan `tabindex="0"` y el overlay responde a `:focus-visible`. Con el texto siempre
-  visible el `tabindex` no es necesario para accesibilidad, pero da el mismo énfasis a quien
-  navegue con teclado.
+- **Las tarjetas del mosaico ya NO llevan `tabindex`**, por decisión del cliente: no hacía falta
+  que se pudieran seleccionar con el tabulador. No son interactivas (ni enlaces ni botones), así que
+  en el recorrido del tabulador solo añadían ruido, y el texto de la caption ya está siempre visible,
+  de modo que el `:focus-visible` era énfasis de más y no de menos. Al quitar el `tabindex` las tres
+  reglas `.mosaic-card:focus-visible` del CSS quedaron **muertas** (un `<div>` sin `tabindex` no es
+  enfocable) y se fueron también. **El `:hover` se mantiene**: el thumb del hover sube el scrim a 1 y
+  sigue funcionando. Verificado: **0 tarjetas del mosaico en 30 pasos de Tab**, hover operativo
+  (0.825 → 1) y tamaños sin cambios (698x612 y 498x612). Los `tabindex` que quedan en el HTML son
+  los del modal de menú, que son correctos: `-1` en la pestaña inactiva y `0` en el panel.
 - **Las columnas del grid quedan exactamente igual de altas** (desajuste 0.0px de 900 a 1920). Se
   compensa subiendo el `aspect-ratio` de las apiladas de `16/9` a `27/16` en escritorio; la principal
   conserva `16/14`. Ese es el motivo de mover los `aspect-ratio` de estilos en línea a clases
@@ -262,7 +268,10 @@ decisiones de una vez, que es lo que no se deduce del código.
 ## Revisión previa al lanzamiento (13/10/2026)
 
 El sitio iba a publicarse y a compartirse en redes, así que se hizo una revisión completa. Se
-acordó ir **por fases**. **La fase 1 está hecha; las fases 2 a 5 están planificadas y pendientes.**
+acordó ir **por fases.** **Estado: fase 1 HECHA · fase 2 DESCARTADA con números (decisión, no deuda)
+· fases 3, 4 y 5 pendientes · fase 0 solo en producción.** Al quitar el tabindex del mosaico se
+encontró además un fallo en la trampa de foco del modal, **ya arreglado**; está al final de esta
+misma sección.
 
 ### Fase 1 — Exactitud del contenido (HECHA)
 
@@ -287,10 +296,53 @@ Tres correcciones, todas por **el texto describía otra cosa que la imagen**:
 foto no la contradice. Corregirla sería pasarse de corrección, pero es un juicio: si el usuario
 prefiere que no aparezca la palabra laguna en ninguna parte, también se quita.
 
-### Fases 2 a 5 — planificadas, PENDIENTES
+### FALLO ENCONTRADO AL QUITAR EL TABINDEX (15/10/2026) — ARREGLADO
 
-**Fase 2 · Accesibilidad.** El token de contraste de antes, en los dos temas. Después, el resto de
-textos pequeños de las tarjetas con el método de dos capturas del invariante 9.
+**El modal del menú no movía el foco dentro al abrir, y la trampa de foco no funcionaba.** Esto era
+preexistente, no lo causó el cambio del tabindex. `MEMORY.md` afirmaba que el foco estaba
+verificado y era **una verificación mal hecha**: se comprobó que `Escape` cerraba y devolvía el foco
+(eso sí funcionaba), pero **nunca se pulsó Tab dentro del modal abierto**. Justo lo queadvertía el
+invariante 10.
+
+- **Síntoma:** al abrir, el foco se quedaba en `#menuModalOpen`, en la página de detrás. **12
+  pulsaciones de Tab se escapaban las 12.**
+- **Arreglo (`src/main.js`), dos cosas:**
+  1. `closeBtn.focus()` se envuelve en **dos `requestAnimationFrame` anidados**. Medido: en el mismo
+     tick NO entra, con un solo rAF NO entra, con dos SÍ. La apertura se anima con `opacity` y
+     `visibility`, y hasta que la transición no avanza lo bastante el botón no llega a ser enfocable.
+  2. La trampa de foco (que solo interceptaba en los bordes `first`/`last`) gana una **red de
+     seguridad**: si el foco no está dentro del diálogo, la siguiente pulsación de Tab lo devuelve al
+     primer elemento. Con el foco fuera, los bordes no tenían dónde actuar.
+- **Dos cosas que se probaron y NO bastaron**, por si alguien las reintenta: un único rAF, y poner
+  `visibility` con duración 0 en el CSS. Con lo segundo el modal computaba `visible` en el mismo
+  tick **y el foco seguía sin entrar**, así que el `visibility` no era la única causa y **el CSS se
+  dejó como estaba**. El desvanecido al cerrar se comprobó intacto (opacity 1 → 0.57 → 0.20 → 0.04
+  → 0).
+- Verificado: el foco entra en `#menuModalClose`, **0 fugas en 20 Tab y en 20 Shift+Tab**, Escape
+  cierra y devuelve el foco, las flechas cambian de pestaña con el foco en la pestaña, y abrir y
+  cerrar tres veces seguidas entra bien las tres.
+
+### Fases 3 a 5 — planificadas, PENDIENTES
+
+**Fase 2 · Accesibilidad → DESCARTADA por decisión, NO es pendiente.** El 15/10/2026 se revisó con
+números y se decidió **no tocar el contraste**. Esto es una compensación consciente, no una deuda:
+
+- `--color-on-surface-muted` (`#6e797a`) da **4.488:1 sobre blanco** y 4.050:1 sobre
+  `--color-surface-low`. El umbral es 4.5, así que sobre blanco **falta un 0.3%**, una diferencia de
+  redondeo que nadie percibe. Se acepta porque cambiar un token global que aparece en 10 sitios y en
+  dos temas, días antes de publicar, arriesga una regresión en toda la web a cambio de una ganancia
+  imperceptible.
+- Las **etiquetas de los toggles** (ES/EN y sol/luna) dan **2.238:1**, porque llevan
+  `opacity: 0.65` encima del token. Aquí el problema es la opacidad, no el color: **oscurecer el token
+  no lo arregla**. Aun así se acepta, porque el **thumb que se desliza es la señal principal** y el
+  color del lado inactivo es redundante: quien no lee el "EN" apagado sigue viendo el thumb encima
+  del activo. Subir el `opacity` mejoraría la lectura pero **empeoraría justo lo que la pastilla
+  tiene que comunicar**, que es cuál está activo. Es un intercambio real, no una mejora gratis.
+
+  **La distinción que importa, y que yo había perdido al meter las dos cosas en la misma lista:**
+  los fallos de la fase 1 eran **errores factuales** (el texto decía que se veía una laguna y no la
+  había: alguien podía *actuar* sobre esa información). Esto es una **decisión de legibilidad
+  graduada**: el texto es un poco más claro de lo que idealmente debería. No bloquea el lanzamiento.
 
 **Fase 3 · SEO.** `sitemap.xml` tiene `lastmod` de `2026-09-29` y hay que poner la fecha del
 despliegue. Las coordenadas `geo` del JSON-LD **siguen siendo aproximadas**: no tocarlas sin que
@@ -330,12 +382,10 @@ WhatsApp e Instagram**, que es justo donde van a publicar. Ahí aparecen fallos 
 - **Añadir un CTA de WhatsApp al pie del modal del menú** si algún momento se decide: el botón
   "Ver menú completo" antes mandaba un WhatsApp prellenado y ahora solo consulta. Serían 12/12
   otra vez. Decidido posponerlo, no descartado.
-- **Revisar el contraste de `--color-on-surface-muted` (`#6e797a`)**: **medido en la revisión de
-  lanzamiento y es PEOR de lo que se anotaba antes.** Da 4.488:1 sobre `--color-surface-lowest`
-  (#ffffff) y **4.050:1 sobre `--color-surface-low` (#f2f3f8)**; en tema oscuro pasa (5.58 y 6.01).
-  Lo usan 10 sitios, así que es un token y el arreglo es global: oscurecerlo manteniendo el tono
-  hasta pasar 4.5:1 en las DOS superficies claras, y re-medir el oscuro porque son dos valores.
-  Sigue **pendiente**: es la fase 2.
+- **Revisar el contraste de `--color-on-surface-muted` (`#6e797a`)**: **descartado el 15/10/2026, es
+  una decisión tomada y no una tarea pendiente.** Ver la sección de revisión de lanzamiento, donde
+  están los números y el porqué de aceptarlo. Si algún día se cambia, el token solo **no** arregla las
+  etiquetas de los toggles: llevan `opacity: 0.65` encima.
 - Faltan 4 tandas de imágenes → **hecho**. Queda como aprendizaje: **para sacar transparencia de un
   JPEG hay que desmezclar contra el blanco, no recortar por umbral.** Se calcula el alfa que minimiza
   |p − (a·tinta + (1−a)·255)| por canal. Y hace falta además una **puerta de color**: el turquesa de
@@ -360,6 +410,16 @@ WhatsApp e Instagram**, que es justo donde van a publicar. Ahí aparecen fallos 
   1343px, así que la variante de 1184 va algo escalada.
 
 ## Aprendizajes (los de imagen; el resto está en AGENTS.md)
+- **Una verificación de accesibilidad que no pulsa Tab no es una verificación.** Se dio por hecho que
+  la trampa de foco del modal funcionaba porque `Escape` cerraba y devolvía el foco. Cerraba, sí, pero
+  el foco **nunca llegaba a entrar** y 12 de 12 Tab se escapaban. La comprobación que faltaba era
+  exactamente la obvia: abrir, pulsar Tab, mirar dónde acaba el foco. **Un `aria-modal` se prueba
+  pulsando Tab, no leyendo el código de la trampa.**
+- **No arregles por intuición: mide cuándo es posible, y descarta lo que no sirve.** Dos intentos
+  razonables fallaron antes de que uno funcionara: un `requestAnimationFrame` y poner `visibility`
+  con duración 0. Midiendo el momento exacto en que el botón se vuelve enfocable salió la respuesta
+  (dos frames) y además se vio que el `visibility` **no** era la causa, con lo cual el CSS se dejó
+  como estaba. Un arreglo razonado pero no medido es un arreglo a ciegas.
 - **Un `alt` que describe otra foto NO lo detecta ninguna herramienta.** Ni un linter, ni Lighthouse,
   ni un validador. Solo se ve **mirando la imagen y el texto uno al lado**. Pasó dos veces seguidas
   justo antes del lanzamiento: la foto de la terraza no tiene ni la laguna ni las sombrillas que el
